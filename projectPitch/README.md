@@ -7,6 +7,7 @@ Intrvl allows you to easily create custom interval timers. Use these to time wor
 - Node, ExpressJS
 - TailwindCSS
 - Google Cloud Text-to-Speech API
+  - Tested ✅
 
 ## User Stories
 
