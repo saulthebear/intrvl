@@ -4,6 +4,9 @@
   "description": "Full-stack app to create interval timers",
   "main": "server.js",
   "scripts": {
+    "start": "npm run start:dev",
+    "start:dev": "nodemon",
+    "start:prod": "NODE_ENV=production node index.js"
   },
   "repository": {
     "type": "git",
@@ -14,5 +17,23 @@
   "bugs": {
     "url": "https://github.com/saulthebear/intrvl/issues"
   },
-  "homepage": "https://github.com/saulthebear/intrvl#readme"
+  "homepage": "https://github.com/saulthebear/intrvl#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "crypto-js": "^4.1.1",
+    "dotenv": "^16.0.1",
+    "ejs": "^3.1.8",
+    "express": "^4.18.1",
+    "express-ejs-layouts": "^2.5.1",
+    "method-override": "^3.0.0",
+    "pg": "^8.7.3",
+    "rowdy-logger": "^1.0.2",
+    "sequelize": "^6.20.0"
+  },
+  "devDependencies": {
+    "browser-sync": "^2.27.10",
+    "nodemon": "^2.0.16"
+  },
+  "type": "module"
 }

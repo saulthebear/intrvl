@@ -69,3 +69,4 @@ There are no routes for tags (categories), timer sections, or sounds, since thes
 - Allow user to duplicate an existing timer to use as a template
 - Allow user to set some timers as public, and others as private
 - Allow user to set custom messages or sounds to be played when a timer section starts / ends
+- Style with TailwindCSS
