@@ -1,0 +1,18 @@
+{
+  "name": "intrvl",
+  "version": "0.0.1",
+  "description": "Full-stack app to create interval timers",
+  "main": "server.js",
+  "scripts": {
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/saulthebear/intrvl.git"
+  },
+  "author": "Stefan Vosloo",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/saulthebear/intrvl/issues"
+  },
+  "homepage": "https://github.com/saulthebear/intrvl#readme"
+}
