@@ -1,15 +1,15 @@
-import express from "express"
-import ejsLayouts from "express-ejs-layouts"
-import browserSync from "browser-sync"
-import methodOverride from "method-override"
-import rowdy from "rowdy-logger"
-import cookieParser from "cookie-parser"
-import db from "./models/index.cjs"
-import cryptoJS from "crypto-js"
-import dotEnv from "dotenv"
+require("dotenv").config()
+const express = require("express")
+const ejsLayouts = require("express-ejs-layouts")
+const browserSync = require("browser-sync")
+const methodOverride = require("method-override")
+const rowdy = require("rowdy-logger")
+const cookieParser = require("cookie-parser")
+const db = require("./models")
+const cryptoJS = require("crypto-js")
 
 // ANCHOR: App Config
-dotEnv.config()
+// dotEnv.config()
 const PORT = process.env.PORT || 3000
 const app = express()
 app.set("view engine", "ejs")
