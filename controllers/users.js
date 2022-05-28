@@ -10,9 +10,21 @@ router.get("/new", (req, res) => {
   res.render("users/new", { msg: null })
 })
 
-// STUB login
+// STUB create a new user
 // POST /users
 router.post("/", (req, res) => {
+  res.send("should create a new user")
+})
+
+// STUB login form
+// GET /users/login
+router.get("/login", (req, res) => {
+  res.render("users/login")
+})
+
+// STUB log the user in
+// POST /users/login
+router.post("/login", (req, res) => {
   res.send("should log the user in")
 })
 
