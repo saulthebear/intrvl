@@ -23,10 +23,11 @@ app.use(cookieParser())
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {
-  res.send("hello, world")
+  res.render("index")
 })
 
 // ANCHOR: Controllers
+app.use("/users", require("./controllers/users"))
 
 // ANCHOR: Start server
 app.listen(PORT, listening)

@@ -3,3 +3,5 @@ node_modules
 .DS_Store
 cloud-service-account-file.json
 scratch-pad.*
+test-models.js
+output.mp3
