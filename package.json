@@ -8,6 +8,7 @@
     "start:dev": "nodemon",
     "start:prod": "NODE_ENV=production node index.js",
     "test": "NODE_ENV=test mocha ./test/*",
+    "test:watch": "NODE_ENV=test mocha ./test/* --watch",
     "pretest": "NODE_ENV=test npm run db:reset",
     "db:reset": "sequelize db:drop && sequelize db:create && sequelize db:migrate",
     "db:create:test": "NODE_ENV=test sequelize db:create"

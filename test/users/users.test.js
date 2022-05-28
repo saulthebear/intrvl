@@ -1,8 +1,6 @@
 const chai = require("chai")
-const request = require("supertest")
 const bcrypt = require("bcryptjs")
 
-const { server } = require("../../server.js")
 const db = require("../../models")
 const clearDb = require("../clearDb")
 const { userFactory, userData } = require("../factories/user.js")
@@ -28,9 +26,7 @@ describe("Users model", () => {
 })
 
 describe("user#hashPassword", () => {
-  // const { username, password } = await userData()
   let username, password
-  // let user = db.user.build({ username, password })
   before(async () => {
     const data = await userData()
     username = data.username
