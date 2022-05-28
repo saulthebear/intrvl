@@ -52,3 +52,26 @@ describe("user#hashPassword", () => {
     bcrypt.compareSync(password, hash).should.equal(true)
   })
 })
+
+describe("user#verifyPassword", async () => {
+  let username, password, passwordHash, user
+  before(async () => {
+    const data = await userData()
+    username = data.username
+    password = data.password
+    passwordHash = db.user.hashPassword(password)
+    user = await db.user.build({ username, passwordHash })
+  })
+
+  it("exists on a model instance", () => {
+    user.verifyPassword.should.be.a("function")
+  })
+
+  it("returns false if password doesn't match", () => {
+    user.verifyPassword("wrong").should.equal(false)
+  })
+
+  it("returns true if password matches", () => {
+    user.verifyPassword(password).should.equal(true)
+  })
+})
