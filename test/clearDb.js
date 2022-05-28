@@ -7,10 +7,9 @@ const clearDb = async () => {
   const modelNames = Object.keys(db)
 
   modelNames.forEach(async (modelName) => {
-    console.log("model:", typeof modelName)
     if (["sequelize", "Sequelize"].includes(modelName)) return null
 
-    await db[modelName].destroy({ where: {}, force: true })
+    await db[modelName].destroy({ where: {}, force: true, logging: false })
   })
 }
 

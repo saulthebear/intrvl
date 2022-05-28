@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       models.user.hasMany(models.timer)
     }
 
-    hashPassword(password) {
+    static hashPassword(password) {
       return bcrypt.hashSync(password, 12)
     }
 

@@ -9,7 +9,7 @@ const { userFactory, userData } = require("../factories/user.js")
 
 const should = chai.should()
 
-describe("Users model", async () => {
+describe("Users model", () => {
   let user
 
   before(async () => {
@@ -18,31 +18,37 @@ describe("Users model", async () => {
     user = await userFactory()
   })
 
-  it("Has a username", async () => {
+  it("Has a username", () => {
     user.username.should.be.a("string")
   })
 
-  it("Has a password hash", async () => {
+  it("Has a password hash", () => {
     user.passwordHash.should.be.a("string")
   })
 })
 
-describe("user#hashPassword", async () => {
-  const { username, password } = await userData()
-  let user = db.user.build({ username, password })
+describe("user#hashPassword", () => {
+  // const { username, password } = await userData()
+  let username, password
+  // let user = db.user.build({ username, password })
+  before(async () => {
+    const data = await userData()
+    username = data.username
+    password = data.password
+  })
 
   it("exists", () => {
-    user.hashPassword.should.be.a("function")
+    db.user.hashPassword.should.be.a("function")
   })
 
   it("accepts and returns a string", () => {
-    user.hashPassword(password).should.be.a("string")
+    db.user.hashPassword(password).should.be.a("string")
   })
   it("returns a hash", () => {
-    user.hashPassword(password).should.match(/^\$2[ayb]\$.{56}$/)
+    db.user.hashPassword(password).should.match(/^\$2[ayb]\$.{56}$/)
   })
   it("returns a hash that matches the input", () => {
-    const hash = user.hashPassword(password)
+    const hash = db.user.hashPassword(password)
     bcrypt.compareSync(password, hash)
   })
 })

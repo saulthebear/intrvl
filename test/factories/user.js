@@ -30,7 +30,7 @@ const createUser = async (props = {}) => {
   const passwordHash = bcrypt.hashSync(userData.password, 12)
   userData.passwordHash = passwordHash
 
-  const user = await db.user.create(userData)
+  const user = await db.user.create(userData, { logging: false })
   return user
 }
 
