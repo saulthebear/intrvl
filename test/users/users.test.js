@@ -49,6 +49,6 @@ describe("user#hashPassword", () => {
   })
   it("returns a hash that matches the input", () => {
     const hash = db.user.hashPassword(password)
-    bcrypt.compareSync(password, hash)
+    bcrypt.compareSync(password, hash).should.equal(true)
   })
 })
