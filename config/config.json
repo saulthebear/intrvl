@@ -3,5 +3,10 @@
     "database": "intrvl_dev",
     "host": "127.0.0.1",
     "dialect": "postgres"
+  },
+  "test": {
+    "database": "intrvl_test",
+    "host": "127.0.0.1",
+    "dialect": "postgres"
   }
 }

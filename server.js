@@ -14,6 +14,7 @@ const PORT = process.env.PORT || 3000
 const app = express()
 app.set("view engine", "ejs")
 const isProduction = process.env.NODE_ENV === "production"
+const isTest = process.env.NODE_ENV === "test"
 
 // ANCHOR: Middleware
 const rowdyRes = rowdy.begin(app)
@@ -48,7 +49,7 @@ app.listen(PORT, listening)
 
 function listening() {
   console.log(`Server running: http://localhost:${PORT}`)
-  if (!isProduction) {
+  if (!isProduction && !isTest) {
     rowdyRes.print()
     browserSync({
       files: [".{html,js,css}"],
@@ -59,4 +60,8 @@ function listening() {
       ui: false,
     })
   }
+}
+
+module.exports = {
+  app,
 }
