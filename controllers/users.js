@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require("../models")
 const cryptoJS = require("crypto-js")
 const bcrypt = require("bcryptjs")
+const chalk = require("chalk")
 
 // ANCHOR signup
 // GET /users/new
@@ -24,8 +25,42 @@ router.get("/login", (req, res) => {
 
 // STUB log the user in
 // POST /users/login
-router.post("/login", (req, res) => {
-  res.send("should log the user in")
+// TODO: table constraint, unique username
+router.post("/login", async (req, res) => {
+  try {
+    const failedLoginMsg = "Bad Login Credentials"
+
+    // lookup the user
+    const user = await db.user.findOne({
+      where: { username: req.body.username },
+    })
+
+    if (!user) {
+      console.log(chalk.yellow("🚷 Login attempt: Username not found"))
+      // TODO: redirect to login form with message
+      res.send(failedLoginMsg)
+      return
+    }
+
+    const passwordsMatch = bcrypt.compareSync(
+      req.body.password,
+      user.passwordHash
+    )
+    if (passwordsMatch) {
+      // Set cookie to encrypted user id
+      const encryptedUserId = cryptoJS.AES.encrypt(
+        user.id.toString(),
+        process.env.ENC_KEY
+      ).toString()
+      res.cookie("userId", encryptedUserId)
+      console.log(chalk.green("✅ Logged in successfully"))
+      // TODO: redirect user
+      res.send("Successful login")
+    }
+  } catch (error) {
+    console.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
+    res.send(500)
+  }
 })
 
 // STUB profile

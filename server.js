@@ -5,8 +5,8 @@ const browserSync = require("browser-sync")
 const methodOverride = require("method-override")
 const rowdy = require("rowdy-logger")
 const cookieParser = require("cookie-parser")
-const db = require("./models")
-const cryptoJS = require("crypto-js")
+const chalk = require("chalk")
+const { setUser } = require("./helpers/authMiddleware")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -20,6 +20,8 @@ const rowdyRes = rowdy.begin(app)
 app.use(ejsLayouts)
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
+app.use(methodOverride("_method"))
+app.use(setUser)
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {
@@ -29,6 +31,17 @@ app.get("/", (req, res) => {
 // ANCHOR: Controllers
 app.use("/users", require("./controllers/users"))
 app.use("/timers", require("./controllers/timers"))
+
+// ANCHOR: Error Routes
+app.use((req, res, next) => {
+  // render a 404 template
+  res.status(404).render("404")
+})
+
+app.use((req, res, next) => {
+  // render a 500 template
+  res.status(500).render("500")
+})
 
 // ANCHOR: Start server
 app.listen(PORT, listening)
