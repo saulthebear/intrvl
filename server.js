@@ -28,6 +28,7 @@ app.get("/", (req, res) => {
 
 // ANCHOR: Controllers
 app.use("/users", require("./controllers/users"))
+app.use("/timers", require("./controllers/timers"))
 
 // ANCHOR: Start server
 app.listen(PORT, listening)
