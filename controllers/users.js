@@ -135,10 +135,4 @@ router.delete("/:id", async (req, res) => {
   res.redirect("/")
 })
 
-// STUB user's timers index
-// GET /users/:id/timers
-// router.get("/:id/timers", (req, res) => {
-//   res.send("should show user's timers")
-// })
-
 module.exports = router

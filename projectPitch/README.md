@@ -35,16 +35,20 @@ There are no routes for tags (categories), timer sections, or sounds, since thes
 | HTTP Verb | URL Pattern       | Action  | Description                                                      |
 | --------- | ----------------- | ------- | ---------------------------------------------------------------- |
 | GET       | /                 | Index   | Describe app, show nav links                                     |
+| GET       | /login            | New     | Show login form                                                  |
+| POST      | /login            | Create  | Log user in (by creating a cookie)                               |
+| GET       | /logout           | Destroy | Log user out (by deleting a cookie)                              |
 | GET       | /users/new        | New     | Show form to sign up                                             |
-| POST      | /users            | Create  | Log user in                                                      |
+| POST      | /users            | Create  | Create new user                                                  |
 | GET       | /users/:id        | Show    | Show user profile                                                |
 | PUT       | /users/:id        | Update  | Update profile / credentials                                     |
 | DELETE    | /users/:id        | Destroy | Delete user's account                                            |
 | GET       | /users/:id/edit   | Edit    | Show form to update user profile                                 |
 | GET       | /users/:id/timers | Index   | Show a user's public timers (or all timers if user is logged in) |
-| GET       | /timers/:id       | Show    | Show a specific timer                                            |
-| GET       | /timers/new       | New     | Show form to create a new timer                                  |
+| GET       | /timers           | Index   | Show all timers                                                  |
 | POST      | /timers           | Create  | Create a new timer                                               |
+| GET       | /timers/new       | New     | Show form to create a new timer                                  |
+| GET       | /timers/:id       | Show    | Show a specific timer                                            |
 | GET       | /timers/:id/edit  | Edit    | Show form to edit a timer                                        |
 | PUT       | /timers/:id       | Update  | Update a timer                                                   |
 | DELETE    | /timers/:id       | Destroy | Delete a timer                                                   |
