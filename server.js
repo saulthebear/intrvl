@@ -7,6 +7,7 @@ const rowdy = require("rowdy-logger")
 const cookieParser = require("cookie-parser")
 const chalk = require("chalk")
 const { setUser } = require("./helpers/authMiddleware")
+const logger = require("./helpers/logger")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -48,7 +49,7 @@ app.use((req, res, next) => {
 app.listen(PORT, listening)
 
 function listening() {
-  console.log(`Server running: http://localhost:${PORT}`)
+  logger.info(`Server running: http://localhost:${PORT}`)
   if (!isProduction && !isTest) {
     rowdyRes.print()
     browserSync({

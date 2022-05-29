@@ -4,6 +4,7 @@ const db = require("../models")
 const cryptoJS = require("crypto-js")
 const bcrypt = require("bcryptjs")
 const chalk = require("chalk")
+const logger = require("../helpers/logger")
 
 // ANCHOR signup
 // GET /users/new
@@ -36,7 +37,7 @@ router.post("/login", async (req, res) => {
     })
 
     if (!user) {
-      console.log(chalk.yellow("🚷 Login attempt: Username not found"))
+      logger.debug(chalk.yellow("🚷 Login attempt: Username not found"))
       // TODO: redirect to login form with message
       res.send(failedLoginMsg)
       return
@@ -53,12 +54,12 @@ router.post("/login", async (req, res) => {
         process.env.ENC_KEY
       ).toString()
       res.cookie("userId", encryptedUserId)
-      console.log(chalk.green("✅ Logged in successfully"))
+      logger.debug(chalk.green("✅ Logged in successfully"))
       // TODO: redirect user
       res.send("Successful login")
     }
   } catch (error) {
-    console.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
+    logger.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
     res.send(500)
   }
 })
