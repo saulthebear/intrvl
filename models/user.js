@@ -5,7 +5,7 @@ const cryptoJS = require("crypto-js")
 const logger = require("../helpers/logger")
 
 module.exports = (sequelize, DataTypes) => {
-  class user extends Model {
+  class User extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.user.hasMany(models.timer)
+      models.User.hasMany(models.Timer)
     }
 
     static hashPassword(password) {
@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
 
         if (!decryptedId) throw "Invalid encryptedId"
 
-        foundUser = user.findByPk(decryptedId)
+        foundUser = User.findByPk(decryptedId)
       } catch (error) {
         logger.debug("Could not find user by encryptedId")
         return null
@@ -57,15 +57,15 @@ module.exports = (sequelize, DataTypes) => {
       return decryptedId == this.id
     }
   }
-  user.init(
+  User.init(
     {
       username: DataTypes.STRING,
       passwordHash: DataTypes.STRING,
     },
     {
       sequelize,
-      modelName: "user",
+      modelName: "User",
     }
   )
-  return user
+  return User
 }

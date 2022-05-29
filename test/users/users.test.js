@@ -37,17 +37,17 @@ describe("Users model", () => {
     })
 
     it("exists", () => {
-      db.user.hashPassword.should.be.a("function")
+      db.User.hashPassword.should.be.a("function")
     })
 
     it("accepts and returns a string", () => {
-      db.user.hashPassword(password).should.be.a("string")
+      db.User.hashPassword(password).should.be.a("string")
     })
     it("returns a hash", () => {
-      db.user.hashPassword(password).should.match(/^\$2[ayb]\$.{56}$/)
+      db.User.hashPassword(password).should.match(/^\$2[ayb]\$.{56}$/)
     })
     it("returns a hash that matches the input", () => {
-      const hash = db.user.hashPassword(password)
+      const hash = db.User.hashPassword(password)
       bcrypt.compareSync(password, hash).should.equal(true)
     })
   })
@@ -58,8 +58,8 @@ describe("Users model", () => {
       const data = await userData()
       username = data.username
       password = data.password
-      passwordHash = db.user.hashPassword(password)
-      user = await db.user.build({ username, passwordHash })
+      passwordHash = db.User.hashPassword(password)
+      user = await db.User.build({ username, passwordHash })
     })
 
     it("exists on a model instance", () => {
@@ -81,7 +81,7 @@ describe("Users model", () => {
       const data = await userData()
 
       const passwordHash = bcrypt.hashSync(data.password, 12)
-      user = await db.user.create({ username: data.username, passwordHash })
+      user = await db.User.create({ username: data.username, passwordHash })
     })
 
     it("exists", () => {
@@ -110,7 +110,7 @@ describe("Users model", () => {
       const data = await userData()
 
       const passwordHash = bcrypt.hashSync(data.password, 12)
-      user = await db.user.create({ username: data.username, passwordHash })
+      user = await db.User.create({ username: data.username, passwordHash })
     })
 
     it("exists", () => {
@@ -139,24 +139,23 @@ describe("Users model", () => {
       const data = await userData()
 
       const passwordHash = bcrypt.hashSync(data.password, 12)
-      user = await db.user.create({ username: data.username, passwordHash })
+      user = await db.User.create({ username: data.username, passwordHash })
     })
     it("exists", () => {
-      db.user.findByEncryptedId.should.be.a("function")
+      db.User.findByEncryptedId.should.be.a("function")
     })
     it("returns a user with valid encrypted id", async () => {
-      const id = user.id
       const encryptedId = cryptoJS.AES.encrypt(
         user.id.toString(),
         process.env.ENC_KEY
       )
 
-      const foundUser = await db.user.findByEncryptedId(encryptedId)
-      foundUser.should.be.an.instanceof(db.user)
+      const foundUser = await db.User.findByEncryptedId(encryptedId)
+      foundUser.should.be.an.instanceof(db.User)
       foundUser.id.should.be.equal(user.id)
     })
     it("returns null with invalid encrypted id", async () => {
-      const foundUser = await db.user.findByEncryptedId(
+      const foundUser = await db.User.findByEncryptedId(
         "U2FsdGVkX19OC0nwb96Nh22oeoMnJk3uXOEcFGPO8bg%3D"
       )
       should.not.exist(foundUser)
