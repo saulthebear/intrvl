@@ -60,49 +60,6 @@ router.post("/", async (req, res) => {
   }
 })
 
-// ANCHOR: NEW LOGIN -- GET /users/login -- login form
-router.get("/login", async (req, res) => {
-  const messages = await req.flash("message")
-  res.render("users/login", { messages })
-})
-
-// ANCHOR: CREATE LOGIN -- POST /users/login -- log the user in (set cookie)
-// TODO: table constraint, unique username
-router.post("/login", async (req, res) => {
-  try {
-    const failedLoginMsg = "Bad Login Credentials"
-
-    // lookup the user
-    const user = await db.user.findOne({
-      where: { username: req.body.username },
-    })
-
-    if (!user) {
-      logger.debug(chalk.yellow("🚷 Login attempt: Username not found"))
-      req.flash("message", failedLoginMsg)
-      res.redirect("/users/login")
-      return
-    }
-
-    const passwordsMatch = user.verifyPassword(req.body.password)
-    if (passwordsMatch) {
-      // Set cookie to encrypted user id
-      res.cookie("userId", user.getEncryptedId())
-      logger.debug(chalk.green("✅ Logged in successfully"))
-      res.redirect("/")
-    }
-  } catch (error) {
-    logger.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
-    res.sendStatus(500)
-  }
-})
-
-// ANCHOR: DESTROY LOGIN -- GET /users/logout -- log user out (clear cookie)
-router.get("/logout", (req, res) => {
-  res.clearCookie("userId")
-  res.redirect("/")
-})
-
 // ANCHOR: SHOW -- GET /users/:id -- user profile
 // TODO: Require auth - show diff data based on login status
 router.get("/:id", async (req, res) => {

@@ -49,6 +49,7 @@ app.get("/", (req, res) => {
 })
 
 // ANCHOR: Controllers
+app.use("", require("./controllers/auth"))
 app.use("/users", require("./controllers/users"))
 app.use("/timers", require("./controllers/timers"))
 
