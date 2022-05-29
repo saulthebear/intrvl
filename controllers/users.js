@@ -28,9 +28,9 @@ router.post("/", async (req, res) => {
       return
     }
 
-    const passwordHash = await db.user.hashPassword(password)
+    const passwordHash = await db.User.hashPassword(password)
 
-    const [user, wasCreated] = await db.user.findOrCreate({
+    const [user, wasCreated] = await db.User.findOrCreate({
       where: { username },
       defaults: { passwordHash },
     })
@@ -64,7 +64,7 @@ router.post("/", async (req, res) => {
 // TODO: Require auth - show diff data based on login status
 router.get("/:id", async (req, res) => {
   const id = parseInt(req.params.id)
-  const user = await db.user.findByPk(id)
+  const user = await db.User.findByPk(id)
 
   if (!user) {
     res.render("404")
@@ -78,7 +78,7 @@ router.get("/:id", async (req, res) => {
 // TODO: require auth
 router.get("/:id/edit", async (req, res) => {
   const id = parseInt(req.params.id)
-  const user = await db.user.findByPk(id)
+  const user = await db.User.findByPk(id)
 
   if (!user) {
     res.render("404")
@@ -102,14 +102,14 @@ router.put("/:id", async (req, res) => {
   }
 
   const id = parseInt(req.params.id)
-  const user = await db.user.findByPk(id)
+  const user = await db.User.findByPk(id)
 
   if (!user) {
     res.render("404")
     return
   }
 
-  const newPasswordHash = db.user.hashPassword(newPassword)
+  const newPasswordHash = db.User.hashPassword(newPassword)
 
   user.username = newUsername
   user.passwordHash = newPasswordHash
@@ -123,7 +123,7 @@ router.put("/:id", async (req, res) => {
 // TODO: Require auth
 router.delete("/:id", async (req, res) => {
   const id = parseInt(req.params.id)
-  const user = await db.user.findByPk(id)
+  const user = await db.User.findByPk(id)
 
   if (!user) {
     res.sendStatus(404)

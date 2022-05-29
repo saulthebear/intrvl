@@ -17,7 +17,7 @@ router.post("/login", async (req, res) => {
     const failedLoginMsg = "Bad Login Credentials"
 
     // lookup the user
-    const user = await db.user.findOne({
+    const user = await db.User.findOne({
       where: { username: req.body.username },
     })
 

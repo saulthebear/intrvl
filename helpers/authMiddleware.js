@@ -11,7 +11,7 @@ const setUser = async (req, res, next) => {
       const encryptedUserId = req.cookies.userId
 
       // Try to find user by cookie
-      const user = await db.user.findByEncryptedId(encryptedUserId)
+      const user = await db.User.findByEncryptedId(encryptedUserId)
 
       if (!user) {
         console.warn(chalk.yellow("🔥 Could not find the user using cookie"))
