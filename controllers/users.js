@@ -2,7 +2,6 @@ const express = require("express")
 const router = express.Router()
 const db = require("../models")
 const cryptoJS = require("crypto-js")
-const bcrypt = require("bcryptjs")
 const chalk = require("chalk")
 const logger = require("../helpers/logger")
 
@@ -86,17 +85,10 @@ router.post("/login", async (req, res) => {
       return
     }
 
-    const passwordsMatch = bcrypt.compareSync(
-      req.body.password,
-      user.passwordHash
-    )
+    const passwordsMatch = user.verifyPassword(req.body.password)
     if (passwordsMatch) {
       // Set cookie to encrypted user id
-      const encryptedUserId = cryptoJS.AES.encrypt(
-        user.id.toString(),
-        process.env.ENC_KEY
-      ).toString()
-      res.cookie("userId", encryptedUserId)
+      res.cookie("userId", user.getEncryptedId())
       logger.debug(chalk.green("✅ Logged in successfully"))
       // TODO: redirect user
       res.send("Successful login")
