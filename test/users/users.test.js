@@ -1,22 +1,13 @@
 require("dotenv").config()
 const chai = require("chai")
 const bcrypt = require("bcryptjs")
-const request = require("supertest")
-const express = require("express")
-const cookieParser = require("cookie-parser")
 const cryptoJS = require("crypto-js")
 
 const db = require("../../models")
 const clearDb = require("../clearDb")
 const { userFactory, userData } = require("../factories/user.js")
-const userRoutes = require("../../controllers/users")
 
 const should = chai.should()
-const app = express()
-app.use(express.urlencoded({ extended: false }))
-app.use("/users", userRoutes)
-app.set("view engine", "ejs")
-app.use(cookieParser())
 
 describe("Users model", () => {
   describe("Columns", () => {
@@ -173,161 +164,244 @@ describe("Users model", () => {
   })
 })
 
-describe("user routes", () => {
-  describe("GET /users/new", () => {
-    it("shows an HTML page", (done) => {
-      request(app)
-        .get("/users/new")
-        .expect("Content-Type", /text\/html/)
-        .expect(200, done)
-    })
-  })
+// describe("user routes", () => {
+//   describe("GET /users/new", () => {
+//     it("shows an HTML page", (done) => {
+//       request(app)
+//         .get("/users/new")
+//         .expect("Content-Type", /text\/html/)
+//         .expect(200, done)
+//     })
+//   })
 
-  describe("POST /users/login", () => {
-    describe("Valid credentials", () => {
-      it("sets a cookie")
-      // let validUsername, validPassword
-      // before(async () => {
-      //   // Create a user
-      //   const data = await userData()
+//   describe("POST /users/login", () => {
+//     // describe("Valid credentials", () => {
+//     //   let validUsername, validPassword, newUser
 
-      //   validUsername = data.username
-      //   validPassword = data.password
+//     //   before(async () => {
+//     //     // Create a user
+//     //     const data = await userData()
 
-      //   // console.log("Username >>>", validUsername)
-      //   // console.log("Password >>>", validPassword)
+//     //     validUsername = data.username
+//     //     validPassword = data.password
 
-      //   const passwordHash = db.user.hashPassword(validPassword)
-      //   // console.log("Hash>>>", passwordHash)
-      //   await db.user.create({
-      //     username: validUsername,
-      //     passwordHash: passwordHash,
-      //   })
-      // })
+//     //     const passwordHash = db.user.hashPassword(validPassword)
+//     //     newUser = await db.user.create({
+//     //       username: validUsername,
+//     //       passwordHash: passwordHash,
+//     //     })
+//     //   })
 
-      // it("sets a cookie", (done) => {
-      //   request(app)
-      //     .post("/users/login")
-      //     .send(`username=${validUsername}, password=${validPassword}`)
-      //     .expect((response) => console.log("HEADERS>>>", response.headers))
-      //     .expect(200, done)
-      // })
+//     //   it("sets a cookie", () => {
+//     //     logger.debug("Test: Sets a cookie")
+//     //     logger.debug(
+//     //       `Logging in with username: ${validUsername} and password: ${validPassword}`
+//     //     )
+//     //     // make login request
+//     //     request
+//     //       .agent(app)
+//     //       .post("/users/login")
+//     //       .type("form")
+//     //       .send({ username: validUsername, password: validPassword })
+//     //       .expect(200)
+//     //       .expect(Cookies.new({ name: "userId" }))
+//     //       .end((err, res) => {
+//     //         if (err) throw err
+//     //       })
+//     //   })
 
-      it("encrypts user id")
+//     //   // it("encrypts user id", (done) => {
+//     //   //   // logger.debug("TEST: encrypts user id")
+//     //   //   // const agent = request.agent(app)
+//     //   //   // // const cookies = {}
+//     //   //   // agent
+//     //   //   //   .post("/users/login")
+//     //   //   //   .type("form")
+//     //   //   //   .send({ username: validUsername, password: validPassword })
+//     //   //   //   .expect(200)
+//     //   //   //   .expect(Cookies.not("set", { name: "bravo" }))
+//     //   //   //   // .expect(Cookies.set({ name: "userId", value: newUser.id.toString() }))
+//     //   //   //   .end((err, res) => {
+//     //   //   //     if (err) throw err
+//     //   //   //   })
+//     //   //   // done()
+//     //   //   // .then(() => done())
+//     //   //   // .then((request) => {
+//     //   //   //   console.log("Req cookies>>>", request.cookies)
+//     //   //   //   const cookies = {}
+//     //   //   //   request.headers["set-cookie"][0]
+//     //   //   //     .split(",")
+//     //   //   //     .map((item) => item.split(";")[0])
+//     //   //   //     .forEach((cookieString) => {
+//     //   //   //       const [key, val] = cookieString.split("=")
+//     //   //   //       cookies[key] = val
+//     //   //   //     })
+//     //   //   //   return cookies
+//     //   //   // })
+//     //   //   // .then((cookies) => {
+//     //   //   //   const encryptedId = cookies.userId
+//     //   //   //   console.log("cookies>>>", cookies)
+//     //   //   //   console.log("encryptedId>>>", encryptedId)
+//     //   //   //   console.log("key>>>", process.env.ENC_KEY)
+//     //   //   //   const decryptedId = cryptoJS.AES.decrypt(
+//     //   //   //     encryptedId,
+//     //   //   //     process.env.ENC_KEY
+//     //   //   //   ).toString(cryptoJS.enc.Utf8)
+//     //   //   //   console.log(
+//     //   //   //     `decryptedId>>> ${typeof decryptedId} : ${decryptedId} : ${
+//     //   //   //       decryptedId.length
+//     //   //   //     }`
+//     //   //   //   )
+//     //   //   //   console.log(decryptedId === newUser.id)
+//     //   //   //   console.log(
+//     //   //   //     "RESULT >>>",
+//     //   //   //     decryptedId.should.equal(newUser.id.toString())
+//     //   //   //   )
+//     //   //   //   return
+//     //   //   // })
+//     //   //   // .then(() => done())
+//     //   // })
 
-      it("Redirects")
-    })
+//     //   it("Redirects")
+//     // })
 
-    describe("Invalid credentials", () => {
-      it("doesn't set a cookie")
+//     describe("Invalid credentials", () => {
+//       let validUsername, validPassword, newUser
 
-      it("Redirects")
-    })
-  })
+//       before(async () => {
+//         // Create a user
+//         const data = await userData()
 
-  describe("POST /users", () => {
-    beforeEach(async () => {
-      await clearDb()
-    })
+//         validUsername = data.username
+//         validPassword = data.password
 
-    describe("Valid values", () => {
-      let username, password
-      beforeEach(async () => {
-        const data = await userData()
-        username = data.username
-        password = data.password
-      })
+//         const passwordHash = db.user.hashPassword(validPassword)
+//         newUser = await db.user.create({
+//           username: validUsername,
+//           passwordHash: passwordHash,
+//         })
+//       })
 
-      it("response status 201", (done) => {
-        request(app)
-          .post("/users")
-          .send(`username=${username}`)
-          .send(`password=${password}`)
-          .expect(201, done)
-      })
-      it("creates a new user", async () => {
-        await request(app)
-          .post("/users")
-          .send(`username=${username}`)
-          .send(`password=${password}`)
-          .expect(201)
+//       it("doesn't set a cookie", (done) => {
+//         request
+//           .agent(app)
+//           .post("/users/login")
+//           .type("form")
+//           .send({ username: validUsername, password: validPassword })
+//           .expect(200)
+//           .expect(Cookies.not("set", { name: "userId" }))
+//           .end((err, res) => {
+//             if (err) throw err
+//           })
+//       })
 
-        const user = await db.user.findOne({ where: { username } })
-        user.should.be.an.instanceof(db.user)
-      })
-      it("hashes the user's password", async () => {
-        await request(app)
-          .post("/users")
-          .send(`username=${username}`)
-          .send(`password=${password}`)
-          .expect(201)
+//       it("Redirects")
+//     })
+//   })
 
-        const user = await db.user.findOne({ where: { username } })
-        user.passwordHash.should.not.be.equal(password)
-      })
-      it("logs the user in")
-    })
+//   // describe("POST /users", () => {
+//   //   beforeEach(async () => {
+//   //     await clearDb()
+//   //   })
 
-    describe("Invalid values", () => {
-      let username, password
+//   //   describe("Valid values", () => {
+//   //     let username, password
+//   //     beforeEach(async () => {
+//   //       const data = await userData()
+//   //       username = data.username
+//   //       password = data.password
+//   //     })
 
-      before(async () => {
-        const data = await userData()
-        username = data.username
-        password = data.password
-      })
+//   //     it("response status 201", (done) => {
+//   //       request(app)
+//   //         .post("/users")
+//   //         .send(`username=${username}`)
+//   //         .send(`password=${password}`)
+//   //         .expect(201, done)
+//   //     })
+//   //     it("creates a new user", async () => {
+//   //       await request(app)
+//   //         .post("/users")
+//   //         .send(`username=${username}`)
+//   //         .send(`password=${password}`)
+//   //         .expect(201)
 
-      it("response status 400", (done) => {
-        request(app).post("/users").expect(400, done)
-      })
-      it("requires a username", (done) => {
-        request(app)
-          .post("/users")
-          .send(`password=${password}`)
-          .expect(400, done)
-      })
+//   //       const user = await db.user.findOne({ where: { username } })
+//   //       user.should.be.an.instanceof(db.user)
+//   //     })
+//   //     it("hashes the user's password", async () => {
+//   //       await request(app)
+//   //         .post("/users")
+//   //         .send(`username=${username}`)
+//   //         .send(`password=${password}`)
+//   //         .expect(201)
 
-      it("requires a password", (done) => {
-        request(app)
-          .post("/users")
-          .send(`username=${username}`)
-          .expect(400, done)
-      })
-    })
-  })
+//   //       const user = await db.user.findOne({ where: { username } })
+//   //       user.passwordHash.should.not.be.equal(password)
+//   //     })
+//   //     it("logs the user in")
+//   //   })
 
-  describe("GET /users/login", () => {
-    it("shows an HTML page", (done) => {
-      request(app)
-        .get("/users/login")
-        .expect("Content-Type", /text\/html/)
-        .expect(200, done)
-    })
-  })
+//   //   describe("Invalid values", () => {
+//   //     let username, password
 
-  describe("GET /users/:id", () => {
-    it("shows an HTML page", (done) => {
-      request(app)
-        .get("/users/1")
-        .expect("Content-Type", /text\/html/)
-        .expect(200, done)
-    })
-  })
+//   //     before(async () => {
+//   //       const data = await userData()
+//   //       username = data.username
+//   //       password = data.password
+//   //     })
 
-  describe("GET /users/:id/edit", () => {
-    it("shows an HTML page", (done) => {
-      request(app)
-        .get("/users/1/edit")
-        .expect("Content-Type", /text\/html/)
-        .expect(200, done)
-    })
-  })
+//   //     it("response status 400", (done) => {
+//   //       request(app).post("/users").expect(400, done)
+//   //     })
+//   //     it("requires a username", (done) => {
+//   //       request(app)
+//   //         .post("/users")
+//   //         .send(`password=${password}`)
+//   //         .expect(400, done)
+//   //     })
 
-  describe("PUT /users/:id", () => {
-    it("updates a user's information")
-  })
+//   //     it("requires a password", (done) => {
+//   //       request(app)
+//   //         .post("/users")
+//   //         .send(`username=${username}`)
+//   //         .expect(400, done)
+//   //     })
+//   //   })
+//   // })
 
-  describe("DELETE /users/:id", () => {
-    it("deletes a user")
-  })
-})
+//   // describe("GET /users/login", () => {
+//   //   it("shows an HTML page", (done) => {
+//   //     request(app)
+//   //       .get("/users/login")
+//   //       .expect("Content-Type", /text\/html/)
+//   //       .expect(200, done)
+//   //   })
+//   // })
+
+//   // describe("GET /users/:id", () => {
+//   //   it("shows an HTML page", (done) => {
+//   //     request(app)
+//   //       .get("/users/1")
+//   //       .expect("Content-Type", /text\/html/)
+//   //       .expect(200, done)
+//   //   })
+//   // })
+
+//   // describe("GET /users/:id/edit", () => {
+//   //   it("shows an HTML page", (done) => {
+//   //     request(app)
+//   //       .get("/users/1/edit")
+//   //       .expect("Content-Type", /text\/html/)
+//   //       .expect(200, done)
+//   //   })
+//   // })
+
+//   // describe("PUT /users/:id", () => {
+//   //   it("updates a user's information")
+//   // })
+
+//   // describe("DELETE /users/:id", () => {
+//   //   it("deletes a user")
+//   // })
+// })
