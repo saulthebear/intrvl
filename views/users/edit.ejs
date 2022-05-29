@@ -1,1 +1,5 @@
 profile edit form
+
+<% const action = `/users/${user.id}?_method=PUT` %>
+
+<%- include('_form', { action, submit: 'Update', messages, user }) %>

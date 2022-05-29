@@ -1,0 +1,17 @@
+<% if (messages.length > 0) { %>
+  <p>Messages</p>
+  <% messages.forEach(message => { %>
+    <p><%= message %> </p>
+  <% }) %>
+  <hr>
+<% } %>
+
+<form method="POST" action="<%= action %>">
+  <label for="username-input">Username:</label>
+  <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>">
+
+    <label for="password-input">Password:</label>
+    <input type="password" name="password" id="password-input">
+
+    <button type="submit"><%= submit || "Submit" %></button>
+</form>

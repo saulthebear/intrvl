@@ -1,18 +1,16 @@
 const express = require("express")
 const router = express.Router()
 const db = require("../models")
-const cryptoJS = require("crypto-js")
 const chalk = require("chalk")
 const logger = require("../helpers/logger")
 
-// ANCHOR signup
-// GET /users/new
-router.get("/new", (req, res) => {
-  res.render("users/new", { msg: null })
+// ANCHOR: NEW -- GET /users/new -- signup form
+router.get("/new", async (req, res) => {
+  const messages = await req.flash("message")
+  res.render("users/new", { messages })
 })
 
-// create a new user
-// POST /users
+// ANCHOR: CREATE -- POST /users -- create a new user
 router.post("/", async (req, res) => {
   try {
     const username = req.body.username
@@ -24,8 +22,9 @@ router.post("/", async (req, res) => {
           `Creating User: Invalid credentials: username: ${username}, password: ${password}`
         )
       )
-      // TODO: render error message
-      res.sendStatus(400)
+      if (!username) req.flash("message", "Username is required")
+      if (!password) req.flash("message", "Password is required")
+      res.redirect("/users/new")
       return
     }
 
@@ -37,37 +36,37 @@ router.post("/", async (req, res) => {
     })
 
     if (!user) {
-      logger.debug(chalk.yellow("Creating User: Invalid credentials"))
-      // TODO: render error message
-      res.sendStatus(400)
+      logger.debug(chalk.yellow("Creating User: Invalid Info"))
+      req.flash("message", "Unable to create account. Try again.")
+      res.status(400)
+      res.redirect("/user/new")
       return
     }
 
     if (!wasCreated) {
       logger.debug(chalk.yellow("Creating User: User already exists"))
-      res.send(400, "User already exists")
-      // TODO: render error message
+      req.flash("message", "Username already taken.")
+      res.status(400)
+      res.redirect("/users/new")
       return
     }
 
     logger.debug(chalk.green(`New user created: ${username}`))
     res.status(201)
-    // TODO: redirect user
-    res.send("User created! 🎉")
+    res.redirect(`/user/${user.id}`)
   } catch (error) {
     logger.error(chalk.red("🔥 Error in POST /users"), error)
     res.sendStatus(500)
   }
 })
 
-// STUB login form
-// GET /users/login
-router.get("/login", (req, res) => {
-  res.render("users/login")
+// ANCHOR: NEW LOGIN -- GET /users/login -- login form
+router.get("/login", async (req, res) => {
+  const messages = await req.flash("message")
+  res.render("users/login", { messages })
 })
 
-// STUB log the user in
-// POST /users/login
+// ANCHOR: CREATE LOGIN -- POST /users/login -- log the user in (set cookie)
 // TODO: table constraint, unique username
 router.post("/login", async (req, res) => {
   try {
@@ -80,8 +79,8 @@ router.post("/login", async (req, res) => {
 
     if (!user) {
       logger.debug(chalk.yellow("🚷 Login attempt: Username not found"))
-      // TODO: redirect to login form with message
-      res.send(failedLoginMsg)
+      req.flash("message", failedLoginMsg)
+      res.redirect("/users/login")
       return
     }
 
@@ -90,37 +89,93 @@ router.post("/login", async (req, res) => {
       // Set cookie to encrypted user id
       res.cookie("userId", user.getEncryptedId())
       logger.debug(chalk.green("✅ Logged in successfully"))
-      // TODO: redirect user
-      res.send("Successful login")
+      res.redirect("/")
     }
   } catch (error) {
     logger.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
-    res.send(500)
+    res.sendStatus(500)
   }
 })
 
-// STUB profile
-// GET /users/:id
-router.get("/:id", (req, res) => {
-  res.render("users/profile")
+// ANCHOR: DESTROY LOGIN -- GET /users/logout -- log user out (clear cookie)
+router.get("/logout", (req, res) => {
+  res.clearCookie("userId")
+  res.redirect("/")
 })
 
-// STUB update profile
-// PUT /users/:id
-router.put("/:id", (req, res) => {
-  res.send("should update user profile")
+// ANCHOR: SHOW -- GET /users/:id -- user profile
+// TODO: Require auth - show diff data based on login status
+router.get("/:id", async (req, res) => {
+  const id = parseInt(req.params.id)
+  const user = await db.user.findByPk(id)
+
+  if (!user) {
+    res.render("404")
+    return
+  }
+
+  res.render("users/profile", { user })
 })
 
-// STUB delete profile
-// DELETE /users/:id
-router.delete("/:id", (req, res) => {
-  res.send("should delete user profile")
+// ANCHOR: EDIT -- GET /users/:id/edit -- edit profile form
+// TODO: require auth
+router.get("/:id/edit", async (req, res) => {
+  const id = parseInt(req.params.id)
+  const user = await db.user.findByPk(id)
+
+  if (!user) {
+    res.render("404")
+    return
+  }
+
+  const messages = await req.flash("message")
+  res.render("users/edit", { user, messages })
 })
 
-// STUB edit profile
-// GET /users/:id/edit
-router.get("/:id/edit", (req, res) => {
-  res.render("users/edit")
+// ANCHOR: UPDATE -- PUT /users/:id -- update profile
+// TODO: Require auth
+router.put("/:id", async (req, res) => {
+  const newUsername = req.body.username
+  const newPassword = req.body.password
+
+  if (!(newUsername && newPassword)) {
+    req.flash("message", "Username and password are required.")
+    res.redirect(`/users/${id}/edit`)
+    return
+  }
+
+  const id = parseInt(req.params.id)
+  const user = await db.user.findByPk(id)
+
+  if (!user) {
+    res.render("404")
+    return
+  }
+
+  const newPasswordHash = db.user.hashPassword(newPassword)
+
+  user.username = newUsername
+  user.passwordHash = newPasswordHash
+  await user.save()
+
+  req.flash("message", "Profile updated")
+  res.redirect(`/users/${user.id}`)
+})
+
+// ANCHOR: DESTROY -- DELETE /users/:id -- delete user
+// TODO: Require auth
+router.delete("/:id", async (req, res) => {
+  const id = parseInt(req.params.id)
+  const user = await db.user.findByPk(id)
+
+  if (!user) {
+    res.sendStatus(404)
+  }
+
+  await user.destroy()
+
+  req.flash("message", "account deleted")
+  res.redirect("/")
 })
 
 // STUB user's timers index
