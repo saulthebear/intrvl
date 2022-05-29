@@ -12,10 +12,53 @@ router.get("/new", (req, res) => {
   res.render("users/new", { msg: null })
 })
 
-// STUB create a new user
+// create a new user
 // POST /users
-router.post("/", (req, res) => {
-  res.send("should create a new user")
+router.post("/", async (req, res) => {
+  try {
+    const username = req.body.username
+    const password = req.body.password
+
+    if (!(username && password)) {
+      logger.debug(
+        chalk.yellow(
+          `Creating User: Invalid credentials: username: ${username}, password: ${password}`
+        )
+      )
+      // TODO: render error message
+      res.sendStatus(400)
+      return
+    }
+
+    const passwordHash = await db.user.hashPassword(password)
+
+    const [user, wasCreated] = await db.user.findOrCreate({
+      where: { username },
+      defaults: { passwordHash },
+    })
+
+    if (!user) {
+      logger.debug(chalk.yellow("Creating User: Invalid credentials"))
+      // TODO: render error message
+      res.sendStatus(400)
+      return
+    }
+
+    if (!wasCreated) {
+      logger.debug(chalk.yellow("Creating User: User already exists"))
+      res.send(400, "User already exists")
+      // TODO: render error message
+      return
+    }
+
+    logger.debug(chalk.green(`New user created: ${username}`))
+    res.status(201)
+    // TODO: redirect user
+    res.send("User created! 🎉")
+  } catch (error) {
+    logger.error(chalk.red("🔥 Error in POST /users"), error)
+    res.sendStatus(500)
+  }
 })
 
 // STUB login form
