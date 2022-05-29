@@ -5,9 +5,11 @@ const browserSync = require("browser-sync")
 const methodOverride = require("method-override")
 const rowdy = require("rowdy-logger")
 const cookieParser = require("cookie-parser")
-const chalk = require("chalk")
 const { setUser } = require("./helpers/authMiddleware")
 const logger = require("./helpers/logger")
+const session = require("express-session")
+const flash = require("connect-flash")
+const morgan = require("morgan")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -19,10 +21,26 @@ const isTest = process.env.NODE_ENV === "test"
 
 // ANCHOR: Middleware
 const rowdyRes = rowdy.begin(app)
+// Session middleware - used for flash messages
+app.use(
+  session({
+    secret: process.env.ENC_KEY,
+    saveUninitialized: true,
+    resave: false,
+    cookie: {
+      maxAge: 600000,
+    },
+  })
+)
+// flash message middleware
+app.use(flash())
 app.use(ejsLayouts)
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(methodOverride("_method"))
+// Route logging middleware
+app.use(morgan("dev"))
+// auth middleware
 app.use(setUser)
 
 // ANCHOR: Routes
@@ -53,7 +71,7 @@ function listening() {
   if (!isProduction && !isTest) {
     rowdyRes.print()
     browserSync({
-      files: [".{html,js,css}"],
+      files: ["./**/*.{html,ejs,js,css}"],
       online: false,
       open: false,
       port: PORT + 1,
