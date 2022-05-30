@@ -81,7 +81,7 @@ function listening() {
   if (!isProduction && !isTest) {
     rowdyRes.print()
     browserSync({
-      files: ["./**/*.{html,ejs,js,css}"],
+      files: ["./**/*.{html,ejs,js,css}", "./src/**/*.{js, css}"],
       online: false,
       open: false,
       port: PORT + 1,

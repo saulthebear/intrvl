@@ -1,3 +1,42 @@
-<h1>Timer: <%= timer.name %> </h1>
-<p>Duration: <%= timer.duration %> seconds </p>
-<p>Should repeat? <%= timer.repeat ? "Yes" : "No" %> </p>
+<div class="flex flex-col items-center">
+  <div class="container p-10">
+    <div class="flex items-center justify-between border-black border-b-2 py-3">
+      <h1 class="text-2xl">
+        <%= timer.name %>
+      </h1>
+      <div>
+        <a href="/timers/<%= timer.id %>/edit"
+          class="text-lg bg-green-dark px-4 py-2 rounded-xl border-4 border-black text-white shadow-solid mr-5">Edit</a>
+        <a href="#"
+          class="text-lg bg-purple-dark px-4 py-2 rounded-xl border-4 border-black text-white shadow-solid">Delete</a>
+      </div>
+    </div>
+
+    <div id="js-timer" data-duration="<%= timer.duration %>" class="flex flex-col justify-center items-center p-5">
+      <div id="js-timeline" class="h-20 w-full mb-10 relative">
+        <div class="bg-neutral-300 h-full w-full rounded-xl" id="js-timeline-bg"></div>
+        <div class="w-1 h-full bg-red-dark absolute top-0 left-1" id="js-timeline-indicator"></div>
+      </div>
+      
+      <p class="text-5xl"><span id="js-current-time">00:00</span></p>
+      <p><span id="js-remaining-time">00:00</span></p>
+      <div class="border-black border-2 rounded-xl p-8 bg-purple-light">
+        <button class="bg-green-mid rounded-full p-2 border-black border-2 shadow-solid-double" id="js-start-timer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159 159" class="w-20">
+            <path fill="#fff" d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
+            <path fill="none" d="M0 0h159v159H0z" />
+          </svg>
+        </button>
+        <button class="bg-yellow-dark rounded-full p-2 border-black border-2 shadow-solid-double hidden" id="js-pause-timer">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 157.76 157.76" class="w-20">
+            <path fill="#fff" d="M50.73 40.7h19.02v77.6H50.73V40.7Zm37.28 0h19.02v77.6H88.01V40.7Z" />
+            <path fill="none" d="M0 0h157.76v157.76H0z" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script type="module" src="/src/js/timer.js"></script>
+
