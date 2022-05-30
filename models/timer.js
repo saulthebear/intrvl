@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   Timer.init(
     {
-      userId: DataTypes.INTEGER,
+      UserId: DataTypes.INTEGER,
       name: DataTypes.STRING,
       duration: DataTypes.INTEGER,
       repeat: DataTypes.BOOLEAN,
