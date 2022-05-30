@@ -28,7 +28,7 @@ const login = async (req, res, shouldSendResponse = true) => {
       res.cookie("userId", user.getEncryptedId())
       logger.debug(chalk.green("✅ Logged in successfully"))
       if (shouldSendResponse) {
-        res.redirect("/")
+        res.redirect(`/users/${user.id}`)
       } else {
         return true
       }
