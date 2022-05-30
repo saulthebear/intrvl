@@ -1,0 +1,7 @@
+<ul>
+  <% timers.forEach(timer=> { %>
+    <li><a href="/timers/<%= timer.id %>">
+        <%= timer.name %>
+    </li>
+    <% }) %>
+</ul>

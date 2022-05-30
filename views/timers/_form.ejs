@@ -1,0 +1,24 @@
+<div class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+
+  <%- include('../partials/messages', { messages }) %>
+
+  <form method="POST" action="<%= action %>" class="flex flex-col">
+    <label for="name-input" class="text-lg">Name:</label>
+    <input type="text" name="name" id="name-input" value="<%= timer ? timer.name : "" %>"
+      class="border-2 border-black rounded-lg p-2 mb-5">
+    
+    <label for="duration-input" class="text-lg">Duration (in seconds):</label>
+    <input type="number" name="duration" id="duration-input" value="<%= timer ? timer.duration : "" %>"
+      class="border-2 border-black rounded-lg p-2 mb-5">
+    
+    <div class="mb-5">
+      <input type="checkbox" name="repeat" id="repeat-input">
+      <label for="repeat-checkbox" class="text-lg">Repeat?</label>
+    </div>
+
+    <button type="submit"
+      class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid">
+      <%= submit || "Submit" %>
+    </button>
+  </form>
+</div>

@@ -1,1 +1,6 @@
-timer edit form
+<div class="container pt-10 h-full bg-[#7ed4ef] flex flex-col items-center">
+  <h1 class="text-2xl font-bold mb-5">Edit timer</h1>
+
+  <%- include('_form', {action: `/timers/${timer.id}/?_method=PUT` , submit: 'Update Timer' , messages, user, timer }) %>
+
+</div>
