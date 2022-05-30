@@ -3,6 +3,7 @@ const router = express.Router()
 const db = require("../models")
 const chalk = require("chalk")
 const logger = require("../helpers/logger")
+const login = require("../helpers/login")
 
 // ANCHOR: NEW -- GET /users/new -- signup form
 router.get("/new", async (req, res) => {
@@ -39,7 +40,7 @@ router.post("/", async (req, res) => {
       logger.debug(chalk.yellow("Creating User: Invalid Info"))
       req.flash("message", "Unable to create account. Try again.")
       res.status(400)
-      res.redirect("/user/new")
+      res.redirect("/users/new")
       return
     }
 
@@ -51,9 +52,16 @@ router.post("/", async (req, res) => {
       return
     }
 
-    logger.debug(chalk.green(`New user created: ${username}`))
-    res.status(201)
-    res.redirect(`/user/${user.id}`)
+    logger.debug(chalk.green(`✳️ New user created: ${username}`))
+    const loginSuccess = await login(req, res, false)
+    if (loginSuccess) {
+      logger.debug(chalk.green("New user logged in successfully"))
+      res.redirect(`/users/${user.id}`)
+    } else {
+      logger.debug(chalk.yellow("Unable to log new user in"))
+      req.flash("message", "Account created, but unable to login. Try again.")
+      res.redirect("/login")
+    }
   } catch (error) {
     logger.error(chalk.red("🔥 Error in POST /users"), error)
     res.sendStatus(500)
