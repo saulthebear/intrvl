@@ -1,8 +1,10 @@
 const chalk = require("chalk")
-const cryptoJS = require("crypto-js")
 const db = require("../models")
 const logger = require("../helpers/logger")
 
+/**
+ * If there's a login cookie, set find the user and set as res.local.user
+ */
 const setUser = async (req, res, next) => {
   try {
     // if user cookie exists
@@ -15,7 +17,7 @@ const setUser = async (req, res, next) => {
 
       if (!user) {
         console.warn(chalk.yellow("🔥 Could not find the user using cookie"))
-        return
+        next()
       }
 
       logger.debug(chalk.green(`✅ User ${user.username} is logged in`))
@@ -36,4 +38,16 @@ const setUser = async (req, res, next) => {
   }
 }
 
-module.exports = { setUser }
+/**
+ * If the user is logged in, call next and allow them to continue
+ * If not logged in, redirect to the login page
+ */
+const requireLogin = (req, res, next) => {
+  if (res.locals.user) {
+    next()
+  } else {
+    res.redirect("/login")
+  }
+}
+
+module.exports = { setUser, requireLogin }
