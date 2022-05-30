@@ -10,6 +10,7 @@ const logger = require("./helpers/logger")
 const session = require("express-session")
 const flash = require("connect-flash")
 const morgan = require("morgan")
+const chalk = require("chalk")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -42,6 +43,7 @@ app.use(methodOverride("_method"))
 app.use(morgan("dev"))
 // auth middleware
 app.use(setUser)
+app.use(express.static("public"))
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {

@@ -7,6 +7,7 @@
     "start": "npm run start:dev",
     "start:dev": "nodemon",
     "start:prod": "NODE_ENV=production node index.js",
+    "tailwind:watch": "npx tailwindcss -i ./public/src/input.css -o ./public/dist/output.css --watch",
     "test": "NODE_ENV=test mocha ./test/*",
     "test:watch": "NODE_ENV=test mocha ./test/* --watch",
     "pretest": "NODE_ENV=test npm run db:reset",
@@ -48,6 +49,7 @@
     "chai": "^4.3.6",
     "mocha": "^10.0.0",
     "nodemon": "^2.0.16",
-    "supertest": "^6.2.3"
+    "supertest": "^6.2.3",
+    "tailwindcss": "^3.0.24"
   }
 }
