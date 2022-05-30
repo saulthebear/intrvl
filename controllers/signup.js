@@ -39,7 +39,6 @@ router.post("/", async (req, res) => {
     if (!user) {
       logger.debug(chalk.yellow("Creating User: Invalid Info"))
       req.flash("message", "Unable to create account. Try again.")
-      res.status(400)
       res.redirect("/users/new")
       return
     }
