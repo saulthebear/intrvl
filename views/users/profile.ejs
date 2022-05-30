@@ -1,1 +1,8 @@
-<h1><%= user.username %>'s Profile </h1>
+<div class="flex flex-col items-center">
+  <div class="container p-10">
+    <div class="flex items-center justify-between border-black border-b-2 py-3">
+      <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
+      <a href="/users/<%= user.id %>/edit" class="text-lg bg-purple-dark px-3 py-1 rounded-xl border-4 border-black text-white shadow-solid">Account Settings</a>
+    </div>
+  </div>
+</div>

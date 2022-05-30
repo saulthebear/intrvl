@@ -14,3 +14,9 @@
 .shadow-solid-double {
   box-shadow: 2px 2px 0 black;
 }
+
+.icon {
+  width: 3rem;
+  height: 3rem;
+  margin-inline: 1rem;
+}

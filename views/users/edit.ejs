@@ -1,5 +1,9 @@
-profile edit form
+<div class="container pt-10 h-full flex flex-col items-center">
+  <h1 class="text-2xl font-bold mb-5">Edit Login Credentials</h1>
 
-<% const action = `/users/${user.id}?_method=PUT` %>
+  <%- include('../partials/messages') %>
 
-<%- include('_form', { action, submit: 'Update', messages, user }) %>
+  <% const action=`/users/${user.id}?_method=PUT` %>
+  
+  <%- include('_form', { action, submit: 'Update' , messages, user }) %>
+</div>

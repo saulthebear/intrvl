@@ -1,0 +1,9 @@
+<% if (messages.length> 0) { %>
+  <p>Messages</p>
+  <% messages.forEach(message=> { %>
+    <p>
+      <%= message %>
+    </p>
+  <% }) %>
+  <hr>
+<% } %>

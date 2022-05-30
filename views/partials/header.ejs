@@ -1,0 +1,23 @@
+<nav class="bg-yellow-mid px-8 py-4 flex justify-between items-center border-b-8 border-neutral-900">
+  <div>
+    <a href="/" class="font-bold text-5xl">INTRVL.</a>
+  </div>
+
+  <% if (user) { %>
+    <!-- Logout button & profile link -->
+    <div class="flex items-center">
+      <a href="/logout" class="font-bold text-lg bg-yellow-mid px-5 py-2 rounded-xl border-4 border-black text-black shadow-solid">LOGOUT</a>
+      <div class="ml-5">
+        <a href="/users/<%= user.id %>" class="flex items-center" aria-label="Profile">
+          <ion-icon name="person-circle-outline" class="text-6xl"></ion-icon>
+        </a>
+      </div>
+    </div>
+  <% } else { %>
+    <!-- Signup button -->
+    <div>
+      <a href="/users/new"
+        class="font-bold text-lg bg-red-dark px-5 py-2 rounded-xl border-4 border-black text-white shadow-solid">SIGN UP</a>
+    </div>
+  <% } %> 
+</nav>
