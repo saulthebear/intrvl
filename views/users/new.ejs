@@ -1,3 +1,8 @@
-signup page
+<div class="container pt-10 h-full bg-[#7ed4ef] flex flex-col items-center">
+  <h1 class="text-2xl font-bold mb-5">Create an Account</h1>
 
-<%- include('_form', {action: '/users' , submit: 'Sign Up', messages, user: null }) %>
+  <%- include('_form', {action: '/users' , submit: 'Sign Up', messages, user: null }) %>
+
+  <a href="/login" class="mt-5 underline">I already have an account</a>
+
+</div>

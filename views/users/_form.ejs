@@ -1,17 +1,24 @@
-<% if (messages.length > 0) { %>
-  <p>Messages</p>
-  <% messages.forEach(message => { %>
-    <p><%= message %> </p>
-  <% }) %>
-  <hr>
-<% } %>
+<div
+  class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+  <% if (messages.length> 0) { %>
+    <p>Messages</p>
+    <% messages.forEach(message=> { %>
+      <p>
+        <%= message %>
+      </p>
+    <% }) %>
+    <hr>
+  <% } %>
 
-<form method="POST" action="<%= action %>">
-  <label for="username-input">Username:</label>
-  <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>">
+  <form method="POST" action="<%= action %>" class="flex flex-col">
+    <label for="username-input" class="text-lg">Username:</label>
+    <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>" class="border-2 border-black rounded-lg p-2 mb-5">
 
-    <label for="password-input">Password:</label>
-    <input type="password" name="password" id="password-input">
+    <label for="password-input" class="text-lg">Password:</label>
+    <input type="password" name="password" id="password-input" class="border-2 border-black rounded-lg p-2 mb-5">
 
-    <button type="submit"><%= submit || "Submit" %></button>
-</form>
+    <button type="submit" class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid">
+      <%= submit || "Submit" %>
+    </button>
+  </form>
+</div>
