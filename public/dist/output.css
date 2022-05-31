@@ -738,21 +738,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   background-color: rgb(183 117 235 / var(--tw-bg-opacity));
 }
 
-.bg-green-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(34 197 94 / var(--tw-bg-opacity));
-}
-
-.bg-yellow-500 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(234 179 8 / var(--tw-bg-opacity));
-}
-
-.bg-red-mid {
-  --tw-bg-opacity: 1;
-  background-color: rgb(245 60 60 / var(--tw-bg-opacity));
-}
-
 .bg-yellow-dark {
   --tw-bg-opacity: 1;
   background-color: rgb(245 204 98 / var(--tw-bg-opacity));
@@ -838,11 +823,6 @@ Ensure the default browser behavior of the `hidden` attribute.
   padding-bottom: 0.75rem;
 }
 
-.px-2 {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-}
-
 .py-1 {
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
@@ -906,19 +886,82 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 
 .shadow-solid {
-  box-shadow: 2px 2px 0 black;
+  --tw-shadow: 2px 2px 0 black;
+  --tw-shadow-colored: 2px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-solid-half {
-  box-shadow: 1px 1px 0 black;
+  --tw-shadow: 1px 1px 0 black;
+  --tw-shadow-colored: 1px 1px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .shadow-solid-double {
-  box-shadow: 2px 2px 0 black;
+  --tw-shadow: 4px 4px 0 black;
+  --tw-shadow-colored: 4px 4px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
-.icon {
-  width: 3rem;
-  height: 3rem;
-  margin-inline: 1rem;
+.hover\:bg-purple-mid:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(151 71 255 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-yellow-light:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(252 216 123 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-red-mid:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(245 60 60 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-green-mid:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(184 220 109 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-green-light:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(199 229 134 / var(--tw-bg-opacity));
+}
+
+.hover\:bg-yellow-mid:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 200 60 / var(--tw-bg-opacity));
+}
+
+.hover\:text-black:hover {
+  --tw-text-opacity: 1;
+  color: rgb(0 0 0 / var(--tw-text-opacity));
+}
+
+.hover\:text-neutral-800:hover {
+  --tw-text-opacity: 1;
+  color: rgb(38 38 38 / var(--tw-text-opacity));
+}
+
+.hover\:text-neutral-700:hover {
+  --tw-text-opacity: 1;
+  color: rgb(64 64 64 / var(--tw-text-opacity));
+}
+
+.hover\:shadow-solid-half:hover {
+  --tw-shadow: 1px 1px 0 black;
+  --tw-shadow-colored: 1px 1px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:shadow-none:hover {
+  --tw-shadow: 0 0 #0000;
+  --tw-shadow-colored: 0 0 #0000;
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+.hover\:shadow-solid:hover {
+  --tw-shadow: 2px 2px 0 black;
+  --tw-shadow-colored: 2px 2px 0 var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }

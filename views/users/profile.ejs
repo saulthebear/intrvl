@@ -4,16 +4,16 @@
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
       <div class="flex">
         <a href="/timers/new"
-          class="text-lg bg-green-dark px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid mr-5">
+          class="text-lg bg-green-dark hover:bg-green-mid px-4 py-1 rounded-xl border-4 border-black text-white hover:text-black shadow-solid hover:shadow-solid-half mr-5">
           Create Timer
         </a>
         <a href="/users/<%= user.id %>/edit"
-          class="text-lg bg-purple-dark px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid mr-5">
+          class="text-lg bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half mr-5">
           Account Settings
         </a>
         <form action="/users/<%= user.id %>?_method=DELETE" method="POST">
           <button type="submit"
-            class="text-lg bg-red-dark px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid">Delete Account</button>
+            class="text-lg bg-red-dark hover:bg-red-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">Delete Account</button>
         </form>
       </div>
     </div>

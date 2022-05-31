@@ -2,6 +2,11 @@ module.exports = {
   content: ["./public/src/**/*.{html,js}", "./views/**/*.{html,ejs,js}"],
   theme: {
     extend: {
+      boxShadow: {
+        solid: "2px 2px 0 black",
+        "solid-half": "1px 1px 0 black",
+        "solid-double": "4px 4px 0 black",
+      },
       fontFamily: {
         sans: ["Josefin Sans", "sans-serif"],
       },
