@@ -1,5 +1,5 @@
 const express = require("express")
-const login = require("../helpers/login")
+const { login } = require("../helpers/login")
 const router = express.Router()
 
 // ANCHOR: NEW -- GET /users/login -- login form

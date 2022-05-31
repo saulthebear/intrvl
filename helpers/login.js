@@ -43,4 +43,33 @@ const login = async (req, res, shouldSendResponse = true) => {
   }
 }
 
-module.exports = login
+// Check if a specific user is logged in.
+// If no userId is specified, returns true if any user is logged in
+function isLoggedIn(req, res, userId) {
+  let authorized = false
+
+  // No logged in user
+  if (!res.locals.user) {
+    req.flash("message", "You must be logged in to access this resource.")
+    res.redirect("/login")
+    return false
+  }
+
+  if (userId === undefined || userId === null) {
+    // No specific user required. Any logged in user is fine
+    authorized = true
+  } else {
+    // Logged in user must match the id specified
+    authorized = res.locals.user.id == userId
+  }
+
+  if (authorized) {
+    return true // Let caller know it's fine to proceed
+  }
+
+  // Unauthorized. Render error page
+  res.render("unauthorized")
+  return false // Let caller know not to continue
+}
+
+module.exports = { login, isLoggedIn }

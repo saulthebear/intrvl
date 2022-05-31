@@ -5,7 +5,7 @@ const browserSync = require("browser-sync")
 const methodOverride = require("method-override")
 const rowdy = require("rowdy-logger")
 const cookieParser = require("cookie-parser")
-const { setUser, requireLogin } = require("./helpers/authMiddleware")
+const { setUser } = require("./helpers/authMiddleware")
 const logger = require("./helpers/logger")
 const session = require("express-session")
 const flash = require("connect-flash")
@@ -44,14 +44,6 @@ app.use(morgan("dev"))
 // auth middleware
 app.use(setUser)
 app.use(express.static("public"))
-
-// Don't require login for signup
-app.use("/users", require("./controllers/signup"))
-
-// Require login for these routs
-app.all("/users/:id", requireLogin)
-app.all("/users/:id/edit", requireLogin)
-app.all("/timers/*", requireLogin)
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {

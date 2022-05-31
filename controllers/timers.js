@@ -2,12 +2,15 @@ const express = require("express")
 const db = require("../models")
 const logger = require("../helpers/logger")
 const chalk = require("chalk")
+const { isLoggedIn } = require("../helpers/login")
 
 const router = express.Router()
 
 // ANCHOR new timer form
 // GET /timers/new
 router.get("/new", async (req, res) => {
+  if (!isLoggedIn(req, res)) return
+
   const messages = await req.flash("message")
   res.render("timers/new", { messages, timer: null })
 })
@@ -15,6 +18,8 @@ router.get("/new", async (req, res) => {
 // ANCHOR create timer
 // POST /timers
 router.post("/", async (req, res) => {
+  if (!isLoggedIn(req, res)) return
+
   try {
     const name = req.body.name
     const duration = parseInt(req.body.duration)
@@ -53,6 +58,17 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const timer = await db.Timer.findByPk(req.params.id)
+
+    if (!timer) {
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    const ownerId = timer.UserId
+    if (!isLoggedIn(req, res, ownerId)) return
+
     res.render("timers/show", { timer })
   } catch (error) {
     logger.error(chalk.red("Error in timer show page! "), error)
@@ -73,6 +89,10 @@ router.get("/:id/edit", async (req, res) => {
       return
     }
 
+    // Require owner of this timer to be logged in
+    const ownerId = timer.UserId
+    if (!isLoggedIn(req, res, ownerId)) return
+
     const messages = await req.flash("message")
     res.render("timers/edit", { messages, timer })
   } catch (error) {
@@ -88,7 +108,15 @@ router.put("/:id", async (req, res) => {
   try {
     const timer = await db.Timer.findByPk(req.params.id)
 
-    if (!timer) throw "Could not find timer!"
+    if (!timer) {
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    const ownerId = timer.UserId
+    if (!isLoggedIn(req, res, ownerId)) return
 
     const name = req.body.name
     const duration = parseInt(req.body.duration)
@@ -117,6 +145,10 @@ router.delete("/:id", async (req, res) => {
       return
     }
 
+    // Require owner of this timer to be logged in
+    const ownerId = timer.UserId
+    if (!isLoggedIn(req, res, ownerId)) return
+
     await timer.destroy()
 
     req.flash("message", "timer deleted")
@@ -130,6 +162,7 @@ router.delete("/:id", async (req, res) => {
 
 // STUB timers index
 // GET /timers
+// TODO: Only show public timers
 router.get("/", async (req, res) => {
   try {
     const timers = await db.Timer.findAll()
