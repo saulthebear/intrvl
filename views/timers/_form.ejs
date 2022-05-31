@@ -5,16 +5,22 @@
   <form method="POST" action="<%= action %>" class="flex flex-col">
     <label for="name-input" class="text-lg">Name:</label>
     <input type="text" name="name" id="name-input" value="<%= timer ? timer.name : "" %>"
-      class="border-2 border-black rounded-lg p-2 mb-5">
+      class="border-2 border-black rounded-lg p-2 mb-5" required>
     
     <label for="duration-input" class="text-lg">Duration (in seconds):</label>
     <input type="number" name="duration" id="duration-input" value="<%= timer ? timer.duration : "" %>"
-      class="border-2 border-black rounded-lg p-2 mb-5">
+      class="border-2 border-black rounded-lg p-2 mb-5" required>
     
     <div class="mb-5">
       <input type="checkbox" name="repeat" id="repeat-input">
       <label for="repeat-checkbox" class="text-lg">Repeat?</label>
     </div>
+
+    <label for="start-text" class="text-lg">Start Announcement</label>
+    <input type="text" name="startText" id="start-text" class="border-2 border-black rounded-lg p-2 mb-5">
+
+    <label for="end-text" class="text-lg">End Announcement</label>
+    <input type="text" name="endText" id="end-text" class="border-2 border-black rounded-lg p-2 mb-5">
 
     <button type="submit"
       class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid">

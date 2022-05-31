@@ -6,10 +6,17 @@ const remainingTimeDisplay = document.querySelector("#js-remaining-time")
 const startBtn = document.querySelector("#js-start-timer")
 const pauseBtn = document.querySelector("#js-pause-timer")
 const indicator = document.querySelector("#js-timeline-indicator")
+const startAnnouncementCheckbox = document.querySelector(
+  "#playStartAnnouncement"
+)
+const endAnnouncementCheckbox = document.querySelector("#playEndAnnouncement")
 
 const timerDuration = timerDiv.dataset["duration"]
+const timerStartAnnouncement = timerDiv.dataset.startAnnouncement
+const timerEndAnnouncement = timerDiv.dataset.endAnnouncement
 let timerRemaining = timerDuration
 let timerCurrent = 0
+let isRunning = false
 
 const togglePlayPauseBtn = () => {
   startBtn.classList.toggle("hidden")
@@ -44,24 +51,30 @@ const formatTime = (totalSeconds) => {
   return result
 }
 
+const speakText = (text) => {
+  const utterance = new SpeechSynthesisUtterance(text)
+  speechSynthesis.speak(utterance)
+}
+
 function checkTimerEnd() {
-  if (timerCurrent >= timerDuration) {
+  if (isRunning && timerCurrent >= timerDuration) {
+    if (endAnnouncementCheckbox.checked) speakText(timerEndAnnouncement)
     engine.stop()
+    isRunning = false
     togglePlayPauseBtn()
 
-    // Wait before resetting, to ensure render doesn't run
-    setTimeout(() => {
-      timerCurrent = 0
-      timerRemaining = timerDuration
-    }, 1000)
+    timerCurrent = 0
+    timerRemaining = timerDuration
 
     console.log("Stopping timer")
   }
 }
 
 const render = () => {
-  currTimeDisplay.innerText = formatTime(timerCurrent)
-  remainingTimeDisplay.innerText = formatTime(timerRemaining)
+  if (isRunning) {
+    currTimeDisplay.innerText = formatTime(timerCurrent)
+    remainingTimeDisplay.innerText = formatTime(timerRemaining)
+  }
 }
 
 const update = (timeStep) => {
@@ -83,12 +96,15 @@ const engine = new Engine({ update, render, fps: 120 })
 
 const startTimer = () => {
   togglePlayPauseBtn()
+  if (startAnnouncementCheckbox.checked) speakText(timerStartAnnouncement)
   engine.start()
+  isRunning = true
 }
 
 const pauseTimer = () => {
   togglePlayPauseBtn()
   engine.stop()
+  isRunning = false
 }
 
 startBtn.addEventListener("click", startTimer)

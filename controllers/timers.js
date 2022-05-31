@@ -19,9 +19,20 @@ router.post("/", async (req, res) => {
     const name = req.body.name
     const duration = parseInt(req.body.duration)
     const repeat = !!req.body.repeat
+    const startText = req.body.startText
+    const endText = req.body.endText
+
+    logger.debug(chalk.yellow(Object.keys(req.body)))
+    console.log(req.body)
 
     const user = res.locals.user
-    const timer = await user.createTimer({ name, duration, repeat })
+    const timer = await user.createTimer({
+      name,
+      duration,
+      repeat,
+      startText,
+      endText,
+    })
 
     if (timer) {
       logger.debug(chalk.green(`⏲ Timer created! id: ${timer.id}`))

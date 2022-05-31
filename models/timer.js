@@ -18,6 +18,8 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       duration: DataTypes.INTEGER,
       repeat: DataTypes.BOOLEAN,
+      startText: DataTypes.STRING,
+      endText: DataTypes.STRING,
     },
     {
       sequelize,

@@ -13,7 +13,20 @@
       </div>
     </div>
 
-    <div id="js-timer" data-duration="<%= timer.duration %>" class="flex flex-col justify-center items-center p-5">
+    <div>
+      <p>Enable Announcements</p>
+      <label for="playStartAnnouncemnet">Start</label>
+      <input type="checkbox" name="playStartAnnouncement" id="playStartAnnouncement">
+      
+      <label for="playEndAnnouncemnet">End</label>
+      <input type="checkbox" name="playEndAnnouncement" id="playEndAnnouncement">
+    </div>
+
+    <div id="js-timer"
+      data-duration="<%= timer.duration %>"
+      data-start-announcement="<%= timer.startText %>"
+      data-end-announcement="<%= timer.endText %>"
+      class="flex flex-col justify-center items-center p-5">
       <div id="js-timeline" class="h-20 w-full mb-10 relative">
         <div class="bg-neutral-300 h-full w-full rounded-xl" id="js-timeline-bg"></div>
         <div class="w-1 h-full bg-red-dark absolute top-0 left-1" id="js-timeline-indicator"></div>
