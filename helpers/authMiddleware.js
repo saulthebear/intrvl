@@ -20,12 +20,12 @@ const setUser = async (req, res, next) => {
         next()
       }
 
-      logger.debug(chalk.green(`✅ User ${user.username} is logged in`))
+      // logger.debug(chalk.green(`✅ User ${user.username} is logged in`))
 
       // mount the user on the res.locals so that later routes can access the logged in user
       res.locals.user = user
     } else {
-      logger.debug(chalk.yellow("User not logged in"))
+      // logger.debug(chalk.yellow("User not logged in"))
       // No user cookie
       res.locals.user = null
     }
