@@ -51,6 +51,7 @@ app.use("/users", require("./controllers/signup"))
 // Require login for these routs
 app.all("/users/:id", requireLogin)
 app.all("/users/:id/edit", requireLogin)
+app.all("/timers/*", requireLogin)
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {
