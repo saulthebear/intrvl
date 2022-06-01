@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
   try {
     const name = req.body.name
     const duration = parseInt(req.body.duration)
-    const repeat = !!req.body.repeat
+    const repeat = req.body.repeat || 1
     const startText = req.body.startText
     const endText = req.body.endText
 
@@ -120,7 +120,7 @@ router.put("/:id", async (req, res) => {
 
     const name = req.body.name
     const duration = parseInt(req.body.duration)
-    const repeat = !!req.body.repeat
+    const repeat = req.body.repeat || 1
 
     await timer.update({ name, duration, repeat })
     await timer.save()

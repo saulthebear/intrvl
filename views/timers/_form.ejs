@@ -10,20 +10,36 @@
     <label for="duration-input" class="text-lg">Duration (in seconds):</label>
     <input type="number" name="duration" id="duration-input" value="<%= timer ? timer.duration : "" %>"
       class="border-2 border-black rounded-lg p-2 mb-5" required>
-    
-    <div class="mb-5">
-      <input type="checkbox" name="repeat" id="repeat-input">
-      <label for="repeat-checkbox" class="text-lg">Repeat?</label>
-    </div>
+
+    <label for="repeat">Repetitions</label>
+    <input
+      class="border-2 border-black rounded-lg p-2 mb-5"
+      type="number"
+      name="repeat"
+      id="repeat"
+      min="1"
+      value="<%= timer ? timer.repeat : 1 %>">
 
     <label for="start-text" class="text-lg">Start Announcement</label>
-    <input type="text" name="startText" id="start-text" class="border-2 border-black rounded-lg p-2 mb-5">
+    <input
+      type="text"
+      name="startText"
+      id="start-text"
+      class="border-2 border-black rounded-lg p-2 mb-5"
+      value="<%= timer ? timer.startText : "" %>">
 
     <label for="end-text" class="text-lg">End Announcement</label>
-    <input type="text" name="endText" id="end-text" class="border-2 border-black rounded-lg p-2 mb-5">
+    <input
+      type="text"
+      name="endText"
+      id="end-text"
+      class="border-2 border-black rounded-lg p-2 mb-5"
+      value="<%= timer ? timer.endText : "" %>">
 
-    <button type="submit"
-      class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid">
+    <button
+      type="submit"
+      class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2
+        border-black text-white shadow-solid">
       <%= submit || "Submit" %>
     </button>
   </form>

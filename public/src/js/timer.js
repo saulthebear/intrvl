@@ -10,6 +10,9 @@ const startAnnouncementCheckbox = document.querySelector(
   "#playStartAnnouncement"
 )
 const endAnnouncementCheckbox = document.querySelector("#playEndAnnouncement")
+const repetitionsDisplay = document.querySelector("#repeat")
+const incrementRepetitionsBtn = document.querySelector("#incrementRepetitions")
+const decrementRepetitionsBtn = document.querySelector("#decrementRepetitions")
 
 const timerDuration = timerDiv.dataset["duration"]
 const timerStartAnnouncement = timerDiv.dataset.startAnnouncement
@@ -17,13 +20,14 @@ const timerEndAnnouncement = timerDiv.dataset.endAnnouncement
 let timerRemaining = timerDuration
 let timerCurrent = 0
 let isRunning = false
+let remainingRepetitions = parseInt(repetitionsDisplay.innerText)
 
-const togglePlayPauseBtn = () => {
+function togglePlayPauseBtn() {
   startBtn.classList.toggle("hidden")
   pauseBtn.classList.toggle("hidden")
 }
 
-const formatTime = (totalSeconds) => {
+function formatTime(totalSeconds) {
   totalSeconds = Number(totalSeconds)
   let hours = Math.floor(totalSeconds / 3600)
   let minutes = Math.floor((totalSeconds % 3600) / 60)
@@ -51,14 +55,27 @@ const formatTime = (totalSeconds) => {
   return result
 }
 
-const speakText = (text) => {
+function speakText(text) {
   const utterance = new SpeechSynthesisUtterance(text)
   speechSynthesis.speak(utterance)
+}
+
+function incrementRepetitions() {
+  remainingRepetitions += 1
+  repetitionsDisplay.innerText = remainingRepetitions
+}
+
+function decrementRepetitions() {
+  if (remainingRepetitions === 0) return
+  remainingRepetitions -= 1
+  repetitionsDisplay.innerText = remainingRepetitions
 }
 
 function checkTimerEnd() {
   if (isRunning && timerCurrent >= timerDuration) {
     if (endAnnouncementCheckbox.checked) speakText(timerEndAnnouncement)
+    console.debug("Stopping timer")
+
     engine.stop()
     isRunning = false
     togglePlayPauseBtn()
@@ -66,18 +83,23 @@ function checkTimerEnd() {
     timerCurrent = 0
     timerRemaining = timerDuration
 
-    console.log("Stopping timer")
+    decrementRepetitions()
+
+    if (remainingRepetitions > 0) {
+      console.debug("Restarting timer")
+      startTimer()
+    }
   }
 }
 
-const render = () => {
+function render() {
   if (isRunning) {
     currTimeDisplay.innerText = formatTime(timerCurrent)
     remainingTimeDisplay.innerText = formatTime(timerRemaining)
   }
 }
 
-const update = (timeStep) => {
+function update(timeStep) {
   timerCurrent += timeStep
   timerRemaining = timerDuration - timerCurrent
 
@@ -86,22 +108,20 @@ const update = (timeStep) => {
 
   if (timerRemaining < 0) timerRemaining = 0
 
-  console.log(`Current: ${timerCurrent}`)
-  console.log(`Remaining: ${timerRemaining}`)
+  // console.debug(`Current: ${timerCurrent}`)
+  // console.debug(`Remaining: ${timerRemaining}`)
 
   checkTimerEnd()
 }
 
-const engine = new Engine({ update, render, fps: 120 })
-
-const startTimer = () => {
+function startTimer() {
   togglePlayPauseBtn()
   if (startAnnouncementCheckbox.checked) speakText(timerStartAnnouncement)
   engine.start()
   isRunning = true
 }
 
-const pauseTimer = () => {
+function pauseTimer() {
   togglePlayPauseBtn()
   engine.stop()
   isRunning = false
@@ -109,5 +129,9 @@ const pauseTimer = () => {
 
 startBtn.addEventListener("click", startTimer)
 pauseBtn.addEventListener("click", pauseTimer)
+incrementRepetitionsBtn.addEventListener("click", incrementRepetitions)
+decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
+
+const engine = new Engine({ update, render, fps: 120 })
 
 render()

@@ -20,17 +20,17 @@
 
     <div>
       <p>Enable Announcements</p>
-      <label for="playStartAnnouncemnet">Start</label>
       <input
       type="checkbox"
       name="playStartAnnouncement"
       id="playStartAnnouncement">
+      <label for="playStartAnnouncemnet">Start</label>
       
-      <label for="playEndAnnouncemnet">End</label>
       <input
       type="checkbox"
       name="playEndAnnouncement"
       id="playEndAnnouncement">
+      <label for="playEndAnnouncemnet">End</label>
     </div>
 
     <div id="js-timer"
@@ -50,33 +50,54 @@
       <p class="text-5xl"><span id="js-current-time">00:00</span></p>
       <p><span id="js-remaining-time">00:00</span></p>
       <div class="border-black border-2 rounded-xl p-8 bg-purple-light">
-        <button
-          class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
-            rounded-full p-2 border-black border-4 shadow-solid"
-          id="js-start-timer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 159 159"
-            class="w-20">
-            <path fill="#fff" d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
-            <path fill="none" d="M0 0h159v159H0z" />
-          </svg>
-        </button>
-        <button
-          class="bg-yellow-dark hover:bg-yellow-light
-            hover:shadow-solid-half rounded-full p-2 border-black border-4
-            shadow-solid hidden"
-          id="js-pause-timer">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 157.76 157.76"
-            class="w-20">
-            <path
-              fill="#fff"
-              d="M50.73 40.7h19.02v77.6H50.73V40.7Zm37.28 0h19.02v77.6H88.01V40.7Z" />
-            <path fill="none" d="M0 0h157.76v157.76H0z" />
-          </svg>
-        </button>
+        <div class="flex flex-col items-center">
+          <p class=" text-white">Repetitions</p>
+          <div class="flex justify-evenly items-center">
+            <button
+              id="decrementRepetitions"
+              class="rounded-full w-5 h-5 text-xl text-white">
+              <ion-icon name="remove-circle-outline"></ion-icon>
+            </button>
+            <span
+              id="repeat"
+              class="text-xl mx-3 text-white"><%= timer.repeat %></span>
+            <button
+              id="incrementRepetitions"
+              class="rounded-full w-5 h-5 text-xl text-white">
+                <ion-icon name="add-circle-outline"></ion-icon>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <button
+            class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
+              rounded-full p-2 border-black border-4 shadow-solid"
+            id="js-start-timer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 159 159"
+              class="w-20">
+              <path fill="#fff" d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
+              <path fill="none" d="M0 0h159v159H0z" />
+            </svg>
+          </button>
+          <button
+            class="bg-yellow-dark hover:bg-yellow-light
+              hover:shadow-solid-half rounded-full p-2 border-black border-4
+              shadow-solid hidden"
+            id="js-pause-timer">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 157.76 157.76"
+              class="w-20">
+              <path
+                fill="#fff"
+                d="M50.73 40.7h19.02v77.6H50.73V40.7Zm37.28 0h19.02v77.6H88.01V40.7Z" />
+              <path fill="none" d="M0 0h157.76v157.76H0z" />
+            </svg>
+          </button>
+        </div>
       </div>
     </div>
   </div>
