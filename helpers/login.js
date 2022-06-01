@@ -15,7 +15,7 @@ const login = async (req, res, shouldSendResponse = true) => {
       logger.debug(chalk.yellow("🚷 Login attempt: Username not found"))
       if (shouldSendResponse) {
         req.flash("error", failedLoginMsg)
-        res.redirect("/login")
+        res.redirect(400, "/login")
         return
       } else {
         return false
@@ -36,7 +36,7 @@ const login = async (req, res, shouldSendResponse = true) => {
     } else {
       if (shouldSendResponse) {
         req.flash("error", failedLoginMsg)
-        res.redirect("/login")
+        res.redirect(400, "/login")
         return
       }
 
@@ -45,7 +45,8 @@ const login = async (req, res, shouldSendResponse = true) => {
   } catch (error) {
     logger.error(chalk.red(chalk.red("🔥 Error while logging in:"), error))
     if (shouldSendResponse) {
-      res.sendStatus(500)
+      res.status(500)
+      res.render("500")
     } else {
       return false
     }
@@ -60,7 +61,7 @@ function isLoggedIn(req, res, userId) {
   // No logged in user
   if (!res.locals.user) {
     req.flash("error", "You must be logged in to access this resource.")
-    res.redirect("/login")
+    res.redirect(401, "/login")
     return false
   }
 
@@ -76,7 +77,8 @@ function isLoggedIn(req, res, userId) {
     return true // Let caller know it's fine to proceed
   }
 
-  // Unauthorized. Render error page
+  // Unauthorized. Render error page.
+  res.status(403)
   res.render("unauthorized")
   return false // Let caller know not to continue
 }

@@ -32,7 +32,9 @@ const setUser = async (req, res, next) => {
   } catch (error) {
     res.locals.user = null
     logger.error(chalk.red("🔥 Error in auth middleware:"), error)
-    res.send(500)
+    req.flash("error", "Something went wrong logging you in.")
+    res.status(500)
+    res.render("500")
   } finally {
     next()
   }
@@ -46,7 +48,7 @@ const requireLogin = (req, res, next) => {
   if (res.locals.user) {
     next()
   } else {
-    res.redirect("/login")
+    res.redirect(401, "/login")
   }
 }
 
