@@ -167,6 +167,7 @@ router.delete("/:id", async (req, res) => {
       return
     }
 
+    res.clearCookie("userId")
     await user.destroy()
 
     req.flash("message", "account deleted")

@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Timer)
+      models.User.hasMany(models.Timer, { onDelete: "CASCADE", hooks: true })
     }
 
     static hashPassword(password) {
