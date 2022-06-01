@@ -1,5 +1,9 @@
 module.exports = {
-  content: ["./public/src/**/*.{html,js}", "./views/**/*.{html,ejs,js}"],
+  content: [
+    "./public/src/**/*.{html,js}",
+    "./views/**/*.{html,ejs,js}",
+    "./node_modules/flowbite/**/*.js",
+  ],
   theme: {
     extend: {
       boxShadow: {
@@ -26,5 +30,5 @@ module.exports = {
       },
     },
   },
-  plugins: [],
+  plugins: [require("flowbite/plugin")],
 }
