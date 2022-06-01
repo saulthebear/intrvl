@@ -1,10 +1,12 @@
 import { Engine } from "./Engine.js"
 
+// ANCHOR ELEMENTS
 const timerDiv = document.querySelector("#js-timer")
 const currTimeDisplay = document.querySelector("#js-current-time")
 const remainingTimeDisplay = document.querySelector("#js-remaining-time")
 const startBtn = document.querySelector("#js-start-timer")
 const pauseBtn = document.querySelector("#js-pause-timer")
+const resetBtn = document.querySelector("#reset-btn")
 const indicator = document.querySelector("#js-timeline-indicator")
 const startAnnouncementCheckbox = document.querySelector(
   "#playStartAnnouncement"
@@ -14,13 +16,29 @@ const repetitionsDisplay = document.querySelector("#repeat")
 const incrementRepetitionsBtn = document.querySelector("#incrementRepetitions")
 const decrementRepetitionsBtn = document.querySelector("#decrementRepetitions")
 
+// ANCHOR GLOBALS
 const timerDuration = timerDiv.dataset["duration"]
 const timerStartAnnouncement = timerDiv.dataset.startAnnouncement
 const timerEndAnnouncement = timerDiv.dataset.endAnnouncement
 let timerRemaining = timerDuration
 let timerCurrent = 0
+let percentComplete = 0
 let isRunning = false
 let remainingRepetitions = parseInt(repetitionsDisplay.innerText)
+
+const engine = new Engine({ update, render, fps: 120 })
+
+// ANCHOR FUNCTIONS
+function reset() {
+  timerRemaining = timerDuration
+  timerCurrent = 0
+  percentComplete = 0
+  if (isRunning) {
+    togglePlayPauseBtn()
+    engine.stop()
+  }
+  render()
+}
 
 function togglePlayPauseBtn() {
   startBtn.classList.toggle("hidden")
@@ -97,14 +115,15 @@ function render() {
     currTimeDisplay.innerText = formatTime(timerCurrent)
     remainingTimeDisplay.innerText = formatTime(timerRemaining)
   }
+
+  indicator.style.left = `${percentComplete}%`
 }
 
 function update(timeStep) {
   timerCurrent += timeStep
   timerRemaining = timerDuration - timerCurrent
 
-  const percentComplete = Math.min((timerCurrent / timerDuration) * 100, 100)
-  indicator.style.left = `${percentComplete}%`
+  percentComplete = Math.min((timerCurrent / timerDuration) * 100, 100)
 
   if (timerRemaining < 0) timerRemaining = 0
 
@@ -127,11 +146,12 @@ function pauseTimer() {
   isRunning = false
 }
 
+// ANCHOR EVENT LISTENERS
 startBtn.addEventListener("click", startTimer)
 pauseBtn.addEventListener("click", pauseTimer)
+resetBtn.addEventListener("click", reset)
 incrementRepetitionsBtn.addEventListener("click", incrementRepetitions)
 decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
 
-const engine = new Engine({ update, render, fps: 120 })
-
+// ANCHOR RUN
 render()
