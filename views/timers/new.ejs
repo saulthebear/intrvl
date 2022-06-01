@@ -1,4 +1,5 @@
 <div class="container pt-10 h-full bg-[#7ed4ef] flex flex-col items-center">
+  <%- include('../partials/messages') %>
   <h1 class="text-2xl font-bold mb-5">Create a new timer</h1>
 
   <%- include('_form', {action: '/timers' , submit: 'Create Timer' , messages, user, timer }) %>

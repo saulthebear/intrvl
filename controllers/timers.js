@@ -11,8 +11,7 @@ const router = express.Router()
 router.get("/new", async (req, res) => {
   if (!isLoggedIn(req, res)) return
 
-  const messages = await req.flash("message")
-  res.render("timers/new", { messages, timer: null })
+  res.render("timers/new", { timer: null })
 })
 
 // ANCHOR create timer
@@ -43,11 +42,12 @@ router.post("/", async (req, res) => {
       logger.debug(chalk.green(`⏲ Timer created! id: ${timer.id}`))
       res.redirect(`/timers/${timer.id}`)
     } else {
-      req.flash("message", "Unable to create timer. Try again.")
+      req.flash("error", "Unable to create timer. Try again.")
       res.redirect("/timer/new")
     }
   } catch (error) {
     logger.error(chalk.red("Error creating timer!: "), error)
+    req.flash("error", "Could not create timer.")
     res.status(500)
     res.render("500")
   }
@@ -93,8 +93,7 @@ router.get("/:id/edit", async (req, res) => {
     const ownerId = timer.UserId
     if (!isLoggedIn(req, res, ownerId)) return
 
-    const messages = await req.flash("message")
-    res.render("timers/edit", { messages, timer })
+    res.render("timers/edit", { timer })
   } catch (error) {
     logger.error(chalk.red("Error showing timer edit form: "), error)
     res.status(500)
@@ -128,6 +127,7 @@ router.put("/:id", async (req, res) => {
     res.redirect(`/timers/${req.params.id}`)
   } catch (error) {
     logger.error(chalk.red("Error updating timer: "), error)
+    req.flash("error", "Could not update timer.")
     res.status(500)
     res.render("500")
   }
@@ -151,10 +151,11 @@ router.delete("/:id", async (req, res) => {
 
     await timer.destroy()
 
-    req.flash("message", "timer deleted")
+    req.flash("success", "Timer deleted")
     res.redirect(`/users/${res.locals.user.id}`)
   } catch (error) {
     logger.error(chalk.red("Error deleting timer: "), error)
+    req.flash("error", "Could not delete timer.")
     res.status(500)
     res.render("500")
   }

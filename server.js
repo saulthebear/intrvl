@@ -10,7 +10,7 @@ const logger = require("./helpers/logger")
 const session = require("express-session")
 const flash = require("connect-flash")
 const morgan = require("morgan")
-const chalk = require("chalk")
+const setMessages = require("./helpers/messagesMiddleware")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -35,14 +35,13 @@ app.use(
 )
 // flash message middleware
 app.use(flash())
+app.use(setMessages) // Flash messages middleware
 app.use(ejsLayouts)
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(methodOverride("_method"))
-// Route logging middleware
-app.use(morgan("dev"))
-// auth middleware
-app.use(setUser)
+app.use(morgan("dev")) // Route logging middleware
+app.use(setUser) // auth middleware
 app.use(express.static("public"))
 
 // ANCHOR: Routes

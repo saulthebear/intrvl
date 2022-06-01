@@ -1,8 +1,6 @@
 <div
   class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
   
-  <%- include('../partials/messages', { messages }) %>
-
   <form method="POST" action="<%= action %>" class="flex flex-col">
     <label for="username-input" class="text-lg">Username:</label>
     <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>" class="border-2 border-black rounded-lg p-2 mb-5">

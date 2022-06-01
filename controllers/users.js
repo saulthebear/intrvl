@@ -7,8 +7,7 @@ const { login, isLoggedIn } = require("../helpers/login")
 
 // ANCHOR: NEW -- GET /users/new -- signup form
 router.get("/new", async (req, res) => {
-  const messages = await req.flash("message")
-  res.render("users/new", { messages })
+  res.render("users/new")
 })
 
 // ANCHOR: CREATE -- POST /users -- create a new user
@@ -23,8 +22,8 @@ router.post("/", async (req, res) => {
           `Creating User: Invalid credentials: username: ${username}, password: ${password}`
         )
       )
-      if (!username) req.flash("message", "Username is required")
-      if (!password) req.flash("message", "Password is required")
+      if (!username) req.flash("error", "Username is required")
+      if (!password) req.flash("error", "Password is required")
       res.redirect("/users/new")
       return
     }
@@ -38,15 +37,14 @@ router.post("/", async (req, res) => {
 
     if (!user) {
       logger.debug(chalk.yellow("Creating User: Invalid Info"))
-      req.flash("message", "Unable to create account. Try again.")
+      req.flash("error", "Unable to create account. Try again.")
       res.redirect("/users/new")
       return
     }
 
     if (!wasCreated) {
       logger.debug(chalk.yellow("Creating User: User already exists"))
-      req.flash("message", "Username already taken.")
-      res.status(400)
+      req.flash("error", "Username already taken.")
       res.redirect("/users/new")
       return
     }
@@ -58,12 +56,14 @@ router.post("/", async (req, res) => {
       res.redirect(`/users/${user.id}`)
     } else {
       logger.debug(chalk.yellow("Unable to log new user in"))
-      req.flash("message", "Account created, but unable to login. Try again.")
+      req.flash("error", "Account created, but unable to login. Try again.")
       res.redirect("/login")
     }
   } catch (error) {
     logger.error(chalk.red("🔥 Error in POST /users"), error)
-    res.sendStatus(500)
+    req.flash("error", "Couldn't create account. Try again.")
+    res.status(500)
+    res.render("500")
   }
 })
 
@@ -77,6 +77,7 @@ router.get("/:id", async (req, res) => {
     const user = await db.User.findByPk(id)
 
     if (!user) {
+      req.flash("error", "Profile not found.")
       res.status(404)
       res.render("404")
       return
@@ -102,13 +103,13 @@ router.get("/:id/edit", async (req, res) => {
     const user = await db.User.findByPk(id)
 
     if (!user) {
+      req.flash("error", "Profile not found.")
       res.status(404)
       res.render("404")
       return
     }
 
-    const messages = await req.flash("message")
-    res.render("users/edit", { user, messages })
+    res.render("users/edit", { user })
   } catch (error) {
     logger.error(chalk.red("Error showing user edit form: "), error)
     res.status(500)
@@ -125,8 +126,8 @@ router.put("/:id", async (req, res) => {
     const newPassword = req.body.password
 
     if (!(newUsername && newPassword)) {
-      req.flash("message", "Username and password are required.")
-      res.redirect(`/users/${id}/edit`)
+      req.flash("error", "Username and password are required.")
+      res.redirect(`/users/${res.locals.user.id}/edit`)
       return
     }
 
@@ -134,6 +135,7 @@ router.put("/:id", async (req, res) => {
     const user = await db.User.findByPk(id)
 
     if (!user) {
+      req.flash("error", "Profile not found.")
       res.render("404")
       return
     }
@@ -144,7 +146,7 @@ router.put("/:id", async (req, res) => {
     user.passwordHash = newPasswordHash
     await user.save()
 
-    req.flash("message", "Profile updated")
+    req.flash("success", "Account updated")
     res.redirect(`/users/${user.id}`)
   } catch (error) {
     logger.error(chalk.red("Error updating user: "), error)
@@ -162,6 +164,7 @@ router.delete("/:id", async (req, res) => {
     const user = await db.User.findByPk(id)
 
     if (!user) {
+      req.flash("error", "Profile not found.")
       res.status(404)
       res.render("404")
       return
@@ -170,7 +173,7 @@ router.delete("/:id", async (req, res) => {
     res.clearCookie("userId")
     await user.destroy()
 
-    req.flash("message", "account deleted")
+    req.flash("success", "Account deleted")
     res.redirect("/")
   } catch (error) {
     logger.error(chalk.red("Error deleting user: "), error)

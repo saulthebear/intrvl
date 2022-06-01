@@ -1,7 +1,4 @@
 <div class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
-
-  <%- include('../partials/messages', { messages }) %>
-
   <form method="POST" action="<%= action %>" class="flex flex-col">
     <label for="name-input" class="text-lg">Name:</label>
     <input type="text" name="name" id="name-input" value="<%= timer ? timer.name : "" %>"
