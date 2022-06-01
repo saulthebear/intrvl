@@ -18,39 +18,35 @@
       </div>
     </div>
 
-    <div>
-      <p>Enable Announcements</p>
-      <input
-      type="checkbox"
-      name="playStartAnnouncement"
-      id="playStartAnnouncement">
-      <label for="playStartAnnouncemnet">Start</label>
-      
-      <input
-      type="checkbox"
-      name="playEndAnnouncement"
-      id="playEndAnnouncement">
-      <label for="playEndAnnouncemnet">End</label>
-    </div>
-
     <div id="js-timer"
       data-duration="<%= timer.duration %>"
       data-start-announcement="<%= timer.startText %>"
       data-end-announcement="<%= timer.endText %>"
       class="flex flex-col justify-center items-center p-5">
+
+      <!-- Timeline -->
       <div id="js-timeline" class="h-20 w-full mb-10 relative">
         <div
-          class="bg-neutral-300 h-full w-full rounded-xl"
-          id="js-timeline-bg"></div>
+        class="bg-neutral-300 h-full w-full rounded-xl"
+        id="js-timeline-bg"></div>
         <div
-          class="w-1 h-full bg-red-dark absolute top-0 left-1"
-          id="js-timeline-indicator"></div>
+        class="w-1 h-full bg-red-dark absolute top-0 left-1"
+        id="js-timeline-indicator"></div>
       </div>
       
-      <p class="text-5xl"><span id="js-current-time">00:00</span></p>
-      <p><span id="js-remaining-time">00:00</span></p>
-      <div class="border-black border-2 rounded-xl p-8 bg-purple-light">
-        <div class="flex flex-col items-center">
+      <!-- Timer Indicators -->
+
+      <div class="flex flex-col items-center mb-8">
+        <p class="text-5xl"><span id="js-current-time">00:00</span></p>
+        <p><span id="js-remaining-time">00:00</span></p>
+      </div>
+
+      <!-- CONTROLS -->
+      <div
+        class="border-black border-2 rounded-xl p-8 bg-purple-light">
+        
+        <!-- repetitions -->
+        <div class="flex flex-col items-center mb-5">
           <p class=" text-white">Repetitions</p>
           <div class="flex justify-evenly items-center">
             <button
@@ -69,7 +65,8 @@
           </div>
         </div>
 
-        <div>
+        <!-- Play / Pause button -->
+        <div class="flex justify-center mb-5">
           <button
             class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
               rounded-full p-2 border-black border-4 shadow-solid"
@@ -97,6 +94,27 @@
               <path fill="none" d="M0 0h157.76v157.76H0z" />
             </svg>
           </button>
+        </div>
+
+        <!-- Announcements toggles -->
+        <div class="flex flex-col items center">
+          <p>Enable Announcements</p>
+          <div class="flex justify-between">
+            <label for="playStartAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer">
+              <input type="checkbox" value="" id="playStartAnnouncement" class="sr-only peer">
+              <div
+                class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+              </div>
+              <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start</span>
+            </label>
+            <label for="playEndAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer">
+              <input type="checkbox" value="" id="playEndAnnouncement" class="sr-only peer">
+              <div
+                class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+              </div>
+              <span class="ml-3 text-sm font-medium text-gray-900 dark:text-gray-300">End</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
