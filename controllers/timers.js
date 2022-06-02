@@ -172,4 +172,42 @@ router.get("/", async (req, res) => {
   }
 })
 
+// POST /timers/:timerId/tag/:tagId - Associate a tag with a timer
+router.post("/:timerId/tag/:tagId", async (req, res) => {
+  try {
+    const timer = await db.Timer.findByPk(req.params.timerId)
+
+    if (!timer) {
+      req.flash("error", "Timer not found")
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    if (!isLoggedIn(req, res, timer.UserId)) return
+
+    const tag = await db.Tag.findByPk(req.params.tagId)
+
+    if (!tag) {
+      req.flash("error", "Tag not found")
+      res.status(404)
+      res.render("404")
+    }
+
+    // Require owner of this tag to be logged in
+    if (!isLoggedIn(req, res, tag.UserId)) return
+
+    timer.addTag(tag)
+    logger.debug(chalk.green(`Tag ${tag.name} added to timer ${timer.name}`))
+    res.redirect(`/timers/${timer.id}`)
+  } catch (error) {
+    logger.error(chalk.red("Error adding tag to timer:"))
+    logger.error(chalk.red(error))
+    req.flash("error", "Could not add tag to timer.")
+    res.status(500)
+    res.render("500")
+  }
+})
+
 module.exports = router
