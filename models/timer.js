@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     {
       UserId: DataTypes.INTEGER,
       name: DataTypes.STRING,
-      duration: DataTypes.INTEGER,
       repeat: DataTypes.INTEGER,
       startText: DataTypes.STRING,
       endText: DataTypes.STRING,

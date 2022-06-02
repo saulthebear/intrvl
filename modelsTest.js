@@ -18,5 +18,25 @@ const props = async () => {
   // console.log(chalk.green(tag.Timers))
 }
 
-createTag()
+const createTimerSection = async () => {
+  const timer = await db.Timer.findOne()
+  if (timer) console.log(chalk.green("Found a timer"))
+
+  await timer.createTimerSection({
+    name: "Section 2",
+    duration: "20",
+    color: "red",
+  })
+}
+
+const findTimerSections = async () => {
+  const timer = await db.Timer.findByPk(3, { include: db.TimerSection })
+  const sections = timer.TimerSections
+  console.log(sections)
+}
+
+// createTag()
 // props()
+
+// createTimerSection()
+findTimerSections()
