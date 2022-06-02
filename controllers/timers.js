@@ -6,6 +6,8 @@ const { isLoggedIn } = require("../helpers/login")
 
 const router = express.Router()
 
+// SECTION: TIMER ROUTES
+
 // ANCHOR new timer form
 // GET /timers/new
 router.get("/new", async (req, res) => {
@@ -178,6 +180,8 @@ router.get("/", async (req, res) => {
   }
 })
 
+// SECTION: TIMER TAG
+
 // ANCHOR POST /timers/:timerId/tag/:tagId - Associate a tag with a timer
 router.post("/:timerId/tag/:tagId", async (req, res) => {
   try {
@@ -253,5 +257,217 @@ router.delete("/:timerId/tag/:tagId", async (req, res) => {
     res.render("500")
   }
 })
+
+// SECTION: TIMER SECTION
+
+// ANCHOR: POST /timers/:timerId/sections - Create a new section
+router.post("/:timerId/sections", async (req, res) => {
+  try {
+    const timer = await db.Timer.findByPk(req.params.timerId)
+
+    if (!timer) {
+      req.flash("error", "Timer not found")
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    if (!isLoggedIn(req, res, timer.UserId)) return
+
+    const name = req.body.name
+    const duration = Number(req.body.duration)
+    let color = req.body.color
+    let position = Number(req.body.position)
+
+    // Ensure posted fields are valid
+    const validColors = Object.keys(res.locals.colors)
+    const [isNameValid, isDurationValid, isColorValid, isPositionValid] =
+      validateTimerSection(name, duration, color, position, validColors)
+
+    if (!isNameValid) {
+      logger.debug(chalk.yellow("Invalid section name"))
+      req.flash("error", "Section name is required")
+    }
+
+    if (!isDurationValid) {
+      logger.debug(chalk.yellow("Invalid section duration"))
+      req.flash("error", "Section duration must be greater than 0.")
+    }
+
+    if (!isColorValid) {
+      logger.debug(chalk.yellow("Invalid section color"))
+      color = "red"
+    }
+
+    if (!isPositionValid) {
+      logger.debug(chalk.yellow("Invalid section position"))
+      position = 0
+    }
+
+    // If validations fail, redirect user
+    if (!(isNameValid && isDurationValid)) {
+      res.redirect(`/timers/${req.params.timerId}`)
+      return
+    }
+
+    await timer.createTimerSection({ name, duration, color, position })
+
+    logger.debug(chalk.green("Timer section created!"))
+
+    res.redirect(`/timers/${req.params.timerId}`)
+  } catch (error) {
+    logger.error(chalk.red("Error creating timer section!: "))
+    logger.error(chalk.red(error))
+    req.flash("error", "Could not create timer section.")
+    res.status(500)
+    res.render("500")
+  }
+})
+
+// ANCHOR: PUT /timers/:timerId/sections/:sectionId - Update a section
+router.put("/:timerId/sections/:sectionId", async (req, res) => {
+  try {
+    const timer = await db.Timer.findByPk(req.params.timerId)
+
+    if (!timer) {
+      req.flash("error", "Timer not found")
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    if (!isLoggedIn(req, res, timer.UserId)) return
+
+    const name = req.body.name
+    const duration = Number(req.body.duration)
+    let color = req.body.color
+    let position = Number(req.body.position)
+
+    // Ensure posted fields are valid
+    const validColors = Object.keys(res.locals.colors)
+    const [isNameValid, isDurationValid, isColorValid, isPositionValid] =
+      validateTimerSection(name, duration, color, position, validColors)
+
+    if (!isNameValid) {
+      logger.debug(chalk.yellow("Invalid section name"))
+      req.flash("error", "Section name is required")
+    }
+
+    if (!isDurationValid) {
+      logger.debug(chalk.yellow("Invalid section duration"))
+      req.flash("error", "Section duration must be greater than 0.")
+    }
+
+    if (!isColorValid) {
+      logger.debug(chalk.yellow("Invalid section color"))
+      color = "red"
+    }
+
+    if (!isPositionValid) {
+      logger.debug(chalk.yellow("Invalid section position"))
+      position = 0
+    }
+
+    // If validations fail, redirect user
+    if (!(isNameValid && isDurationValid)) {
+      logger.debug(chalk.yellow("Timer section validations failed"))
+      res.redirect(`/timers/${req.params.timerId}`)
+      return
+    }
+
+    const section = await db.TimerSection.findByPk(req.params.sectionId)
+
+    if (!section) {
+      logger.debug(chalk.yellow("Timer section not found"))
+      req.flash("error", "Section not found")
+      res.status(404)
+      res.render("404")
+    }
+
+    // Require section to belong to timer
+    if (!timer.hasTimerSection(section)) {
+      logger.debug(chalk.yellow("Timer section doesn't belong to timer"))
+      req.flash("error", "Timer section doesn't belong to timer")
+      res.status(400)
+      res.redirect(res.redirect(`/timers/${req.params.timerId}`))
+      return
+    }
+
+    section.update({ name, duration, color, position })
+    section.save()
+
+    logger.debug(chalk.green(`Section updated`))
+    res.redirect(`/timers/${timer.id}`)
+  } catch (error) {
+    logger.error(chalk.red("Error updating timer section:"))
+    logger.error(chalk.red(error))
+    req.flash("error", "Could not update timer section.")
+    res.status(500)
+    res.render("500")
+  }
+})
+
+// ANCHOR: DELETE /timers/:timerId/sections/:sectionId - Destroy a section
+router.delete("/:timerId/sections/:sectionId", async (req, res) => {
+  try {
+    const timer = await db.Timer.findByPk(req.params.timerId)
+
+    if (!timer) {
+      req.flash("error", "Timer not found")
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    if (!isLoggedIn(req, res, timer.UserId)) return
+
+    const section = await db.TimerSection.findByPk(req.params.sectionId)
+
+    if (!section) {
+      logger.debug(chalk.yellow("Timer section not found"))
+      req.flash("error", "Section not found")
+      res.status(404)
+      res.render("404")
+    }
+
+    // Require section to belong to timer
+    if (!timer.hasTimerSection(section)) {
+      logger.debug(chalk.yellow("Timer section doesn't belong to timer"))
+      req.flash("error", "Timer section doesn't belong to timer")
+      res.status(400)
+      res.redirect(res.redirect(`/timers/${req.params.timerId}`))
+      return
+    }
+
+    section.destroy()
+
+    logger.debug(chalk.green("Timer section deleted!"))
+
+    res.redirect(`/timers/${req.params.timerId}`)
+  } catch (error) {
+    logger.error(chalk.red("Error deleting timer section!: "))
+    logger.error(chalk.red(error))
+    req.flash("error", "Could not delete timer section.")
+    res.status(500)
+    res.render("500")
+  }
+})
+
+function validateTimerSection(name, duration, color, position, validColors) {
+  let isNameValid = true
+  let isDurationValid = true
+  let isColorValid = true
+  let isPositionValid = true
+
+  if (!name) isNameValid = false
+  if (!(Number.isInteger(duration) && duration > 0)) isDurationValid = false
+  if (!validColors.includes(color)) isColorValid = false
+  if (!(Number.isInteger(position) && position >= 0)) isPositionValid = false
+
+  return [isNameValid, isDurationValid, isColorValid, isPositionValid]
+}
 
 module.exports = router
