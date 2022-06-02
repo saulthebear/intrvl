@@ -17,6 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       name: DataTypes.STRING,
       color: DataTypes.STRING,
       duration: DataTypes.INTEGER,
+      position: DataTypes.INTEGER,
       TimerId: DataTypes.INTEGER,
     },
     {

@@ -17,6 +17,9 @@ module.exports = {
       duration: {
         type: Sequelize.INTEGER,
       },
+      position: {
+        type: Sequelize.INTEGER,
+      },
       TimerId: {
         type: Sequelize.INTEGER,
       },
