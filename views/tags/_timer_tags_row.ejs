@@ -1,0 +1,52 @@
+<div class="flex">
+  <!-- Tags associated with this timer -->
+  <div class="flex ml-5">
+    <% timer.Tags.forEach(tag=> { %>
+      <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
+        <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
+          <button type="submit" class="flex items-center">
+            <span class="mr-1">
+              <%= tag.name %>
+            </span>
+            <ion-icon name="remove-circle-outline"></ion-icon>
+          </button>
+        </form>
+      </div>
+      <% }) %>
+  </div>
+  <!-- Tags not associated with this timer -->
+  <div class="flex ml-5">
+    <% unusedTags.forEach(tag=> { %>
+      <div class="px-4 mr-3 border-black border border-dashed rounded-full text-sm">
+        <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
+          <button type="submit" class="flex items-center" data-tooltip-target="tooltip-add-tag">
+            <span class="mr-1">
+              <%= tag.name %>
+            </span>
+            <ion-icon name="add-circle-outline"></ion-icon>
+          </button>
+        </form>
+      </div>
+      <% }) %>
+  </div>
+  <!-- Add new tag -->
+  <a href="/tags/new" class="bg-white rounded-full w-5 h-5 flex justify-center
+                        items-center border-2 border-black text-xl" data-tooltip-target="tooltip-create-tag"
+    data-tooltip-placement="bottom">
+    <ion-icon name="add-outline"></ion-icon>
+  </a>
+  <!-- Create Tag Tooltip -->
+  <div id="tooltip-create-tag" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+    Create a new tag
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+  <!-- Add Tag Tooltip -->
+  <div id="tooltip-add-tag" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+    Add tag
+    <div class="tooltip-arrow" data-popper-arrow></div>
+  </div>
+</div>

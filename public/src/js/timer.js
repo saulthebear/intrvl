@@ -216,6 +216,5 @@ decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
 window.addEventListener("resize", throttledSetAllSectionsWidth)
 
 // SECTION: Initialize and Run
-reorderSections()
 setAllSectionsWidth()
 render()

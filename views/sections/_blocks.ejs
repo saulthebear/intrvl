@@ -1,0 +1,11 @@
+  <% orderedSections.forEach(section=> { %>
+    <%- include("_block", {section}) %>
+  <% }) %>
+
+<!-- Sections dropdown menus -->
+<% orderedSections.forEach(section=> { %>
+  <%- include("_dropdown", {section}) %>
+
+  <!-- Section edit modal -->
+  <%- include("_edit_modal", { section }) %>
+<% }) %>

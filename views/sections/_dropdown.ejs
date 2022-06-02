@@ -1,0 +1,15 @@
+<div id="section-options-<%= section.id %>"
+  class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg overflow-hidden shadow-solid border-black border-2 w-44">
+  <ul class="" aria-labelledby="section-<%= section.id %>">
+    <li>
+      <button class="w-full px-4 py-2 bg-green-dark text-white
+                    hover:bg-green-mid" type="button" data-modal-toggle="edit-section-<%= section.id %>">Edit
+        Section</button>
+    </li>
+    <li>
+      <form action="/timers/<%= timer.id %>/sections/<%= section.id %>?_method=DELETE" method="post">
+        <button type="submit" class="w-full px-4 py-2 bg-red-dark text-white hover:bg-red-mid">Delete Section</button>
+      </form>
+    </li>
+  </ul>
+</div>

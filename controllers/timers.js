@@ -76,7 +76,13 @@ router.get("/:id", async (req, res) => {
       (tag) => !timerTagNames.includes(tag.name)
     )
 
-    res.render("timers/show", { timer, unusedTags })
+    const orderedSections = timer.TimerSections.sort((a, b) => {
+      if (a.position > b.position) return 1
+      if (b.position > a.position) return -1
+      return 0
+    })
+
+    res.render("timers/show", { timer, unusedTags, orderedSections })
   } catch (error) {
     logger.error(chalk.red("Error in timer show page! "), error)
     res.status(500)

@@ -1,0 +1,33 @@
+<form method="POST" action="<%= action %>" class="flex flex-col">
+  <label for="name-input" class="text-lg">Name:</label>
+  <input type="text" name="name" id="name-input" value="<%= section ? section.name : "" %>"
+    class="border-2 border-black rounded-lg p-2 mb-5" required>
+
+  <label for="duration-input" class="text-lg">Duration (in seconds):</label>
+  <input type="number" name="duration" id="duration-input" value="<%= section ? section.duration : "" %>"
+    class="border-2 border-black rounded-lg p-2 mb-5" required>
+  
+  <label for="color-input" class="text-lg">Color:</label>
+  <select name="color" id="color-input" class="border-2 border-black rounded-lg p-2 mb-5">
+    <% for(const color in colors) { %>
+      <option value="<%= color %>" <%= section && section.color === color ? "selected" : "" %>>
+        <%= color %>
+      </option>
+      <% } %>
+  </select>
+
+  <label for="position-input">Position</label>
+  <input
+    type="number"
+    name="position"
+    id="position-input"
+    min="1"
+    value="<%= section ? section.position : 1 %>"
+    class="border-2 border-black rounded-lg p-2 mb-5"
+    required>
+
+  <button type="submit" class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2
+      border-black text-white shadow-solid">
+    <%= submit || "Submit" %>
+  </button>
+</form>

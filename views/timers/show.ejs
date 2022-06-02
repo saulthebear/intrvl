@@ -10,43 +10,7 @@
         </h1>
 
         <!-- Tags row -->
-        <div class="flex">
-          <!-- Tags associated with this timer -->
-          <div class="flex ml-5">
-            <% timer.Tags.forEach(tag => { %>
-              <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
-                <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
-                  <button type="submit" class="flex items-center">
-                    <span class="mr-1">
-                      <%= tag.name %>
-                    </span>
-                    <ion-icon name="remove-circle-outline"></ion-icon>
-                  </button>
-                </form>
-              </div>
-            <% }) %>
-          </div>
-          <!-- Tags not associated with this timer -->
-          <div class="flex ml-5">
-            <% unusedTags.forEach(tag => { %>
-              <div class="px-4 mr-3 border-black border border-dashed rounded-full text-sm">
-                <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
-                  <button type="submit" class="flex items-center">
-                    <span class="mr-1">
-                      <%= tag.name %>
-                    </span>
-                    <ion-icon name="add-circle-outline"></ion-icon>
-                  </button>
-                </form>
-              </div>
-            <% }) %>
-          </div>
-          <!-- Add new tag -->
-          <a href="/tags/new" class="bg-white rounded-full w-5 h-5 flex justify-center
-                        items-center border-2 border-black text-xl">
-            <ion-icon name="add-outline"></ion-icon>
-          </a>
-        </div>
+        <%- include("../tags/_timer_tags_row", {timer, unusedTags}) %> 
       </div>
 
       <!-- Edit/Delete buttons -->
@@ -70,27 +34,44 @@
       data-end-announcement="<%= timer.endText %>"
       class="flex flex-col justify-center items-center p-5">
 
-      <!-- Timeline -->
-      <div id="js-timeline" class="h-20 w-full mb-10 relative">
-        <div
-        class="bg-neutral-300 h-full w-full rounded-xl flex overflow-hidden"
-        id="js-timeline-bg">
-          <% timer.TimerSections.forEach(section=> { %>
-            <div
-              data-duration="<%= section.duration %>"
-              data-position="<%= section.position %>"
-              class="js-section <%= colors[section.color] %>
-                border-r-2 border-black last:border-0 flex flex-col
-                items-center justify-center"
-            >
-              <p class="text-center"><%= section.name %></p>
-              <p><%= section.duration %>s</p>
-            </div>
-          <% }) %>
+      <!-- Timeline and add button -->
+      <div class="w-full mb-10 flex items-center">
+        <!-- Timeline -->
+        <div id="js-timeline" class="h-20 w-full relative">
+          <!-- Sections container -->
+          <div class="bg-neutral-300 h-full w-full rounded-xl flex overflow-hidden" id="js-timeline-bg">
+            <% if (orderedSections.length === 0) { %>
+              <button
+                class="w-full flex items-center justify-center"
+                data-modal-toggle="new-section-modal">Add a section to get started</button>
+            <% } %>
+            <%- include('../sections/_blocks', {orderedSections}) %>
+          </div>
+          <%- include('../sections/_new_modal', {timer}) %>
+          <!-- Position indicator (red bar) -->
+          <div class="w-1 h-full bg-red-dark absolute top-0 left-1" id="js-timeline-indicator"></div>
         </div>
+
+        <!-- Add section button -->
+        <button
+          aria-label="Add a section"
+          class="w-6 w- h-6 rounded-full flex justify-center items-center
+            border-black border-2 ml-2 hover:bg-neutral-200"
+          data-modal-toggle="new-section-modal"
+          data-tooltip-target="tooltip-add-section"
+          data-tooltip-placement="bottom"
+          type="button">
+          <ion-icon name="add-outline"></ion-icon>
+        </button>
         <div
-        class="w-1 h-full bg-red-dark absolute top-0 left-1"
-        id="js-timeline-indicator"></div>
+          id="tooltip-add-section"
+          role="tooltip"
+          class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+          Add a Section
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
       </div>
       
       <!-- Timer Indicators -->
