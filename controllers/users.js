@@ -74,7 +74,15 @@ router.get("/:id", async (req, res) => {
 
   try {
     const id = parseInt(req.params.id)
-    const user = await db.User.findByPk(id)
+    const user = await db.User.findByPk(id, {
+      include: [
+        db.Tag,
+        {
+          model: db.Timer,
+          include: db.Tag,
+        },
+      ],
+    })
 
     if (!user) {
       req.flash("error", "Profile not found.")
@@ -83,11 +91,10 @@ router.get("/:id", async (req, res) => {
       return
     }
 
-    const timers = await db.Timer.findAll({
-      where: { UserId: user.id },
-    })
+    const timers = await user.Timers
+    const tags = await user.Tags
 
-    res.render("users/profile", { user, timers })
+    res.render("users/profile", { user, timers, tags })
   } catch (error) {
     logger.error(chalk.red("Error showing user profile: "), error)
     res.status(500)

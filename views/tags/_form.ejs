@@ -1,0 +1,19 @@
+<div class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+  <form method="POST" action="<%= action %>" class="flex flex-col">
+    <label for="name-input" class="text-lg">Name:</label>
+    <input type="text" name="name" id="name-input" value="<%= tag ? tag.name : "" %>"
+      class="border-2 border-black rounded-lg p-2 mb-5" required>
+      
+    <label for="color-input" class="text-lg">Color:</label>
+    <select name="color" id="color-input" class="border-2 border-black rounded-lg p-2 mb-5">
+      <% for(const color in colors) { %>
+        <option value="<%= color %>"><%= color %></option>
+      <% } %>
+    </select>
+
+    <button type="submit" class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2
+        border-black text-white shadow-solid">
+      <%= submit || "Submit" %>
+    </button>
+  </form>
+</div>

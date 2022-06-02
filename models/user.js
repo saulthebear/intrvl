@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       models.User.hasMany(models.Timer, { onDelete: "CASCADE", hooks: true })
+      models.User.hasMany(models.Tag, { onDelete: "CASCADE", hooks: true })
     }
 
     static hashPassword(password) {

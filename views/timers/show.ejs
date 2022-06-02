@@ -3,9 +3,22 @@
   <div class="container p-10">
     <div class="flex items-center justify-between border-black border-b-2
     py-3">
-      <h1 class="text-2xl">
-        <%= timer.name %>
-      </h1>
+      <div>
+        <h1 class="text-2xl">
+          <%= timer.name %>
+        </h1>
+        <div class="flex">
+          <div class="flex ml-5">
+            <% timer.Tags.forEach(tag => { %>
+              <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
+                <a href="/tags/<%= tag.id %>">
+                  <%= tag.name %>
+                </a>
+              </div>
+            <% }) %>
+          </div>
+        </div>
+      </div>
       <div class="flex">
         <a href="/timers/<%= timer.id %>/edit"
           class="text-lg bg-green-dark hover:bg-green-mid 

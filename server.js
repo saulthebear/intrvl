@@ -11,6 +11,7 @@ const session = require("express-session")
 const flash = require("connect-flash")
 const morgan = require("morgan")
 const setMessages = require("./helpers/messagesMiddleware")
+const setViewHelpers = require("./helpers/viewHelpers")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -33,16 +34,19 @@ app.use(
     },
   })
 )
-// flash message middleware
-app.use(flash())
-app.use(setMessages) // Flash messages middleware
+
+app.use(flash()) // flash message middleware
 app.use(ejsLayouts)
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(methodOverride("_method"))
 app.use(morgan("dev")) // Route logging middleware
-app.use(setUser) // auth middleware
 app.use(express.static("public"))
+
+// Custom middleware
+app.use(setMessages) // Flash messages middleware
+app.use(setUser) // auth middleware
+app.use(setViewHelpers)
 
 // ANCHOR: Routes
 app.get("/", (req, res) => {
@@ -53,6 +57,7 @@ app.get("/", (req, res) => {
 app.use("", require("./controllers/auth"))
 app.use("/users", require("./controllers/users"))
 app.use("/timers", require("./controllers/timers"))
+app.use("/tags", require("./controllers/tags"))
 
 // ANCHOR: Error Routes
 app.use((req, res, next) => {

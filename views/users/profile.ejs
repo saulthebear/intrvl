@@ -1,7 +1,8 @@
 <div class="flex flex-col items-center">
   <%- include('../partials/messages') %>
   <div class="container p-10">
-    <div class="flex items-center justify-between border-black border-b-2 py-3">
+    <!-- Header -->
+    <div class="flex items-center justify-between border-black border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
       <div class="flex">
         <a href="/timers/new"
@@ -19,6 +20,23 @@
       </div>
     </div>
 
-    <%- include('../timers/_timerList', {timers}) %> 
+    <!-- User's Tags -->
+    <div class="flex items-center">
+      <p class="mr-3">My Tags:</p>
+      <% if (tags.length > 0) { %>
+        <% tags.forEach(tag => { %>
+          <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
+            <a href="/tags/<%= tag.id %>"><%= tag.name %></a>
+          </div>
+        <% }) %>
+      <% } %>
+      <a href="/tags/new" class="bg-white rounded-full w-5 h-5 flex justify-center
+              items-center border-2 border-black text-xl">
+        <ion-icon name="add-outline"></ion-icon>
+      </a>
+    </div>
+
+    <!-- User's Timers -->
+    <%- include('../timers/_timerList', { timers }) %> 
   </div>
 </div>

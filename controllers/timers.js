@@ -26,9 +26,6 @@ router.post("/", async (req, res) => {
     const startText = req.body.startText
     const endText = req.body.endText
 
-    logger.debug(chalk.yellow(Object.keys(req.body)))
-    console.log(req.body)
-
     const user = res.locals.user
     const timer = await user.createTimer({
       name,
@@ -57,7 +54,7 @@ router.post("/", async (req, res) => {
 // GET /timers/:id
 router.get("/:id", async (req, res) => {
   try {
-    const timer = await db.Timer.findByPk(req.params.id)
+    const timer = await db.Timer.findByPk(req.params.id, { include: db.Tag })
 
     if (!timer) {
       res.status(404)

@@ -1,0 +1,26 @@
+
+<div class="flex flex-col items-center">
+  <%- include('../partials/messages') %>
+  <div class="container p-10">
+    <!-- Heading -->
+    <div class="flex items-center justify-between border-black border-b-2
+    py-3">
+      <h1 class="text-2xl <%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full">
+        <%= tag.name %>
+      </h1>
+      <div class="flex">
+        <a href="/tags/<%= tag.id %>/edit" class="text-lg bg-green-dark hover:bg-green-mid 
+          hover:text-black px-4 py-1 rounded-xl border-2 border-black
+          text-white shadow-solid-half hover:shadow-none mr-5">Edit</a>
+        <form action="/tags/<%= tag.id %>?_method=DELETE" method="POST">
+          <button type="submit" class="text-lg bg-red-dark
+          hover:bg-red-mid px-4 py-1 rounded-xl border-2 border-black
+          text-white shadow-solid-half hover:shadow-none">Delete</button>
+        </form>
+      </div>
+    </div>
+    
+    <!-- List of timers with this tag -->
+    <%- include('../timers/_timerList', {timers: tag.Timers}) %>
+  </div>
+</div>
