@@ -23,7 +23,6 @@ router.post("/", async (req, res) => {
 
   try {
     const name = req.body.name
-    const duration = parseInt(req.body.duration)
     const repeat = req.body.repeat || 1
     const startText = req.body.startText
     const endText = req.body.endText
@@ -31,7 +30,6 @@ router.post("/", async (req, res) => {
     const user = res.locals.user
     const timer = await user.createTimer({
       name,
-      duration,
       repeat,
       startText,
       endText,
@@ -131,10 +129,9 @@ router.put("/:id", async (req, res) => {
     if (!isLoggedIn(req, res, ownerId)) return
 
     const name = req.body.name
-    const duration = parseInt(req.body.duration)
     const repeat = req.body.repeat || 1
 
-    await timer.update({ name, duration, repeat })
+    await timer.update({ name, repeat })
     await timer.save()
 
     res.redirect(`/timers/${req.params.id}`)
