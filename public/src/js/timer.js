@@ -1,6 +1,6 @@
 import { Engine } from "./Engine.js"
 
-// ANCHOR ELEMENTS
+// SECTION: ELEMENTS
 const timerDiv = document.querySelector("#js-timer")
 const currTimeDisplay = document.querySelector("#js-current-time")
 const remainingTimeDisplay = document.querySelector("#js-remaining-time")
@@ -15,9 +15,11 @@ const endAnnouncementCheckbox = document.querySelector("#playEndAnnouncement")
 const repetitionsDisplay = document.querySelector("#repeat")
 const incrementRepetitionsBtn = document.querySelector("#incrementRepetitions")
 const decrementRepetitionsBtn = document.querySelector("#decrementRepetitions")
+const sections = Array.from(document.querySelectorAll(".js-section"))
+const sectionsContainer = document.querySelector("#js-timeline-bg")
 
-// ANCHOR GLOBALS
-const timerDuration = timerDiv.dataset["duration"]
+// SECTION: GLOBALS
+const timerDuration = totalDurationFromSections(sections)
 const timerStartAnnouncement = timerDiv.dataset.startAnnouncement
 const timerEndAnnouncement = timerDiv.dataset.endAnnouncement
 let timerRemaining = timerDuration
@@ -28,7 +30,7 @@ let remainingRepetitions = parseInt(repetitionsDisplay.innerText)
 
 const engine = new Engine({ update, render, fps: 120 })
 
-// ANCHOR FUNCTIONS
+// SECTION: FUNCTIONS
 function reset() {
   timerRemaining = timerDuration
   timerCurrent = 0
@@ -146,12 +148,74 @@ function pauseTimer() {
   isRunning = false
 }
 
-// ANCHOR EVENT LISTENERS
+// ANCHOR: TimerSection Functions
+
+function sectionDuration(section) {
+  return Number(section.dataset.duration)
+}
+
+function setSectionWidth(container, totalDuration, section) {
+  const fraction = sectionDuration(section) / totalDuration
+  const totalWidth = container.offsetWidth
+  const sectionWidth = fraction * totalWidth
+  section.style.width = `${sectionWidth}px`
+}
+
+function reorderSections() {
+  // sort sections
+  sections.sort((a, b) => {
+    if (a.dataset.position > b.dataset.position) return 1
+    if (b.dataset.position > a.dataset.position) return -1
+    return 0
+  })
+
+  // Append nodes in correct order to fragment
+  const elements = document.createDocumentFragment()
+  sections.forEach((section) => elements.appendChild(section))
+
+  // Empty container and then add fragment containing sorted nodes
+  sectionsContainer.innerHTML = null
+  sectionsContainer.appendChild(elements)
+}
+
+function totalDurationFromSections(sections) {
+  return sections.reduce(
+    (total, section) => total + sectionDuration(section),
+    0
+  )
+}
+
+function setAllSectionsWidth() {
+  sections.forEach((section) =>
+    setSectionWidth(sectionsContainer, timerDuration, section)
+  )
+}
+
+const throttledSetAllSectionsWidth = throttle(setAllSectionsWidth, 500)
+
+// ANCHOR: Utility functions
+
+function throttle(callback, delay = 1000) {
+  let shouldWait = false
+  return (...args) => {
+    if (shouldWait) return
+
+    callback(...args)
+    shouldWait = true
+
+    setTimeout(() => (shouldWait = false), delay)
+  }
+}
+
+// SECTION: EVENT LISTENERS
 startBtn.addEventListener("click", startTimer)
 pauseBtn.addEventListener("click", pauseTimer)
 resetBtn.addEventListener("click", reset)
 incrementRepetitionsBtn.addEventListener("click", incrementRepetitions)
 decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
+window.addEventListener("resize", throttledSetAllSectionsWidth)
 
-// ANCHOR RUN
+// SECTION: Initialize and Run
+reorderSections()
+setAllSectionsWidth()
 render()

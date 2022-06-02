@@ -56,7 +56,9 @@ router.post("/", async (req, res) => {
 // GET /timers/:id
 router.get("/:id", async (req, res) => {
   try {
-    const timer = await db.Timer.findByPk(req.params.id, { include: db.Tag })
+    const timer = await db.Timer.findByPk(req.params.id, {
+      include: [db.Tag, db.TimerSection],
+    })
 
     if (!timer) {
       res.status(404)

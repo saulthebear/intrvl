@@ -1,6 +1,7 @@
 <div class="flex flex-col items-center">
   <%- include('../partials/messages') %>
   <div class="container p-10">
+    <!-- Timer header -->
     <div class="flex items-center justify-between border-black border-b-2
     py-3">
       <div>
@@ -47,6 +48,8 @@
           </a>
         </div>
       </div>
+
+      <!-- Edit/Delete buttons -->
       <div class="flex">
         <a href="/timers/<%= timer.id %>/edit"
           class="text-lg bg-green-dark hover:bg-green-mid 
@@ -60,6 +63,7 @@
       </div>
     </div>
 
+    <!-- Timer display and controls -->
     <div id="js-timer"
       data-duration="<%= timer.duration %>"
       data-start-announcement="<%= timer.startText %>"
@@ -69,8 +73,21 @@
       <!-- Timeline -->
       <div id="js-timeline" class="h-20 w-full mb-10 relative">
         <div
-        class="bg-neutral-300 h-full w-full rounded-xl"
-        id="js-timeline-bg"></div>
+        class="bg-neutral-300 h-full w-full rounded-xl flex overflow-hidden"
+        id="js-timeline-bg">
+          <% timer.TimerSections.forEach(section=> { %>
+            <div
+              data-duration="<%= section.duration %>"
+              data-position="<%= section.position %>"
+              class="js-section <%= colors[section.color] %>
+                border-r-2 border-black last:border-0 flex flex-col
+                items-center justify-center"
+            >
+              <p class="text-center"><%= section.name %></p>
+              <p><%= section.duration %>s</p>
+            </div>
+          <% }) %>
+        </div>
         <div
         class="w-1 h-full bg-red-dark absolute top-0 left-1"
         id="js-timeline-indicator"></div>
