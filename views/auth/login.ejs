@@ -1,7 +1,7 @@
-<div class="container pt-10 h-full bg-orange-600 flex flex-col items-center">
+<div class="container pt-10 h-full bg-orange-600 flex flex-col items-center min-w-full">
   <%- include('../partials/messages') %>
   <h1 class="text-2xl font-bold mb-5">Login</h1>
-  <div class="bg-white w-2/6 px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+  <div class="bg-white w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
     <form method="POST" action="<%= action %>" class="flex flex-col">
       <label for="username-input" class="text-lg">Username:</label>
       <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>"
