@@ -66,7 +66,13 @@ router.get("/:id", async (req, res) => {
     const ownerId = timer.UserId
     if (!isLoggedIn(req, res, ownerId)) return
 
-    res.render("timers/show", { timer })
+    const allTags = await res.locals.user.getTags()
+    const timerTagNames = timer.Tags.map((tag) => tag.name)
+    const unusedTags = allTags.filter(
+      (tag) => !timerTagNames.includes(tag.name)
+    )
+
+    res.render("timers/show", { timer, unusedTags })
   } catch (error) {
     logger.error(chalk.red("Error in timer show page! "), error)
     res.status(500)
@@ -172,7 +178,7 @@ router.get("/", async (req, res) => {
   }
 })
 
-// POST /timers/:timerId/tag/:tagId - Associate a tag with a timer
+// ANCHOR POST /timers/:timerId/tag/:tagId - Associate a tag with a timer
 router.post("/:timerId/tag/:tagId", async (req, res) => {
   try {
     const timer = await db.Timer.findByPk(req.params.timerId)
@@ -205,6 +211,44 @@ router.post("/:timerId/tag/:tagId", async (req, res) => {
     logger.error(chalk.red("Error adding tag to timer:"))
     logger.error(chalk.red(error))
     req.flash("error", "Could not add tag to timer.")
+    res.status(500)
+    res.render("500")
+  }
+})
+
+// ANCHOR POST /timers/:timerId/tag/:tagId - Remove a tag from a timer
+router.delete("/:timerId/tag/:tagId", async (req, res) => {
+  try {
+    const timer = await db.Timer.findByPk(req.params.timerId)
+
+    if (!timer) {
+      req.flash("error", "Timer not found")
+      res.status(404)
+      res.render("404")
+      return
+    }
+
+    // Require owner of this timer to be logged in
+    if (!isLoggedIn(req, res, timer.UserId)) return
+
+    const tag = await db.Tag.findByPk(req.params.tagId)
+
+    if (!tag) {
+      req.flash("error", "Tag not found")
+      res.status(404)
+      res.render("404")
+    }
+
+    // Require owner of this tag to be logged in
+    if (!isLoggedIn(req, res, tag.UserId)) return
+
+    timer.removeTag(tag)
+    logger.debug(chalk.yellow(`Tag ${tag.name} removed timer ${timer.name}`))
+    res.redirect(`/timers/${timer.id}`)
+  } catch (error) {
+    logger.error(chalk.red("Error removing tag from timer:"))
+    logger.error(chalk.red(error))
+    req.flash("error", "Could not remove tag from timer.")
     res.status(500)
     res.render("500")
   }

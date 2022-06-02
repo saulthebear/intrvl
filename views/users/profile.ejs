@@ -5,10 +5,7 @@
     <div class="flex items-center justify-between border-black border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
       <div class="flex">
-        <a href="/timers/new"
-          class="text-lg bg-green-dark hover:bg-green-mid px-4 py-1 rounded-xl border-4 border-black text-white hover:text-black shadow-solid hover:shadow-solid-half mr-5">
-          Create Timer
-        </a>
+        
         <a href="/users/<%= user.id %>/edit"
           class="text-lg bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half mr-5">
           Account Settings
@@ -38,5 +35,11 @@
 
     <!-- User's Timers -->
     <%- include('../timers/_timerList', { timers }) %> 
+    <div class="mt-5">
+      <a href="/timers/new"
+        class="text-lg bg-green-dark hover:bg-green-mid px-4 py-2 rounded-xl border-2 border-black text-white hover:text-black shadow-solid hover:shadow-solid-half mr-5">
+        Create Timer
+      </a>
+    </div>
   </div>
 </div>
