@@ -2,7 +2,7 @@
   <% if (messages.length > 0) { %>
     <% messages.forEach((message, index) => { %>
       <div id="toast-message-<%= index %>"
-        class="flex items-center w-full max-w-xs p-4 mb-2 bg-blue-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
+        class="js-flash js-flash-message flex items-center w-full max-w-xs p-4 mb-2 bg-blue-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
         role="alert">
         <div
           class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
@@ -28,7 +28,7 @@
   <% if (errorMessages.length > 0) { %>
     <% errorMessages.forEach((message, index)=> { %>
       <div id="toast-error-<%= index  %>"
-        class="flex items-center w-full max-w-xs p-4 mb-2 bg-rose-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
+        class="js-flash js-flash-error flex items-center w-full max-w-xs p-4 mb-2 bg-rose-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
         role="alert">
         <div
           class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-red-500 bg-red-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
@@ -58,7 +58,7 @@
   <% if (infoMessages.length > 0) { %>
     <% infoMessages.forEach((message, index)=> { %>
       <div id="toast-info-<%= index  %>"
-        class="flex items-center w-full max-w-xs p-4 mb-2 bg-blue-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
+        class="js-flash js-flash-info flex items-center w-full max-w-xs p-4 mb-2 bg-blue-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
         role="alert">
         <div
           class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-blue-500 bg-blue-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
@@ -84,7 +84,7 @@
   <% if (successMessages.length> 0) { %>
     <% successMessages.forEach((message, index)=> { %>
       <div id="toast-success-<%= index  %>"
-        class="flex items-center w-full max-w-xs p-4 mb-2 bg-green-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
+        class="js-flash js-flash-success flex items-center w-full max-w-xs p-4 mb-2 bg-green-400 rounded-lg border-black border-2 shadow-solid dark:text-gray-400 dark:bg-gray-800"
         role="alert">
         <div
           class="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 text-green-500 bg-green-100 rounded-lg dark:bg-blue-800 dark:text-blue-200">
