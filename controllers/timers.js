@@ -40,7 +40,8 @@ router.post("/", async (req, res) => {
       res.redirect(`/timers/${timer.id}`)
     } else {
       req.flash("error", "Unable to create timer. Try again.")
-      res.redirect(422, "/timers/new")
+      // res.redirect(422, "/timers/new")
+      res.redirect("/timers/new")
     }
   } catch (error) {
     logger.error(chalk.red("Error creating timer!: "), error)

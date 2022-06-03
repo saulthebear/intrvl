@@ -24,7 +24,8 @@ router.post("/", async (req, res) => {
       )
       if (!username) req.flash("error", "Username is required")
       if (!password) req.flash("error", "Password is required")
-      res.redirect(422, "/users/new")
+      // res.redirect(422, "/users/new")
+      res.redirect("/users/new")
       return
     }
 
@@ -38,14 +39,16 @@ router.post("/", async (req, res) => {
     if (!user) {
       logger.debug(chalk.yellow("Creating User: Invalid Info"))
       req.flash("error", "Unable to create account. Try again.")
-      res.redirect(500, "/users/new")
+      // res.redirect(500, "/users/new")
+      res.redirect("/users/new")
       return
     }
 
     if (!wasCreated) {
       logger.debug(chalk.yellow("Creating User: User already exists"))
       req.flash("error", "Username already taken.")
-      res.redirect(409, "/users/new")
+      // res.redirect(409, "/users/new")
+      res.redirect("/users/new")
       return
     }
 
@@ -57,7 +60,8 @@ router.post("/", async (req, res) => {
     } else {
       logger.debug(chalk.yellow("Unable to log new user in"))
       req.flash("error", "Account created, but unable to login. Try again.")
-      res.redirect(500, "/login")
+      // res.redirect(500, "/login")
+      res.redirect("/login")
     }
   } catch (error) {
     logger.error(chalk.red("🔥 Error in POST /users"), error)
@@ -134,7 +138,8 @@ router.put("/:id", async (req, res) => {
 
     if (!(newUsername && newPassword)) {
       req.flash("error", "Username and password are required.")
-      res.redirect(422, `/users/${res.locals.user.id}/edit`)
+      // res.redirect(422, `/users/${res.locals.user.id}/edit`)
+      res.redirect(`/users/${res.locals.user.id}/edit`)
       return
     }
 

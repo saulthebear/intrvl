@@ -48,7 +48,8 @@ const requireLogin = (req, res, next) => {
   if (res.locals.user) {
     next()
   } else {
-    res.redirect(401, "/login")
+    // res.redirect(401, "/login")
+    res.redirect("/login")
   }
 }
 

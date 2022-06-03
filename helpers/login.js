@@ -4,25 +4,39 @@ const logger = require("../helpers/logger")
 
 const login = async (req, res, shouldSendResponse = true) => {
   try {
+    const username = req.body.username
+    const password = req.body.password
+
+    if ((!username || !password) && !shouldSendResponse) return false
+
+    if (!username) req.flash("error", "Username is required")
+    if (!password) req.flash("error", "Password is required")
+
+    if (!username || !password) {
+      res.redirect("/login")
+      return
+    }
+
     const failedLoginMsg = "Incorrect login credentials"
 
     // lookup the user
     const user = await db.User.findOne({
-      where: { username: req.body.username },
+      where: { username },
     })
 
     if (!user) {
       logger.debug(chalk.yellow("🚷 Login attempt: Username not found"))
       if (shouldSendResponse) {
         req.flash("error", failedLoginMsg)
-        res.redirect(400, "/login")
+        // res.redirect(400, "/login")
+        res.redirect("/login")
         return
       } else {
         return false
       }
     }
 
-    const passwordsMatch = user.verifyPassword(req.body.password)
+    const passwordsMatch = user.verifyPassword(password)
     if (passwordsMatch) {
       // Set cookie to encrypted user id
       res.cookie("userId", user.getEncryptedId())
@@ -36,7 +50,8 @@ const login = async (req, res, shouldSendResponse = true) => {
     } else {
       if (shouldSendResponse) {
         req.flash("error", failedLoginMsg)
-        res.redirect(400, "/login")
+        // res.redirect(400, "/login")
+        res.redirect("/login")
         return
       }
 
@@ -61,7 +76,8 @@ function isLoggedIn(req, res, userId) {
   // No logged in user
   if (!res.locals.user) {
     req.flash("error", "You must be logged in to access this resource.")
-    res.redirect(401, "/login")
+    // res.redirect(401, "/login")
+    res.redirect("/login")
     return false
   }
 

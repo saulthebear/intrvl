@@ -29,7 +29,8 @@ router.post("/", async (req, res) => {
     } else {
       logger.error(chalk.red("Could not create tag. Redirecting user"))
       req.flash("error", "Unable to create tag. Try again.")
-      res.redirect(422, "/tags/new")
+      // res.redirect(422, "/tags/new")
+      res.redirect("/tags/new")
     }
   } catch (error) {
     logger.error(chalk.red("Error creating tag:"))
