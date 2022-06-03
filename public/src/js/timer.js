@@ -17,6 +17,15 @@ const incrementRepetitionsBtn = document.querySelector("#incrementRepetitions")
 const decrementRepetitionsBtn = document.querySelector("#decrementRepetitions")
 const sections = Array.from(document.querySelectorAll(".js-section"))
 const sectionsContainer = document.querySelector("#js-timeline-bg")
+const sectionNameDisplay = document.querySelector("#js-current-section-name")
+const sectionCurrentTimeDisplay = document.querySelector(
+  "#js-section-current-time"
+)
+const sectionRemainingTimeDisplay = document.querySelector(
+  "#js-section-remaining-time"
+)
+const nextBtn = document.querySelector("#js-next-section-btn")
+const prevBtn = document.querySelector("#js-prev-section-btn")
 
 // SECTION: GLOBALS
 const timerDuration = totalDurationFromSections(sections)
@@ -27,6 +36,10 @@ let timerCurrent = 0
 let percentComplete = 0
 let isRunning = false
 let remainingRepetitions = parseInt(repetitionsDisplay.innerText)
+let currentSection = null
+let sectionTimeElapsed = 0
+let sectionTimeRemaining = 0
+let sectionDurations, sectionObjects
 
 const engine = new Engine({ update, render, fps: 120 })
 
@@ -35,6 +48,26 @@ function reset() {
   timerRemaining = timerDuration
   timerCurrent = 0
   percentComplete = 0
+  currentSection = null
+  sectionTimeElapsed = 0
+  sectionTimeRemaining = 0
+  sectionDurations = sections.map((section) => Number(section.dataset.duration))
+  sectionObjects = sections.map((section, index) => {
+    const name = section.dataset.name
+    const duration = Number(section.dataset.duration)
+    const arrayPosition = index
+    const startTime = calculateStartTime(index)
+    const endTime = startTime + duration
+    return {
+      name,
+      duration,
+      arrayPosition,
+      startTime,
+      endTime,
+    }
+  })
+
+  setAllSectionsWidth()
   if (isRunning) {
     togglePlayPauseBtn()
     engine.stop()
@@ -116,21 +149,28 @@ function render() {
   if (isRunning) {
     currTimeDisplay.innerText = formatTime(timerCurrent)
     remainingTimeDisplay.innerText = formatTime(timerRemaining)
+    sectionNameDisplay.innerText = currentSection ? currentSection.name : ""
+
+    sectionCurrentTimeDisplay.innerText = formatTime(sectionTimeElapsed)
+    sectionRemainingTimeDisplay.innerText = formatTime(sectionTimeRemaining)
+  } else {
+    sectionNameDisplay.innerText = ""
   }
 
   indicator.style.left = `${percentComplete}%`
 }
 
 function update(timeStep) {
+  currentSection = sectionObjects[getCurrentSectionIndex()]
   timerCurrent += timeStep
   timerRemaining = timerDuration - timerCurrent
+
+  sectionTimeElapsed = timerCurrent - currentSection.startTime
+  sectionTimeRemaining = currentSection.endTime - timerCurrent
 
   percentComplete = Math.min((timerCurrent / timerDuration) * 100, 100)
 
   if (timerRemaining < 0) timerRemaining = 0
-
-  // console.debug(`Current: ${timerCurrent}`)
-  // console.debug(`Remaining: ${timerRemaining}`)
 
   checkTimerEnd()
 }
@@ -147,6 +187,38 @@ function pauseTimer() {
   engine.stop()
   isRunning = false
 }
+
+function setCurrentTime(secondsElapsed) {
+  timerCurrent = secondsElapsed
+}
+
+function goToNextSection() {
+  if (getCurrentSectionIndex() === sections.length - 1) {
+    setCurrentTime(timerDuration - 0.05)
+    return
+  }
+
+  let nextSection = sectionObjects[getCurrentSectionIndex() + 1]
+
+  setCurrentTime(nextSection.startTime)
+}
+
+function goToPrevSection() {
+  if (getCurrentSectionIndex() === 0) {
+    setCurrentTime(0)
+    return
+  }
+
+  const prevSection = sectionObjects[getCurrentSectionIndex() - 1]
+  setCurrentTime(prevSection.startTime)
+}
+
+function restartSection() {
+  setCurrentTime(currentSection.startTime)
+}
+
+window.goToNextSection = goToNextSection
+window.goToPrevSection = goToPrevSection
 
 // ANCHOR: TimerSection Functions
 
@@ -193,6 +265,22 @@ function setAllSectionsWidth() {
 
 const throttledSetAllSectionsWidth = throttle(setAllSectionsWidth, 500)
 
+function calculateStartTime(sectionPosition) {
+  let durationBefore = 0
+  for (let i = 0; i < sectionPosition; i++) {
+    durationBefore += sectionDurations[i]
+  }
+  return durationBefore
+}
+
+function getCurrentSectionIndex() {
+  // Return first section who's end time is after the current time
+  for (let i = 0; i < sectionObjects.length; i++) {
+    let section = sectionObjects[i]
+    if (section.endTime > timerCurrent) return i
+  }
+}
+
 // ANCHOR: Utility functions
 
 function throttle(callback, delay = 1000) {
@@ -211,10 +299,12 @@ function throttle(callback, delay = 1000) {
 startBtn.addEventListener("click", startTimer)
 pauseBtn.addEventListener("click", pauseTimer)
 resetBtn.addEventListener("click", reset)
+prevBtn.addEventListener("click", restartSection)
+prevBtn.addEventListener("dblclick", goToPrevSection)
+nextBtn.addEventListener("click", goToNextSection)
 incrementRepetitionsBtn.addEventListener("click", incrementRepetitions)
 decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
 window.addEventListener("resize", throttledSetAllSectionsWidth)
 
 // SECTION: Initialize and Run
-setAllSectionsWidth()
-render()
+reset()
