@@ -1,7 +1,6 @@
 require("dotenv").config()
 const express = require("express")
 const ejsLayouts = require("express-ejs-layouts")
-const browserSync = require("browser-sync")
 const methodOverride = require("method-override")
 const rowdy = require("rowdy-logger")
 const cookieParser = require("cookie-parser")
@@ -15,7 +14,7 @@ const setViewHelpers = require("./helpers/viewHelpers")
 
 // ANCHOR: App Config
 // dotEnv.config()
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 3333
 const app = express()
 app.set("view engine", "ejs")
 const isProduction = process.env.NODE_ENV === "production"
@@ -77,6 +76,7 @@ function listening() {
   logger.info(`Server running: http://localhost:${PORT}`)
   if (!isProduction && !isTest) {
     rowdyRes.print()
+    const browserSync = require("browser-sync")
     browserSync({
       files: ["./**/*.{html,ejs,js,css}", "./src/**/*.{js, css}"],
       online: false,
