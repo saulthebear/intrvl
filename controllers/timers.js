@@ -130,8 +130,10 @@ router.put("/:id", async (req, res) => {
 
     const name = req.body.name
     const repeat = req.body.repeat || 1
+    const startText = req.body.startText
+    const endText = req.body.endText
 
-    await timer.update({ name, repeat })
+    await timer.update({ name, repeat, startText, endText })
     await timer.save()
 
     res.redirect(`/timers/${req.params.id}`)
