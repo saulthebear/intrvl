@@ -1,3 +1,5 @@
+// Handles logic and rendering of a timer
+
 import { Engine } from "./Engine.js"
 
 // SECTION: ELEMENTS
