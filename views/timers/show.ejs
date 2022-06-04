@@ -1,11 +1,11 @@
 <div class="flex flex-col items-center">
   <%- include('../partials/messages') %>
-  <div class="container p-10">
+  <div class="container p-1 sm:p-2 md:p-10">
     <!-- Timer header -->
-    <div class="flex items-center justify-between border-black border-b-2
+    <div class="flex flex-col md:flex-row items-center justify-between border-black border-b-2
     py-3">
-      <div>
-        <h1 class="text-2xl">
+      <div class="w-full sm:w-1/2">
+        <h1 class="text-2xl text-center md:text-left">
           <%= timer.name %>
         </h1>
 
@@ -32,10 +32,10 @@
       data-duration="<%= timer.duration %>"
       data-start-announcement="<%= timer.startText %>"
       data-end-announcement="<%= timer.endText %>"
-      class="flex flex-col justify-center items-center p-5">
+      class="flex flex-col justify-center items-center py-5 md:p-5">
 
       <!-- Timeline and add button -->
-      <div class="w-full mb-10 flex items-center">
+      <div class="w-full mb-10 flex items-center md:flex-row flex-col">
         <!-- Timeline -->
         <div id="js-timeline" class="h-20 w-full relative">
           <!-- Sections container -->
@@ -56,7 +56,7 @@
         <button
           aria-label="Add a section"
           class="w-6 w- h-6 rounded-full flex justify-center items-center
-            border-black border-2 ml-2 hover:bg-neutral-200"
+            border-black border-2 ml-2 hover:bg-neutral-200 md:mt-0 mt-3"
           data-modal-toggle="new-section-modal"
           data-tooltip-target="tooltip-add-section"
           data-tooltip-placement="bottom"
@@ -76,7 +76,7 @@
       
       <!-- Timer Indicators -->
 
-      <div class="flex flex-col items-center mb-8">
+      <div class="flex flex-col items-center mb-2 md:mb-8">
         <p id="js-current-section-name" class="text-lg"></p>
         <p class="text-5xl"><span id="js-section-current-time">00:00</span></p>
         <p><span id="js-section-remaining-time">00:00</span></p>
@@ -87,7 +87,8 @@
 
       <!-- CONTROLS -->
       <div
-        class="border-black border-2 rounded-xl p-8 bg-purple-light">
+        class="border-black border-2 rounded-xl p-8 bg-purple-light
+        w-full sm:w-fit flex flex-col items-center">
         
         <!-- repetitions -->
         <div class="flex flex-col items-center mb-5">
@@ -109,8 +110,8 @@
           </div>
         </div>
 
-        <!-- Play / Pause button -->
-        <div class="flex justify-center mb-5">
+        <!-- Play / Pause button Nex/Prev buttons -->
+        <div class="flex justify-evenly w-full sm:justify-center mb-5">
           <button
             id="js-prev-section-btn"
             class="bg-white rounded-full w-8 h-8 flex justify-center
@@ -174,8 +175,8 @@
         </div>
 
         <!-- Announcements toggles -->
-        <div class="flex flex-col items center">
-          <p>Enable Announcements</p>
+        <div class="flex flex-col items center max-w-md">
+          <p class="text-center">Enable Announcements</p>
           <div class="flex justify-between">
             <label for="playStartAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer">
               <input type="checkbox" value="" id="playStartAnnouncement" class="sr-only peer">

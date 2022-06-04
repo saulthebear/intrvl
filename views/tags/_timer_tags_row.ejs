@@ -1,10 +1,10 @@
-<div class="flex">
+<div class="flex flex-col md:flex-row md:items-start">
   <!-- Tags associated with this timer -->
-  <div class="flex ml-5">
+  <div class="flex flex-col md:flex-row md:ml-5">
     <% timer.Tags.forEach(tag=> { %>
-      <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
+      <div class="<%= colors[tag.color] %> px-4 md:mr-3 mb-1 md:mb-0 border-black border-2 rounded-full text-sm">
         <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
-          <button type="submit" class="flex items-center">
+          <button type="submit" class="flex items-center justify-between w-full">
             <span class="mr-1">
               <%= tag.name %>
             </span>
@@ -15,11 +15,11 @@
       <% }) %>
   </div>
   <!-- Tags not associated with this timer -->
-  <div class="flex ml-5">
+  <div class="flex flex-col md:flex-row mt-2 md:mt-0 md:ml-5">
     <% unusedTags.forEach(tag=> { %>
-      <div class="px-4 mr-3 border-black border border-dashed rounded-full text-sm">
+      <div class="px-4 md:mr-3 mb-1 md:mb-0  border-black border border-dashed rounded-full text-sm">
         <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
-          <button type="submit" class="flex items-center" data-tooltip-target="tooltip-add-tag">
+          <button type="submit" class="flex items-center justify-between w-full" data-tooltip-target="tooltip-add-tag">
             <span class="mr-1">
               <%= tag.name %>
             </span>
@@ -31,7 +31,8 @@
   </div>
   <!-- Add new tag -->
   <a href="/tags/new" class="bg-white rounded-full w-5 h-5 flex justify-center
-                        items-center border-2 border-black text-xl" data-tooltip-target="tooltip-create-tag"
+                        items-center border-2 border-black text-xl self-center
+                        mb-4 mt-2 md:my-0" data-tooltip-target="tooltip-create-tag"
     data-tooltip-placement="bottom">
     <ion-icon name="add-outline"></ion-icon>
   </a>

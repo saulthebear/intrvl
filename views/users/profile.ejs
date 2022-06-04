@@ -1,28 +1,28 @@
 <div class="flex flex-col items-center h-full">
   <%- include('../partials/messages') %>
-  <div class="container p-10">
+  <div class="container md:p-10 p-4">
     <!-- Header -->
-    <div class="flex items-center justify-between border-black border-b-2 py-3 mb-2">
+    <div class="flex md:flex-row flex-col items-center justify-between border-black border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
       <div class="flex">
         
         <a href="/users/<%= user.id %>/edit"
-          class="text-lg bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half mr-5">
+          class="text-lg text-center bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half mr-5">
           Account Settings
         </a>
         <form action="/users/<%= user.id %>?_method=DELETE" method="POST">
           <button type="submit"
-            class="text-lg bg-red-dark hover:bg-red-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">Delete Account</button>
+            class="text-lg text-center bg-red-dark hover:bg-red-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">Delete Account</button>
         </form>
       </div>
     </div>
 
     <!-- User's Tags -->
-    <div class="flex items-center">
-      <p class="mr-3">My Tags:</p>
+    <div class="flex md:items-center items-start md:flex-row flex-col">
+      <p class="md:mr-3">My Tags:</p>
       <% if (tags.length > 0) { %>
         <% tags.forEach(tag => { %>
-          <div class="<%= colors[tag.color] %> px-4 mr-3 border-black border-2 rounded-full text-sm">
+          <div class="<%= colors[tag.color] %> px-4 mb-3 md:mb-0 md:mr-3 border-black border-2 rounded-full text-sm">
             <a href="/tags/<%= tag.id %>"><%= tag.name %></a>
           </div>
         <% }) %>
