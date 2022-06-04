@@ -109,8 +109,12 @@ function formatTime(totalSeconds) {
 }
 
 function speakText(text) {
-  const utterance = new SpeechSynthesisUtterance(text)
-  speechSynthesis.speak(utterance)
+  return new Promise((resolve) => {
+    const utterance = new SpeechSynthesisUtterance(text)
+
+    utterance.onend = resolve
+    speechSynthesis.speak(utterance)
+  })
 }
 
 function incrementRepetitions() {
@@ -124,9 +128,8 @@ function decrementRepetitions() {
   repetitionsDisplay.innerText = remainingRepetitions
 }
 
-function checkTimerEnd() {
+async function checkTimerEnd() {
   if (isRunning && timerCurrent >= timerDuration) {
-    if (endAnnouncementCheckbox.checked) speakText(timerEndAnnouncement)
     console.debug("Stopping timer")
 
     engine.stop()
@@ -137,6 +140,7 @@ function checkTimerEnd() {
     timerRemaining = timerDuration
 
     decrementRepetitions()
+    if (endAnnouncementCheckbox.checked) await speakText(timerEndAnnouncement)
 
     if (remainingRepetitions > 0) {
       console.debug("Restarting timer")
@@ -175,9 +179,9 @@ function update(timeStep) {
   checkTimerEnd()
 }
 
-function startTimer() {
+async function startTimer() {
   togglePlayPauseBtn()
-  if (startAnnouncementCheckbox.checked) speakText(timerStartAnnouncement)
+  if (startAnnouncementCheckbox.checked) await speakText(timerStartAnnouncement)
   engine.start()
   isRunning = true
 }
