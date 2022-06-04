@@ -1,10 +1,40 @@
 <div class="container pt-10 h-full flex flex-col items-center min-w-full">
   <%- include('../partials/messages') %>
-  <h1 class="text-2xl font-bold mb-5">Edit Login Credentials</h1>
+  <h1 class="text-2xl font-bold mb-5">Account Settings</h1>
 
   <%- include('../partials/messages') %>
 
   <% const action=`/users/${user.id}?_method=PUT` %>
   
-  <%- include('_form', { action, submit: 'Update' , messages, user }) %>
+  <div
+    class="bg-white w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+  
+    <form method="POST" action="<%= action %>" class="flex flex-col">
+      <label for="username-input" class="text-lg">Username:</label>
+      <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>"
+        class="border-2 border-black rounded-lg p-2 mb-5" autocomplete="username" required>
+  
+      <label for="current-password-input" class="text-lg">Current Password:</label>
+      <input type="password" name="currentPassword" id="current-password-input" class="border-2 border-black rounded-lg p-2 mb-5"
+        autocomplete="current-password" required>
+      
+      <label for="new-password-input" class="text-lg">New Password:</label>
+      <input type="password" name="newPassword" id="new-password-input" class="border-2 border-black rounded-lg p-2 mb-5"
+        autocomplete="new-password" required>
+  
+      <button type="submit"
+        class="font-bold text-lg bg-purple-dark hover:bg-purple-mid px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid hover:shadow-solid-half">
+        Update
+      </button>
+    </form>
+
+    <form action="/users/<%= user.id %>?_method=DELETE" method="POST">
+      <input type="hidden" id="copy-current-password" name="currentPassword">
+      <button type="submit"
+        class="mt-4 w-full font-bold text-lg text-center bg-red-dark hover:bg-red-mid px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid hover:shadow-solid-half">Delete
+        Account</button>
+    </form>
+  </div>
 </div>
+
+<script src="/src/js/editUser.js"></script>

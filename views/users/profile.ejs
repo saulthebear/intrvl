@@ -4,17 +4,10 @@
     <!-- Header -->
     <div class="flex md:flex-row flex-col items-center justify-between border-black border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
-      <div class="flex">
-        
-        <a href="/users/<%= user.id %>/edit"
-          class="text-lg text-center bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half mr-5">
-          Account Settings
-        </a>
-        <form action="/users/<%= user.id %>?_method=DELETE" method="POST">
-          <button type="submit"
-            class="text-lg text-center bg-red-dark hover:bg-red-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">Delete Account</button>
-        </form>
-      </div>
+      <a href="/users/<%= user.id %>/edit"
+        class="text-lg text-center bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">
+        Account Settings
+      </a>
     </div>
 
     <!-- User's Tags -->

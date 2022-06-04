@@ -133,13 +133,15 @@ router.put("/:id", async (req, res) => {
   if (!isLoggedIn(req, res, req.params.id)) return
 
   try {
+    const currentPage = `/users/${res.locals.user.id}/edit`
     const newUsername = req.body.username
-    const newPassword = req.body.password
+    const currentPassword = req.body.currentPassword
+    const newPassword = req.body.newPassword
 
-    if (!(newUsername && newPassword)) {
+    if (!(newUsername && newPassword && currentPassword)) {
       req.flash("error", "Username and password are required.")
       // res.redirect(422, `/users/${res.locals.user.id}/edit`)
-      res.redirect(`/users/${res.locals.user.id}/edit`)
+      res.redirect(currentPage)
       return
     }
 
@@ -150,6 +152,12 @@ router.put("/:id", async (req, res) => {
       req.flash("error", "Profile not found.")
       res.status(404)
       res.render("404")
+      return
+    }
+
+    if (!user.verifyPassword(currentPassword)) {
+      req.flash("error", "Current password is incorrect")
+      res.redirect(currentPage)
       return
     }
 
@@ -174,7 +182,21 @@ router.delete("/:id", async (req, res) => {
 
   try {
     const id = parseInt(req.params.id)
+
+    const editPage = `/users/${id}/edit`
+    if (!req.body.currentPassword) {
+      req.flash("error", "Current password is required")
+      res.redirect(editPage)
+      return
+    }
+
     const user = await db.User.findByPk(id)
+
+    if (!user.verifyPassword(req.body.currentPassword)) {
+      req.flash("error", "Current password is incorrect")
+      res.redirect(editPage)
+      return
+    }
 
     if (!user) {
       req.flash("error", "Profile not found.")
