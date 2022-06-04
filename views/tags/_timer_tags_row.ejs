@@ -30,16 +30,22 @@
       <% }) %>
   </div>
   <!-- Add new tag -->
-  <a href="/tags/new" class="bg-white rounded-full w-5 h-5 flex justify-center
-                        items-center border-2 border-black text-xl self-center
-                        mb-4 mt-2 md:my-0" data-tooltip-target="tooltip-create-tag"
-    data-tooltip-placement="bottom">
+  <a href="/tags/new"
+    class="bg-white rounded-full w-5 h-5 flex justify-center
+            items-center border-2 border-black text-xl self-center
+            mb-4 mt-2 md:my-0"
+    data-tooltip-target="tooltip-create-tag"
+    data-tooltip-placement="bottom"
+    aria-labelledby="tooltip-create-tag">
     <ion-icon name="add-outline"></ion-icon>
   </a>
   <!-- Create Tag Tooltip -->
-  <div id="tooltip-create-tag" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
-                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
-                  opacity-0 transition-opacity duration-300 tooltip">
+  <div
+    id="tooltip-create-tag"
+    role="tooltip"
+    class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+      font-medium text-white bg-gray-900 rounded-lg shadow-sm
+      opacity-0 transition-opacity duration-300 tooltip">
     Create a new tag
     <div class="tooltip-arrow" data-popper-arrow></div>
   </div>
