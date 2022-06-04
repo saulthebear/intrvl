@@ -31,6 +31,7 @@ const sectionRemainingTimeDisplay = document.querySelector(
 )
 const nextBtn = document.querySelector("#js-next-section-btn")
 const prevBtn = document.querySelector("#js-prev-section-btn")
+const timeToggle = document.querySelector("#time-toggle")
 
 // SECTION: GLOBALS
 const timerDuration = totalDurationFromSections(sections)
@@ -295,6 +296,15 @@ function getCurrentSectionIndex() {
   }
 }
 
+/** Toggle showing overall time and section time */
+function toggleOverallTime() {
+  const sectionTimeDisplay = document.querySelector("#js-section-time")
+  const overallTimeDisplay = document.querySelector("#js-overall-time")
+
+  sectionTimeDisplay.classList.toggle("hidden")
+  overallTimeDisplay.classList.toggle("hidden")
+}
+
 // ANCHOR: Utility functions
 
 function throttle(callback, delay = 1000) {
@@ -316,6 +326,7 @@ resetBtn.addEventListener("click", reset)
 prevBtn.addEventListener("click", restartSection)
 prevBtn.addEventListener("dblclick", goToPrevSection)
 nextBtn.addEventListener("click", goToNextSection)
+timeToggle.addEventListener("click", toggleOverallTime)
 incrementRepetitionsBtn.addEventListener("click", incrementRepetitions)
 decrementRepetitionsBtn.addEventListener("click", decrementRepetitions)
 window.addEventListener("resize", throttledSetAllSectionsWidth)

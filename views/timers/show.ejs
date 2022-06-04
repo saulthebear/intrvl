@@ -76,14 +76,31 @@
       
       <!-- Timer Indicators -->
 
-      <div class="flex flex-col items-center mb-2 md:mb-8">
-        <p id="js-current-section-name" class="text-lg"></p>
-        <p class="text-5xl"><span id="js-section-current-time">00:00</span></p>
-        <p><span id="js-section-remaining-time">00:00</span></p>
+      <div class="mb-2 md:mb-8">
+        <p id="js-current-section-name" class="text-lg text-center"></p>
+        <div class="flex flex-col items-center hidden" id="js-section-time">
+          <p class="text-5xl"><span id="js-section-current-time">00:00</span></p>
+          <p><span id="js-section-remaining-time">00:00</span></p>
+        </div>
 
-        <p class="hidden"><span id="js-remaining-time">00:00</span></p>
-        <p class="hidden"><span id="js-current-time">00:00</span></p>
+        <div class="flex flex-col items-center" id="js-overall-time">
+          <p class="text-5xl"><span id="js-current-time">00:00</span></p>
+          <p><span id="js-remaining-time">00:00</span></p>
+        </div>
+        <!-- Timer Indicator Toggle (Overall / Section time) -->
+        <div class="flex mt-2 items-center">
+          <p class="text-xs w-min text-center">Section Time</p>
+          <label for="time-toggle" class="inline-flex relative items-center ml-2 mr-2 cursor-pointer">
+            <input type="checkbox" value="" id="time-toggle" class="sr-only peer" checked>
+            <div
+              class="w-9 h-5 bg-blue-600 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600">
+            </div>
+            <p class="sr-only">Show Overall time</p>
+          </label>
+          <p class="text-xs w-min text-center">Overall Time</p>
+        </div>
       </div>
+
 
       <!-- CONTROLS -->
       <div
