@@ -14,6 +14,9 @@ const startAnnouncementCheckbox = document.querySelector(
   "#playStartAnnouncement"
 )
 const endAnnouncementCheckbox = document.querySelector("#playEndAnnouncement")
+const sectionAnnouncementCheckbox = document.querySelector(
+  "#playSectionAnnouncement"
+)
 const repetitionsDisplay = document.querySelector("#repeat")
 const incrementRepetitionsBtn = document.querySelector("#incrementRepetitions")
 const decrementRepetitionsBtn = document.querySelector("#decrementRepetitions")
@@ -167,7 +170,12 @@ function render() {
 }
 
 function update(timeStep) {
+  let sectionBefore = currentSection
   currentSection = sectionObjects[getCurrentSectionIndex()]
+
+  if (sectionAnnouncementCheckbox.checked && sectionBefore !== currentSection) {
+    speakText(currentSection.name)
+  }
   timerCurrent += timeStep
   timerRemaining = timerDuration - timerCurrent
 
