@@ -1,17 +1,17 @@
-<div class="bg-white w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+<div class="bg-white dark:bg-slate-800 w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
   <form method="POST" action="<%= action %>" class="flex flex-col">
     <label for="name-input" class="text-lg">Name:</label>
     <input type="text" name="name" id="name-input" value="<%= tag ? tag.name : "" %>"
-      class="border-2 border-black rounded-lg p-2 mb-5" required>
+      class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700" required>
       
     <label for="color-input" class="text-lg">Color:</label>
-    <select name="color" id="color-input" class="border-2 border-black rounded-lg p-2 mb-5">
+    <select name="color" id="color-input" class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700">
       <% for(const color in colors) { %>
         <option value="<%= color %>"><%= color %></option>
       <% } %>
     </select>
 
-    <button type="submit" class="font-bold text-lg bg-purple-dark px-5 py-2 rounded-xl border-2
+    <button type="submit" class="font-bold text-lg bg-purple-dark dark:bg-purple-900 dark:hover:bg-purple-800 px-5 py-2 rounded-xl border-2
         border-black text-white shadow-solid">
       <%= submit || "Submit" %>
     </button>

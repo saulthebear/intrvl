@@ -1,23 +1,22 @@
-<nav class="bg-yellow-mid md:px-8 px-1 md:py-4 py-2 flex justify-between items-center border-b-8 border-neutral-900">
+<nav class="bg-yellow-mid dark:bg-amber-500 dark:text-black md:px-8 px-1 md:py-4 py-2 flex justify-between items-center border-b-8 border-neutral-900">
   <div>
     <a href="/" class="font-bold md:text-5xl text-4xl hover:border-b-4 border-black">INTRVL.</a>
   </div>
 
-  <% if (user) { %>
-    <!-- Logout button & profile link -->
-    <div class="flex items-center">
-      <a href="/logout" class="font-bold md:text-lg bg-yellow-mid hover:bg-yellow-light md:px-5 md:py-2 px-2 py-2 rounded-xl border-4 border-black text-black shadow-solid hover:shadow-solid-half">LOGOUT</a>
+  <div class="flex items-center">
+    <%- include('darkModeToggle.ejs') %>
+    <% if (user) { %>
+      <a href="/logout"
+        class="font-bold md:text-lg bg-yellow-mid hover:bg-yellow-light dark:bg-amber-500 dark:hover:bg-amber-400 md:px-5 md:py-2 px-2 py-2 rounded-xl border-4 border-black text-black shadow-solid hover:shadow-solid-half">LOGOUT</a>
       <div class="sm:ml-5 ml-2">
         <a href="/users/<%= user.id %>" class="flex items-center" aria-label="Profile">
-          <ion-icon name="person-circle-outline" class="md:text-6xl text-5xl rounded-full hover:bg-yellow-light"></ion-icon>
+          <ion-icon name="person-circle-outline"
+            class="md:text-6xl text-5xl rounded-full hover:bg-yellow-light dark:hover:bg-amber-400"></ion-icon>
         </a>
       </div>
-    </div>
-  <% } else { %>
-    <!-- Signup button -->
-    <div>
+    <% } else { %>
       <a href="/users/new"
-        class="font-bold md:text-lg bg-red-dark hover:bg-red-mid md:px-5 md:py-2 px-2 py-2 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">SIGN UP</a>
-    </div>
-  <% } %> 
+        class="font-bold md:text-lg bg-red-dark hover:bg-red-mid dark:text-gray-100 dark:bg-red-800 dark:hover:bg-red-700 md:px-5 md:py-2 px-2 py-2 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">SIGN UP</a>
+    <% } %>
+  </div>
 </nav>

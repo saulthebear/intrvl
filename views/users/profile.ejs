@@ -2,7 +2,7 @@
   <%- include('../partials/messages') %>
   <div class="container md:p-10 p-4">
     <!-- Header -->
-    <div class="flex md:flex-row flex-col items-center justify-between border-black border-b-2 py-3 mb-2">
+    <div class="flex md:flex-row flex-col items-center justify-between border-black dark:border-slate-500 border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
       <% if (private) { %>
         <a href="/users/<%= user.id %>/edit"
@@ -24,8 +24,8 @@
           <% }) %>
         <% } %>
         <a href="/tags/new"
-          class="bg-white rounded-full w-5 h-5 flex justify-center
-                items-center border-2 border-black text-xl"
+          class="bg-white dark:bg-slate-700 dark:text-white rounded-full w-5 h-5 flex justify-center
+                items-center border-2 border-black dark:border-slate-400 text-xl"
           data-tooltip-target="tooltip-create-tag"
           aria-labelledby="tooltip-create-tag">
           <ion-icon name="add-outline"></ion-icon>

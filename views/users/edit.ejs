@@ -1,4 +1,4 @@
-<div class="container pt-10 h-full flex flex-col items-center min-w-full">
+<div class="container pt-10 h-full flex flex-col items-center min-w-full dark:bg-emerald-900">
   <%- include('../partials/messages') %>
   <h1 class="text-2xl font-bold mb-5">Account Settings</h1>
 
@@ -7,19 +7,19 @@
   <% const action=`/users/${user.id}?_method=PUT` %>
   
   <div
-    class="bg-white w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+    class="bg-white dark:bg-slate-800 w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
   
     <form method="POST" action="<%= action %>" class="flex flex-col">
       <label for="username-input" class="text-lg">Username:</label>
       <input type="text" name="username" id="username-input" value="<%= user ? user.username : "" %>"
-        class="border-2 border-black rounded-lg p-2 mb-5" autocomplete="username" required>
+        class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700" autocomplete="username" required>
   
       <label for="current-password-input" class="text-lg">Current Password:</label>
-      <input type="password" name="currentPassword" id="current-password-input" class="border-2 border-black rounded-lg p-2 mb-5"
+      <input type="password" name="currentPassword" id="current-password-input" class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700"
         autocomplete="current-password" required>
       
       <label for="new-password-input" class="text-lg">New Password:</label>
-      <input type="password" name="newPassword" id="new-password-input" class="border-2 border-black rounded-lg p-2 mb-5"
+      <input type="password" name="newPassword" id="new-password-input" class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700"
         autocomplete="new-password" required>
   
       <button type="submit"

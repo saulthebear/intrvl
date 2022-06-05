@@ -1,8 +1,8 @@
-<div class="flex justify-between items-center lg:w-3/6 p-4 mt-5 border-neutral-700 border-b-2">
+<div class="flex justify-between items-center lg:w-3/6 p-4 mt-5 border-slate-700 border-b-2">
   <div>
     <p class="text-2xl"><%= timer.name%></p>
     <div class="flex">
-      <div class="flex ml-5 md:flex-row flex-col">
+      <div class="flex ml-5 md:flex-row flex-col flex-wrap">
         <%- include('../tags/_privacy_tags', {timer}) %>
         <% timer.Tags.forEach(tag => { %>
           <div class="<%= colors[tag.color] %> px-4 mb-3 md:mr-3 md:mb-0 border-black border-2 rounded-full text-sm">

@@ -1,12 +1,12 @@
-<div class="bg-white w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
+<div class="bg-white dark:bg-slate-800 w-full max-w-lg px-11 py-5 h-fit border-4 border-black rounded-xl shadow-solid flex justify-center flex-col">
   <form method="POST" action="<%= action %>" class="flex flex-col">
     <label for="name-input" class="text-lg">Name:</label>
     <input type="text" name="name" id="name-input" value="<%= timer ? timer.name : "" %>"
-      class="border-2 border-black rounded-lg p-2 mb-5" required>
+      class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700" required>
 
     <label for="repeat">Repetitions</label>
     <input
-      class="border-2 border-black rounded-lg p-2 mb-5"
+      class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700"
       type="number"
       name="repeat"
       id="repeat"
@@ -14,7 +14,7 @@
       value="<%= timer ? timer.repeat : 1 %>">
     
     <label for="privacy-input" class="text-lg">Privacy</label>
-    <select name="public" id="privacy-input" class="border-2 border-black rounded-lg p-2 mb-5">
+    <select name="public" id="privacy-input" class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700">
       <option value="false" <%= timer && !timer.public ? "selected" : "" %> >
         Private Timer
       </option>
@@ -28,7 +28,7 @@
       type="text"
       name="startText"
       id="start-text"
-      class="border-2 border-black rounded-lg p-2 mb-5"
+      class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700"
       value="<%= timer ? timer.startText : "" %>">
 
     <label for="end-text" class="text-lg">End Announcement</label>
@@ -36,7 +36,7 @@
       type="text"
       name="endText"
       id="end-text"
-      class="border-2 border-black rounded-lg p-2 mb-5"
+      class="border-2 border-black rounded-lg p-2 mb-5 dark:bg-slate-700"
       value="<%= timer ? timer.endText : "" %>">
 
     <button

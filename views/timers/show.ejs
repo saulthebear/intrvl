@@ -39,7 +39,7 @@
         <!-- Timeline -->
         <div id="js-timeline" class="h-20 w-full relative">
           <!-- Sections container -->
-          <div class="bg-neutral-300 h-full w-full rounded-xl flex overflow-hidden" id="js-timeline-bg">
+          <div class="bg-neutral-300 dark:bg-slate-700 h-full w-full rounded-xl flex overflow-hidden" id="js-timeline-bg">
             <% if (orderedSections.length === 0) { %>
               <button
                 class="w-full flex items-center justify-center"
@@ -49,7 +49,7 @@
           </div>
           <%- include('../sections/_new_modal', {timer}) %>
           <!-- Position indicator (red bar) -->
-          <div class="w-1 h-full bg-red-dark absolute top-0 left-1" id="js-timeline-indicator"></div>
+          <div class="w-1 h-full bg-red-dark dark:bg-red-500 absolute top-0 left-1" id="js-timeline-indicator"></div>
         </div>
 
         <!-- Add section button -->
@@ -104,7 +104,7 @@
 
       <!-- CONTROLS -->
       <div
-        class="border-black border-2 rounded-xl p-8 bg-purple-light
+        class="border-black border-2 rounded-xl p-8 bg-purple-light dark:bg-purple-900
         w-full sm:w-fit flex flex-col items-center">
         
         <!-- repetitions -->
@@ -131,8 +131,8 @@
         <div class="flex justify-evenly w-full sm:justify-center mb-5">
           <button
             id="js-prev-section-btn"
-            class="bg-white rounded-full w-8 h-8 flex justify-center
-              items-center border-2 border-black text-xl self-center mr-2"><ion-icon name="chevron-back-outline"></ion-icon></button>
+            class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl self-center mr-2"><ion-icon name="chevron-back-outline"></ion-icon></button>
           
           <button
             class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
@@ -163,15 +163,15 @@
           </button>
           <button
             id="js-next-section-btn"
-            class="bg-white rounded-full w-8 h-8 flex justify-center
-              items-center border-2 border-black text-xl self-center ml-2"><ion-icon name="chevron-forward-outline"></ion-icon></button>
+            class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl self-center ml-2"><ion-icon name="chevron-forward-outline"></ion-icon></button>
         </div>
 
         <!-- Reset button -->
         <div class="flex justify-center mb-5">
           <button
-            class="bg-white rounded-full w-8 h-8 flex justify-center
-              items-center border-2 border-black text-xl"
+            class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl"
             id="reset-btn"
             type="button"
             data-tooltip-target="tooltip-reset"
