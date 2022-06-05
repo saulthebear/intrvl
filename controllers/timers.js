@@ -192,7 +192,12 @@ router.delete("/:id", async (req, res) => {
 // TODO: Only show public timers
 router.get("/", async (req, res) => {
   try {
-    const timers = await db.Timer.findAll()
+    const timers = await db.Timer.findAll({
+      where: {
+        public: true,
+      },
+      include: db.Tag,
+    })
     res.render("timers/index", { timers })
   } catch (error) {
     logger.error(chalk.red("Error showing all timers: "), error)

@@ -1,3 +1,14 @@
-timers index
-<%- include('../partials/messages') %>
-<%- include('_timerList', {timers}) %>
+<div class="flex flex-col items-center h-full">
+  <%- include('../partials/messages') %>
+  <div class="container md:p-10 p-4">
+    <!-- Page Header -->
+    <div class="border-black dark:border-slate-500 border-b-2 py-3 mb-2">
+      <h1 class="text-2xl">Public Timers</h1>
+    </div>
+
+    <!-- Page body -->
+    <div>
+      <%- include('_timerList', {timers}) %>
+    </div>
+  </div>
+</div>
