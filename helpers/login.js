@@ -70,11 +70,11 @@ const login = async (req, res, shouldSendResponse = true) => {
 
 // Check if a specific user is logged in.
 // If no userId is specified, returns true if any user is logged in
-function isLoggedIn(req, res, userId) {
+function isLoggedIn(req, res, userId, allowPublicAccess = false) {
   let authorized = false
 
   // No logged in user
-  if (!res.locals.user) {
+  if (!res.locals.user && !allowPublicAccess) {
     req.flash("error", "You must be logged in to access this resource.")
     // res.redirect(401, "/login")
     res.redirect("/login")
@@ -91,6 +91,12 @@ function isLoggedIn(req, res, userId) {
 
   if (authorized) {
     return true // Let caller know it's fine to proceed
+  }
+
+  // Return false to indicate current user is not the user specified,
+  // but don't show unauthorized page
+  if (allowPublicAccess) {
+    return false
   }
 
   // Unauthorized. Render error page.

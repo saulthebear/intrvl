@@ -1,6 +1,7 @@
 <div class="flex flex-col md:flex-row md:items-start">
   <!-- Tags associated with this timer -->
   <div class="flex flex-col md:flex-row md:ml-5">
+    <%- include('_privacy_tags', {timer}) %>
     <% timer.Tags.forEach(tag=> { %>
       <div class="<%= colors[tag.color] %> px-4 md:mr-3 mb-1 md:mb-0 border-black border-2 rounded-full text-sm">
         <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
@@ -12,7 +13,7 @@
           </button>
         </form>
       </div>
-      <% }) %>
+    <% }) %>
   </div>
   <!-- Tags not associated with this timer -->
   <div class="flex flex-col md:flex-row mt-2 md:mt-0 md:ml-5">

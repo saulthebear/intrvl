@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
       repeat: DataTypes.INTEGER,
       startText: DataTypes.STRING,
       endText: DataTypes.STRING,
+      public: DataTypes.BOOLEAN,
     },
     {
       sequelize,

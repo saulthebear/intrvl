@@ -74,8 +74,6 @@ router.post("/", async (req, res) => {
 // ANCHOR: SHOW -- GET /users/:id -- user profile
 // TODO: show diff data based on login status
 router.get("/:id", async (req, res) => {
-  if (!isLoggedIn(req, res, req.params.id)) return
-
   try {
     const id = parseInt(req.params.id)
     const user = await db.User.findByPk(id, {
@@ -95,10 +93,27 @@ router.get("/:id", async (req, res) => {
       return
     }
 
-    const timers = await user.Timers
+    // Is the current user the owner of this profile?
+    const private = isLoggedIn(req, res, id, true)
+
+    let timers
+    if (private) {
+      // All timers
+      timers = await user.Timers
+    } else {
+      // Only public timers
+      timers = await db.Timer.findAll({
+        where: {
+          UserId: id,
+          public: true,
+        },
+        include: db.Tag,
+      })
+    }
+
     const tags = await user.Tags
 
-    res.render("users/profile", { user, timers, tags })
+    res.render("users/profile", { user, timers, tags, private })
   } catch (error) {
     logger.error(chalk.red("Error showing user profile: "), error)
     res.status(500)

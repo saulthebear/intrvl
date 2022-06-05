@@ -17,9 +17,22 @@ router.post("/", async (req, res) => {
   if (!isLoggedIn(req, res)) return
 
   try {
-    const name = req.body.name
+    let name = req.body.name
     const color = req.body.color
     const UserId = res.locals.user.id
+
+    if (!name) {
+      req.flash("error", "Name is required")
+      res.redirect("/tags/new")
+      return
+    }
+
+    const reservedTags = ["public", "private"]
+    if (reservedTags.includes(name.toLowerCase())) {
+      req.flash("error", "Invalid tag name. That tag name is reserved.")
+      res.redirect("/tags/new")
+      return
+    }
 
     const tag = await db.Tag.create({ name, color, UserId })
 
@@ -101,6 +114,19 @@ router.put("/:id", async (req, res) => {
 
     const name = req.body.name
     const color = req.body.color
+
+    if (!name) {
+      req.flash("error", "Name is required")
+      res.redirect("/tags/new")
+      return
+    }
+
+    const reservedTags = ["public", "private"]
+    if (reservedTags.includes(name.toLowerCase())) {
+      req.flash("error", "Invalid tag name. That tag name is reserved.")
+      res.redirect("/tags/new")
+      return
+    }
 
     await tag.update({ name, color })
     await tag.save()

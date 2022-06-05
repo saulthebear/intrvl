@@ -4,49 +4,55 @@
     <!-- Header -->
     <div class="flex md:flex-row flex-col items-center justify-between border-black border-b-2 py-3 mb-2">
       <h1 class="text-2xl"><%= user.username %>'s Profile </h1>
-      <a href="/users/<%= user.id %>/edit"
-        class="text-lg text-center bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">
-        Account Settings
-      </a>
-    </div>
-
-    <!-- User's Tags -->
-    <div class="flex md:items-center items-start md:flex-row flex-col">
-      <p class="md:mr-3">My Tags:</p>
-      <% if (tags.length > 0) { %>
-        <% tags.forEach(tag => { %>
-          <div class="<%= colors[tag.color] %> px-4 mb-3 md:mb-0 md:mr-3 border-black border-2 rounded-full text-sm">
-            <a href="/tags/<%= tag.id %>"><%= tag.name %></a>
-          </div>
-        <% }) %>
+      <% if (private) { %>
+        <a href="/users/<%= user.id %>/edit"
+          class="text-lg text-center bg-purple-dark hover:bg-purple-mid px-4 py-1 rounded-xl border-4 border-black text-white shadow-solid hover:shadow-solid-half">
+          Account Settings
+        </a>
       <% } %>
-      <a href="/tags/new"
-        class="bg-white rounded-full w-5 h-5 flex justify-center
-              items-center border-2 border-black text-xl"
-        data-tooltip-target="tooltip-create-tag"
-        aria-labelledby="tooltip-create-tag">
-        <ion-icon name="add-outline"></ion-icon>
-      </a>
     </div>
 
-    <!-- Create Tag Tooltip -->
-    <div
-      id="tooltip-create-tag"
-      role="tooltip"
-      class="inline-block absolute invisible z-10 py-2 px-3 text-sm
-        font-medium text-white bg-gray-900 rounded-lg shadow-sm
-        opacity-0 transition-opacity duration-300 tooltip">
-      Create a new tag
-      <div class="tooltip-arrow" data-popper-arrow></div>
-    </div>
+    <% if (private) { %>
+      <!-- User's Tags -->
+      <div class="flex md:items-center items-start md:flex-row flex-col">
+        <p class="md:mr-3">My Tags:</p>
+        <% if (tags.length > 0) { %>
+          <% tags.forEach(tag => { %>
+            <div class="<%= colors[tag.color] %> px-4 mb-3 md:mb-0 md:mr-3 border-black border-2 rounded-full text-sm">
+              <a href="/tags/<%= tag.id %>"><%= tag.name %></a>
+            </div>
+          <% }) %>
+        <% } %>
+        <a href="/tags/new"
+          class="bg-white rounded-full w-5 h-5 flex justify-center
+                items-center border-2 border-black text-xl"
+          data-tooltip-target="tooltip-create-tag"
+          aria-labelledby="tooltip-create-tag">
+          <ion-icon name="add-outline"></ion-icon>
+        </a>
+      </div>
+      <!-- Create Tag Tooltip -->
+      <div
+        id="tooltip-create-tag"
+        role="tooltip"
+        class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+          font-medium text-white bg-gray-900 rounded-lg shadow-sm
+          opacity-0 transition-opacity duration-300 tooltip">
+        Create a new tag
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+    <% } %>
+
 
     <!-- User's Timers -->
     <%- include('../timers/_timerList', { timers }) %> 
-    <div class="mt-5">
-      <a href="/timers/new"
-        class="text-lg bg-green-dark hover:bg-green-mid px-4 py-2 rounded-xl border-2 border-black text-white hover:text-black shadow-solid hover:shadow-solid-half mr-5">
-        Create Timer
-      </a>
-    </div>
-  </div>
+    <% if (private) { %>
+      <div class="mt-5">
+        <a href="/timers/new"
+          class="text-lg bg-green-dark hover:bg-green-mid px-4 py-2 rounded-xl border-2 border-black text-white hover:text-black shadow-solid hover:shadow-solid-half mr-5">
+            Create Timer
+          </a>
+        </div>
+      </div>
+    <% } %>
 </div>

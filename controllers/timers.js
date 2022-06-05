@@ -24,6 +24,7 @@ router.post("/", async (req, res) => {
   try {
     const name = req.body.name
     const repeat = req.body.repeat || 1
+    const public = req.body.public === "true"
     const startText = req.body.startText
     const endText = req.body.endText
 
@@ -31,6 +32,7 @@ router.post("/", async (req, res) => {
     const timer = await user.createTimer({
       name,
       repeat,
+      public,
       startText,
       endText,
     })
@@ -65,21 +67,31 @@ router.get("/:id", async (req, res) => {
       return
     }
 
-    // Require owner of this timer to be logged in
+    // Check if owner of the timer is the logged in user
     const ownerId = timer.UserId
-    if (!isLoggedIn(req, res, ownerId)) return
+    const private = isLoggedIn(req, res, ownerId, true)
 
-    const allTags = await res.locals.user.getTags()
-    const timerTagNames = timer.Tags.map((tag) => tag.name)
-    const unusedTags = allTags.filter(
-      (tag) => !timerTagNames.includes(tag.name)
-    )
+    if (!private && !timer.public) {
+      res.render("unauthorized")
+      return
+    }
 
     const orderedSections = timer.TimerSections.sort((a, b) => {
       if (a.position > b.position) return 1
       if (b.position > a.position) return -1
       return 0
     })
+
+    if (!private) {
+      res.render("timers/show_public", { timer, orderedSections })
+      return
+    }
+
+    const allTags = await res.locals.user.getTags()
+    const timerTagNames = timer.Tags.map((tag) => tag.name)
+    const unusedTags = allTags.filter(
+      (tag) => !timerTagNames.includes(tag.name)
+    )
 
     res.render("timers/show", { timer, unusedTags, orderedSections })
   } catch (error) {
@@ -131,10 +143,11 @@ router.put("/:id", async (req, res) => {
 
     const name = req.body.name
     const repeat = req.body.repeat || 1
+    const public = req.body.public === "true"
     const startText = req.body.startText
     const endText = req.body.endText
 
-    await timer.update({ name, repeat, startText, endText })
+    await timer.update({ name, repeat, public, startText, endText })
     await timer.save()
 
     res.redirect(`/timers/${req.params.id}`)

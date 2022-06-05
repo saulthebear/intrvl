@@ -12,6 +12,16 @@
       id="repeat"
       min="1"
       value="<%= timer ? timer.repeat : 1 %>">
+    
+    <label for="privacy-input" class="text-lg">Privacy</label>
+    <select name="public" id="privacy-input" class="border-2 border-black rounded-lg p-2 mb-5">
+      <option value="false" <%= timer && !timer.public ? "selected" : "" %> >
+        Private Timer
+      </option>
+      <option value="true" <%= timer && timer.public ? "selected" : "" %> >
+        Public Timer
+      </option>
+    </select>
 
     <label for="start-text" class="text-lg">Start Announcement</label>
     <input
