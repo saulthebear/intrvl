@@ -57,7 +57,12 @@ router.post("/", async (req, res) => {
 // ANCHOR: SHOW - GET /tags/:id
 router.get("/:id", async (req, res) => {
   try {
-    const tag = await db.Tag.findByPk(req.params.id, { include: db.Timer })
+    const tag = await db.Tag.findByPk(req.params.id, {
+      include: {
+        model: db.Timer,
+        include: db.Tag,
+      },
+    })
 
     if (!tag) {
       req.flash("error", "Tag not found")
