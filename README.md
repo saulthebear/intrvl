@@ -23,11 +23,11 @@ Timers consist of named sections, and users can skip to the next / previous sect
 ## Screenshots
 
 - Timer Page
-  ![Timer Screenshot](./screenshot-timer.png)
+  - ![Timer Screenshot](./screenshot-timer.png)
 - Profile Page
-  ![Profile Page Screenshot](./screenshot-profile.png)
+  - ![Profile Page Screenshot](./screenshot-profile.png)
 - Public Timers Page - Mobile Layout
-  ![Mobile Layout Screenshot - Public Timers Page](./screenshot-mobile.png)
+  - ![Mobile Layout Screenshot - Public Timers Page](./screenshot-mobile.png)
 
 ## Overview
 
