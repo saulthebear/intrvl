@@ -9,12 +9,11 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      const hasManyOptions = { onDelete: "CASCADE", hooks: true }
       models.Timer.belongsTo(models.User)
       models.Timer.belongsToMany(models.Tag, { through: "TimerTags" })
-      models.Timer.hasMany(models.TimerSection, {
-        onDelete: "CASCADE",
-        hooks: true,
-      })
+      models.Timer.hasMany(models.TimerSection, hasManyOptions)
+      models.Timer.hasMany(models.Favorite, hasManyOptions)
     }
   }
   Timer.init(

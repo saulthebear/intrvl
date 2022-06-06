@@ -1102,6 +1102,12 @@ input:checked + .toggle-bg {
   height: 1rem;
 }
 
+.h-min {
+  height: -webkit-min-content;
+  height: -moz-min-content;
+  height: min-content;
+}
+
 .w-full {
   width: 100%;
 }
@@ -1186,6 +1192,10 @@ input:checked + .toggle-bg {
 
 .grow {
   flex-grow: 1;
+}
+
+.grow-0 {
+  flex-grow: 0;
 }
 
 .-translate-x-full {
@@ -1564,6 +1574,16 @@ input:checked + .toggle-bg {
 
 .bg-white\/50 {
   background-color: rgb(255 255 255 / 0.5);
+}
+
+.bg-yellow-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(227 160 8 / var(--tw-bg-opacity));
+}
+
+.bg-yellow-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(250 202 21 / var(--tw-bg-opacity));
 }
 
 .bg-opacity-50 {

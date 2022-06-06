@@ -58,7 +58,7 @@ router.post("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   try {
     const timer = await db.Timer.findByPk(req.params.id, {
-      include: [db.Tag, db.TimerSection],
+      include: [db.Tag, db.TimerSection, db.Favorite],
     })
 
     if (!timer) {
@@ -82,8 +82,14 @@ router.get("/:id", async (req, res) => {
       return 0
     })
 
+    // Show public timer
     if (!private) {
-      res.render("timers/show_public", { timer, orderedSections })
+      const isFavorite =
+        timer.Favorites.filter((fav) => {
+          return fav.UserId === res.locals.user.id
+        }).length > 0
+
+      res.render("timers/show_public", { timer, orderedSections, isFavorite })
       return
     }
 
@@ -189,14 +195,13 @@ router.delete("/:id", async (req, res) => {
 
 // STUB timers index
 // GET /timers
-// TODO: Only show public timers
 router.get("/", async (req, res) => {
   try {
     const timers = await db.Timer.findAll({
       where: {
         public: true,
       },
-      include: db.Tag,
+      include: [db.Tag, db.Favorite],
     })
     res.render("timers/index", { timers })
   } catch (error) {

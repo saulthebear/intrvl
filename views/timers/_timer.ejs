@@ -1,6 +1,8 @@
 <div class="flex justify-between items-center lg:w-3/6 p-4 mt-5 border-slate-700 border-b-2">
   <div>
-    <p class="text-2xl"><%= timer.name%></p>
+    <p class="text-2xl">
+      <%= timer.name%>
+    </p>
     <div class="flex">
       <div class="flex ml-5 md:flex-row flex-col flex-wrap">
         <%- include('../tags/_privacy_tags', {timer}) %>
@@ -15,7 +17,12 @@
       </div>
   </div>
 
-  <div>
-    <a href="/timers/<%= timer.id %> " class="border-2 border-black rounded-lg px-3 py-2 shadow-solid-half hover:shadow-none text-white hover:text-black bg-green-dark hover:bg-green-mid">Start</a>
+  <div class="flex items-center justify-center">
+    <a href="/timers/<%= timer.id %> " class="border-2 border-black rounded-lg px-3 py-2 shadow-solid-half hover:shadow-none text-white hover:text-black bg-green-dark hover:bg-green-mid mr-3">Start</a>
+
+    <% if (timer.Favorites && timer.UserId !== user.id) { %>
+      <% const isFavorite = timer.Favorites.filter((fav)=> fav.UserId === user.id).length > 0 %>
+      <%- include("_favorite", { isFavorite }) %>
+    <% } %>
   </div>
 </div>

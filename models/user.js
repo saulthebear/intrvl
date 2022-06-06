@@ -13,8 +13,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      models.User.hasMany(models.Timer, { onDelete: "CASCADE", hooks: true })
-      models.User.hasMany(models.Tag, { onDelete: "CASCADE", hooks: true })
+      const hasManyOptions = { onDelete: "CASCADE", hooks: true }
+      models.User.hasMany(models.Timer, hasManyOptions)
+      models.User.hasMany(models.Tag, hasManyOptions)
+      models.Timer.hasMany(models.Favorite, hasManyOptions)
     }
 
     static hashPassword(password) {

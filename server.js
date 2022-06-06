@@ -54,6 +54,7 @@ app.get("/", (req, res) => {
 
 // ANCHOR: Controllers
 app.use("", require("./controllers/auth"))
+app.use("/favorites", require("./controllers/favorites"))
 app.use("/users", require("./controllers/users"))
 app.use("/timers", require("./controllers/timers"))
 app.use("/tags", require("./controllers/tags"))

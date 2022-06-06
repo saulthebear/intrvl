@@ -72,7 +72,6 @@ router.post("/", async (req, res) => {
 })
 
 // ANCHOR: SHOW -- GET /users/:id -- user profile
-// TODO: show diff data based on login status
 router.get("/:id", async (req, res) => {
   try {
     const id = parseInt(req.params.id)
@@ -81,7 +80,7 @@ router.get("/:id", async (req, res) => {
         db.Tag,
         {
           model: db.Timer,
-          include: db.Tag,
+          include: [db.Tag, db.Favorite],
         },
       ],
     })
@@ -107,13 +106,13 @@ router.get("/:id", async (req, res) => {
           UserId: id,
           public: true,
         },
-        include: db.Tag,
+        include: [db.Tag, db.Favorite],
       })
     }
 
     const tags = await user.Tags
 
-    res.render("users/profile", { user, timers, tags, private })
+    res.render("users/profile", { profileUser: user, timers, tags, private })
   } catch (error) {
     logger.error(chalk.red("Error showing user profile: "), error)
     res.status(500)
@@ -229,6 +228,28 @@ router.delete("/:id", async (req, res) => {
     logger.error(chalk.red("Error deleting user: "), error)
     res.status(500)
     res.render("500")
+  }
+})
+
+// ANCHOR: Favorites Index for user -- GET users/:id/favorites
+router.get("/:id/favorites", async (req, res) => {
+  if (!isLoggedIn(req, res, req.params.id)) return
+
+  try {
+    const favorites = await db.Favorite.findAll({
+      where: { UserId: req.params.id },
+      include: {
+        model: db.Timer,
+        include: db.Tag,
+      },
+    })
+
+    const timers = favorites.map((fav) => fav.Timer)
+
+    res.render("users/favorites", { timers })
+  } catch (error) {
+    logger.error(chalk.red("Error showing user's favorites"))
+    logger.error(chalk.red(error))
   }
 })
 

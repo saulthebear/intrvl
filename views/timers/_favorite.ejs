@@ -1,0 +1,23 @@
+<% if (isFavorite) { %>
+  <form action="/favorites/<%= timer.id %>?_method=DELETE" method="post">
+    <button type="submit"
+      data-tooltip-target="tooltip-favorite"
+      class="bg-yellow-300 dark:bg-yellow-700 border-black dark:border-white border-2 rounded-full w-8 h-8 flex items-center justify-center text-xl">
+      <ion-icon name="star"></ion-icon>
+    </button>
+  </form>
+<% } else { %>
+  <form action="/favorites/<%= timer.id %>" method="POST">
+    <button type="submit"
+      data-tooltip-target="tooltip-favorite"
+      class="border-black dark:border-white border-2 rounded-full w-8 h-8 flex items-center justify-center text-xl">
+      <ion-icon name="star"></ion-icon>
+    </button>
+  </form>
+<% } %>
+<div id="tooltip-favorite"
+  role="tooltip"
+  class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+  <%= isFavorite ? "Remove from favorites" : "Add to favorites" %>
+  <div class="tooltip-arrow" data-popper-arrow></div>
+</div>

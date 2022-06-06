@@ -1,0 +1,178 @@
+<!-- Timer display and controls -->
+<div id="js-timer" data-duration="<%= timer.duration %>" data-start-announcement="<%= timer.startText %>"
+  data-end-announcement="<%= timer.endText %>" class="flex flex-col justify-center items-center py-5 md:p-5">
+
+  <!-- Timeline and add button -->
+  <div class="w-full mb-10 flex items-center md:flex-row flex-col">
+    <!-- Timeline -->
+    <div id="js-timeline" class="h-20 w-full relative">
+      <!-- Sections container -->
+      <div class="bg-neutral-300 dark:bg-slate-700 h-full w-full rounded-xl flex overflow-hidden" id="js-timeline-bg">
+        <% if (orderedSections.length===0) { %>
+          <button class="w-full flex items-center justify-center" data-modal-toggle="new-section-modal">Add a section to
+            get started</button>
+          <% } %>
+            <%- include('../sections/_blocks', {orderedSections}) %>
+      </div>
+      <%- include('../sections/_new_modal', {timer}) %>
+        <!-- Position indicator (red bar) -->
+        <div class="w-1 h-full bg-red-dark dark:bg-red-500 absolute top-0 left-1" id="js-timeline-indicator"></div>
+    </div>
+
+    <!-- Add section button -->
+    <button aria-label="Add a section" class="w-6 w- h-6 rounded-full flex justify-center items-center
+            border-black border-2 ml-2 hover:bg-neutral-200 md:mt-0 mt-3" data-modal-toggle="new-section-modal"
+      data-tooltip-target="tooltip-add-section" data-tooltip-placement="bottom" type="button">
+      <ion-icon name="add-outline"></ion-icon>
+    </button>
+    <div id="tooltip-add-section" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+      Add a Section
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+  </div>
+
+  <!-- Timer Indicators -->
+
+  <div class="mb-2 md:mb-8">
+    <p id="js-current-section-name" class="text-lg text-center"></p>
+    <div class="flex flex-col items-center hidden" id="js-section-time">
+      <p class="text-5xl"><span id="js-section-current-time">00:00</span></p>
+      <p><span id="js-section-remaining-time">00:00</span></p>
+    </div>
+
+    <div class="flex flex-col items-center" id="js-overall-time">
+      <p class="text-5xl"><span id="js-current-time">00:00</span></p>
+      <p><span id="js-remaining-time">00:00</span></p>
+    </div>
+    <!-- Timer Indicator Toggle (Overall / Section time) -->
+    <div class="flex mt-2 items-center">
+      <p class="text-xs w-min text-center">Section Time</p>
+      <label for="time-toggle" class="inline-flex relative items-center ml-2 mr-2 cursor-pointer">
+        <input type="checkbox" value="" id="time-toggle" class="sr-only peer" checked>
+        <div
+          class="w-9 h-5 bg-blue-600 rounded-full peer peer-focus:ring-2 peer-focus:ring-blue-300 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-purple-600">
+        </div>
+        <p class="sr-only">Show Overall time</p>
+      </label>
+      <p class="text-xs w-min text-center">Overall Time</p>
+    </div>
+  </div>
+
+
+  <!-- CONTROLS -->
+  <div class="border-black border-2 rounded-xl p-8 bg-purple-light dark:bg-purple-900
+        w-full sm:w-fit flex flex-col items-center">
+
+    <!-- repetitions -->
+    <div class="flex flex-col items-center mb-5">
+      <p class=" text-white">Repetitions</p>
+      <div class="flex justify-evenly items-center">
+        <button id="decrementRepetitions" class="rounded-full w-5 h-5 text-xl text-white">
+          <ion-icon name="remove-circle-outline"></ion-icon>
+        </button>
+        <span id="repeat" class="text-xl mx-3 text-white">
+          <%= timer.repeat %>
+        </span>
+        <button id="incrementRepetitions" class="rounded-full w-5 h-5 text-xl text-white">
+          <ion-icon name="add-circle-outline"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Play / Pause button Nex/Prev buttons -->
+    <div class="flex justify-evenly w-full sm:justify-center mb-5">
+      <button id="js-prev-section-btn" class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl self-center mr-2">
+        <ion-icon name="chevron-back-outline"></ion-icon>
+      </button>
+
+      <button class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
+              rounded-full p-2 border-black border-4 shadow-solid" id="js-start-timer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159 159" class="w-20">
+          <path fill="#fff" d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
+          <path fill="none" d="M0 0h159v159H0z" />
+        </svg>
+      </button>
+      <button class="bg-yellow-dark hover:bg-yellow-light
+              hover:shadow-solid-half rounded-full p-2 border-black border-4
+              shadow-solid hidden" id="js-pause-timer">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 157.76 157.76" class="w-20">
+          <path fill="#fff" d="M50.73 40.7h19.02v77.6H50.73V40.7Zm37.28 0h19.02v77.6H88.01V40.7Z" />
+          <path fill="none" d="M0 0h157.76v157.76H0z" />
+        </svg>
+      </button>
+      <button id="js-next-section-btn" class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl self-center ml-2">
+        <ion-icon name="chevron-forward-outline"></ion-icon>
+      </button>
+    </div>
+
+    <!-- Reset button -->
+    <div class="flex justify-center mb-5">
+      <button class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
+              items-center border-2 border-black dark:border-slate-100 text-xl" id="reset-btn" type="button"
+        data-tooltip-target="tooltip-reset" data-tooltip-placement="bottom">
+        <ion-icon name="refresh-outline"></ion-icon>
+      </button>
+      <div id="tooltip-reset" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+              font-medium text-white bg-gray-900 rounded-lg shadow-sm
+              opacity-0 transition-opacity duration-300 tooltip
+              dark:bg-gray-700">
+        Reset Timer
+        <div class="tooltip-arrow" data-popper-arrow></div>
+      </div>
+    </div>
+
+    <!-- Announcements toggles -->
+    <div class="flex flex-col items center max-w-md">
+      <p class="text-center">Enable Announcements</p>
+      <div class="flex justify-between">
+        <label for="playStartAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer"
+          data-tooltip-target="tooltip-start-announcement">
+          <input type="checkbox" value="" id="playStartAnnouncement" class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+          </div>
+          <span class="ml-1 mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">Start</span>
+        </label>
+        <label for="playEndAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer"
+          data-tooltip-target="tooltip-end-announcement">
+          <input type="checkbox" value="" id="playEndAnnouncement" class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+          </div>
+          <span class="ml-1 mr-3 text-sm font-medium text-gray-900 dark:text-gray-300">End</span>
+        </label>
+        <label for="playSectionAnnouncement" class="inline-flex relative items-center mb-5 cursor-pointer"
+          data-tooltip-target="tooltip-section-announcement">
+          <input type="checkbox" value="" id="playSectionAnnouncement" class="sr-only peer">
+          <div
+            class="w-9 h-5 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
+          </div>
+          <span class="ml-1 text-sm font-medium text-gray-900 dark:text-gray-300">Section</span>
+        </label>
+      </div>
+    </div>
+    <!-- Announcement tooltips -->
+    <div id="tooltip-start-announcement" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+      Say: "<%= timer.startText %>"
+        <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+    <div id="tooltip-end-announcement" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+      Say: "<%= timer.endText %>"
+        <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+    <div id="tooltip-section-announcement" role="tooltip" class="inline-block absolute invisible z-10 py-2 px-3 text-sm
+                  font-medium text-white bg-gray-900 rounded-lg shadow-sm
+                  opacity-0 transition-opacity duration-300 tooltip">
+      Say each section name
+      <div class="tooltip-arrow" data-popper-arrow></div>
+    </div>
+  </div>
+</div>
