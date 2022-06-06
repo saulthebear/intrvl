@@ -82,27 +82,35 @@
     </div>
 
     <!-- Play / Pause button Nex/Prev buttons -->
+    <!-- Prev -->
     <div class="flex justify-evenly w-full sm:justify-center mb-5">
       <button id="js-prev-section-btn" class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
               items-center border-2 border-black dark:border-slate-100 text-xl self-center mr-2">
         <ion-icon name="chevron-back-outline"></ion-icon>
       </button>
 
+      <!-- Play -->
       <button class="bg-green-mid hover:bg-green-light hover:shadow-solid-half
-              rounded-full p-2 border-black border-4 shadow-solid" id="js-start-timer">
+              rounded-full p-2 border-black border-4 shadow-solid disabled:bg-purple-900"
+              id="js-start-timer"
+              <%= orderedSections.length > 0 ? "" : "disabled" %>>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 159 159" class="w-20">
-          <path fill="#fff" d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
+          <path fill="<%= orderedSections.length > 0 ? "#fff" : "#5b21b6" %> " d="m128.57 79.12-73.03 42.17V36.95l73.03 42.17Z" />
           <path fill="none" d="M0 0h159v159H0z" />
         </svg>
       </button>
+      <!-- Pause -->
       <button class="bg-yellow-dark hover:bg-yellow-light
               hover:shadow-solid-half rounded-full p-2 border-black border-4
-              shadow-solid hidden" id="js-pause-timer">
+              shadow-solid hidden"
+              id="js-pause-timer"
+              <%= orderedSections.length > 0 ? "" : "disabled" %>>
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 157.76 157.76" class="w-20">
           <path fill="#fff" d="M50.73 40.7h19.02v77.6H50.73V40.7Zm37.28 0h19.02v77.6H88.01V40.7Z" />
           <path fill="none" d="M0 0h157.76v157.76H0z" />
         </svg>
       </button>
+      <!-- Next -->
       <button id="js-next-section-btn" class="bg-white dark:bg-transparent rounded-full w-8 h-8 flex justify-center
               items-center border-2 border-black dark:border-slate-100 text-xl self-center ml-2">
         <ion-icon name="chevron-forward-outline"></ion-icon>
