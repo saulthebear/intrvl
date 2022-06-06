@@ -1,5 +1,5 @@
 <!-- Dark mode toggle -->
-<button id="theme-toggle" type="button"
+<button id="theme-toggle" type="button" data-tooltip-target="tooltip-theme"
   class="hover:bg-yellow-light dark:hover:bg-amber-400 focus:outline-none focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 rounded-lg text-sm p-2.5 mr-5">
   <svg id="theme-toggle-dark-icon" class="hidden w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
     xmlns="http://www.w3.org/2000/svg">
@@ -12,6 +12,12 @@
       fill-rule="evenodd" clip-rule="evenodd"></path>
   </svg>
 </button>
+
+<div id="tooltip-theme" role="tooltip"
+  class="inline-block absolute invisible z-10 py-2 px-3 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm opacity-0 transition-opacity duration-300 tooltip dark:bg-gray-700">
+  Toggle dark mode
+  <div class="tooltip-arrow" data-popper-arrow></div>
+</div>
 
 <!-- Sets dark/light theme -->
 <script>

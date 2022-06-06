@@ -14,15 +14,19 @@
       </div>
 
       <!-- Edit/Delete buttons -->
-      <div class="flex">
+      <div class="flex items-center flex-wrap justify-center">
+        <div class="mr-5 mb-2">
+          <% const isFavorite = timer.Favorites.filter((fav)=> fav.UserId === user.id).length > 0 %>
+          <%- include("_favorite", {isFavorite}) %>
+        </div>
         <a href="/timers/<%= timer.id %>/edit"
           class="text-lg bg-green-dark hover:bg-green-mid 
             hover:text-black px-4 py-1 rounded-xl border-2 border-black
-            text-white shadow-solid-half hover:shadow-none mr-5">Edit</a>
+            text-white shadow-solid-half hover:shadow-none mr-5 mb-2">Edit</a>
           <form action="/timers/<%= timer.id %>?_method=DELETE" method="POST">
             <button type="submit" class="text-lg bg-red-dark
             hover:bg-red-mid px-4 py-1 rounded-xl border-2 border-black
-            text-white shadow-solid-half hover:shadow-none">Delete</button>
+            text-white shadow-solid-half hover:shadow-none mb-2">Delete</button>
           </form>
       </div>
     </div>

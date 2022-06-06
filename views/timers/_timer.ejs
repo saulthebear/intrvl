@@ -20,7 +20,7 @@
   <div class="flex items-center justify-center">
     <a href="/timers/<%= timer.id %> " class="border-2 border-black rounded-lg px-3 py-2 shadow-solid-half hover:shadow-none text-white hover:text-black bg-green-dark hover:bg-green-mid mr-3">Start</a>
 
-    <% if (timer.Favorites && timer.UserId !== user.id) { %>
+    <% if (timer.Favorites) { %>
       <% const isFavorite = timer.Favorites.filter((fav)=> fav.UserId === user.id).length > 0 %>
       <%- include("_favorite", { isFavorite }) %>
     <% } %>

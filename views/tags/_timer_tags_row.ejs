@@ -16,9 +16,9 @@
     <% }) %>
   </div>
   <!-- Tags not associated with this timer -->
-  <div class="flex flex-col md:flex-row mt-2 md:mt-0 md:ml-5">
+  <div class="flex flex-col md:flex-row flex-wrap mt-2 md:mt-0 md:ml-5">
     <% unusedTags.forEach(tag=> { %>
-      <div class="px-4 md:mr-3 mb-1 md:mb-0  border-black border border-dashed rounded-full text-sm">
+      <div class="px-4 md:mr-3 mb-1 border-black border border-dashed rounded-full text-sm">
         <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
           <button type="submit" class="flex items-center justify-between w-full" data-tooltip-target="tooltip-add-tag">
             <span class="mr-1">
