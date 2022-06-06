@@ -129,6 +129,7 @@ Timers consist of named sections, and users can skip to the next / previous sect
 - This project allowed me to continue practicing my skills in creating interactive elements in JavaScript and HTML. Building the timer component and allowing users to skip forward / backwards through timer sections was a fun challenge.
 - I learned how to use throttling for better performance. In the view showing the timer, there is a function that fires on window resize events, to ensure the timer sections are displayed at the correct width; to ensure this function isn't called too many times as the user is resizing their window, throttling is used so that it runs at most every 500ms.
 - I learned how to use [Chai](https://www.chaijs.com/) and [Mocha](https://mochajs.org/) for testing, along with [supertest](https://www.npmjs.com/package/supertest) and [FakerJs](https://fakerjs.dev/). I have tests for the user model, for example, which ensure the methods for hashing and verifying passwords are working correctly. I had originally planned on using a Test Driven Development approach for this project, however, considering that this is a monolithic full-stack application and the routes directly send HTML to the client (rather than JSON), the complexity of learning to test views (essentially performing integration testing, rather than unit testing) in the tight time frame of this project was too much. In the end, I only wrote tests for a few models.
+- On the design front, I learned about [Neubrutalism](https://hype4.academy/articles/design/neubrutalism-is-taking-over-web) and tried to use this style for the app.
 
 ### Resources referenced
 
@@ -139,6 +140,8 @@ Timers consist of named sections, and users can skip to the next / previous sect
 - [Cheatsheet: Write Good Tests with Mocha](https://www.codecademy.com/learn/fscp-test-driven-development-with-javascript/modules/fecp-write-good-tests-with-mocha/cheatsheet)
 - [Testing with Sequelize](https://medium.com/riipen-engineering/testing-with-sequelize-cc51dafdfcf4)
 - [ExpressJS and Sequelize application tested with mocha, chai, supertest, migrations and seeds](https://medium.com/nowports-tech/expressjs-and-sequelize-application-tested-with-mocha-chai-supertest-migrations-and-seeds-d306a8ee4add)
+- [Neubrutalism is taking over the web (Article)](https://hype4.academy/articles/design/neubrutalism-is-taking-over-web)
+- [Neubrutalism is taking over Web Design (Video)](https://www.youtube.com/watch?v=yImWkiVB5fs)
 
 ## Author
 
