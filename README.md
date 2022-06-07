@@ -14,6 +14,7 @@ Timers consist of named sections, and users can skip to the next / previous sect
   - [🔗 Links](#links)
 - [⚙️ Details](#details)
   - [🛠 Built with](#built-with)
+  - [💾 Installation Instructions](#installation-instructions)
   - [↔️ Entity Relationship Diagram (ERD)](#entity-relationship-diagram-erd)
   - [🗺 Routes](#routes)
   - [🧠 What I learned](#what-i-learned)
@@ -81,6 +82,21 @@ Timers consist of named sections, and users can skip to the next / previous sect
 - Views are built with the Embedded JavaScript (EJS) templating language, while styling was done with [TailwindCSS](https://tailwindcss.com/) (a utility-first CSS framework) and [Flowbite](https://flowbite.com/) (an open-source library of components built with TailwindCSS). [Ionicons](https://ionic.io/ionicons) (open-source icons library) was used to add SVG icons. [Typed.js](https://github.com/mattboldt/typed.js/) was used for a text animation on the home page
 - [Winston](https://www.npmjs.com/package/winston) and [Chalk](https://www.npmjs.com/package/chalk) were used for logging. Winston allowed the creation of different logging outputs, depending on environment logging level. For example, errors are logged in a separate file, so they can be easily found, and in development all levels of logging are output to the console.
 - [connect-flash](https://www.npmjs.com/package/connect-flash) was used to show flash messages to users upon redirect, to let them know if an action succeeded or to inform them why an action had failed.
+
+### Installation Instructions
+
+- To run this app, clone it (or fork and clone) and follow these steps:
+  - Install dependencies using npm
+  - Create a `.env` file and add an encryption key
+  - Start the app in development mode, by running `npm run start:dev`
+
+```bash
+npm i
+
+echo "ENC_KEY=[Random Key]" >> .env
+
+npm run start:dev
+```
 
 ### Entity Relationship Diagram (ERD)
 
