@@ -62,15 +62,15 @@
     </div>
     <div class="hidden justify-between items-center w-full md:flex md:w-auto md:order-1" id="mobile-menu-2">
       <ul class="flex flex-col mt-4 md:flex-row md:space-x-8 md:mt-0 md:text-lg md:font-medium">
-        <li>
-          <a href="/"
-            class="block py-2 pr-4 pl-3 text-black border-b hover:bg-yellow-light md:hover:bg-transparent md:border-0 md:hover:text-yellow-900 md:p-0 md:dark:hover:text-white dark:hover:bg-yellow-500 dark:hover:text-white md:dark:hover:bg-transparent border-gray-700">Home</a>
-        </li>
-        <li>
-          <a href="/timers"
-            class="block py-2 pr-4 pl-3 text-black border-b hover:bg-yellow-light md:hover:bg-transparent md:border-0 md:hover:text-yellow-900 md:p-0 md:dark:hover:text-white dark:hover:bg-yellow-500 dark:hover:text-white md:dark:hover:bg-transparent border-gray-700">Public Timers</a>
-        </li>
         <% if (user) { %>
+          <li>
+            <a href="/"
+              class="block py-2 pr-4 pl-3 text-black border-b hover:bg-yellow-light md:hover:bg-transparent md:border-0 md:hover:text-yellow-900 md:p-0 md:dark:hover:text-white dark:hover:bg-yellow-500 dark:hover:text-white md:dark:hover:bg-transparent border-gray-700">Home</a>
+          </li>
+          <li>
+            <a href="/timers"
+              class="block py-2 pr-4 pl-3 text-black border-b hover:bg-yellow-light md:hover:bg-transparent md:border-0 md:hover:text-yellow-900 md:p-0 md:dark:hover:text-white dark:hover:bg-yellow-500 dark:hover:text-white md:dark:hover:bg-transparent border-gray-700">Public Timers</a>
+          </li>
           <li>
             <a href="/users/<%= user.id %>"
               class="block py-2 pr-4 pl-3 text-black border-b hover:bg-yellow-light md:hover:bg-transparent md:border-0 md:hover:text-yellow-900 md:p-0 md:dark:hover:text-white dark:hover:bg-yellow-500 dark:hover:text-white md:dark:hover:bg-transparent border-gray-700">My Timers</a>
