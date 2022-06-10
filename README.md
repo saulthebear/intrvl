@@ -88,12 +88,15 @@ Timers consist of named sections, and users can skip to the next / previous sect
 - To run this app, clone it (or fork and clone) and follow these steps:
   - Install dependencies using npm
   - Create a `.env` file and add an encryption key
+  - Create the database
   - Start the app in development mode, by running `npm run start:dev`
 
 ```bash
 npm i
 
 echo "ENC_KEY=[Random Key]" >> .env
+
+sequelize db:create
 
 npm run start:dev
 ```
