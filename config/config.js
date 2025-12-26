@@ -1,4 +1,4 @@
-{
+module.exports = {
   "development": {
     "database": "intrvl_dev",
     "host": "127.0.0.1",
@@ -11,15 +11,14 @@
     "logging": false
   },
   "production": {
-    "username": "intrvl",
-    "password": null,
-    "database": "intrvl",
-    "host": "postgres",
-    "port": 5432,
+    "username": process.env.DB_USER || "intrvl",
+    "password": process.env.DB_PASSWORD,
+    "database": process.env.DB_NAME || "intrvl",
+    "host": process.env.DB_HOST || "postgres",
+    "port": parseInt(process.env.DB_PORT || "5432"),
     "dialect": "postgres",
-    "use_env_variable": false,
     "dialectOptions": {
       "ssl": false
     }
   }
-}
+};

@@ -28,7 +28,12 @@ services:
     environment:
       NODE_ENV: production
       PORT: 3333
-      DATABASE_URL: postgres://${DB_USER:-intrvl}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-intrvl}
+      # Pass individual DB variables to avoid URL-encoding issues with special chars in password
+      DB_NAME: ${DB_NAME:-intrvl}
+      DB_USER: ${DB_USER:-intrvl}
+      DB_PASSWORD: ${DB_PASSWORD:?Database password required}
+      DB_HOST: postgres
+      DB_PORT: 5432
       # Override to use container path (file mounted below)
       GOOGLE_APPLICATION_CREDENTIALS: /app/cloud-service-account-file.json
     volumes:
