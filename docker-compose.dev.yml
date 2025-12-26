@@ -1,0 +1,63 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: intrvl-postgres-dev
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-intrvl_dev}
+      POSTGRES_USER: ${DB_USER:-intrvl}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-devpassword}
+    ports:
+      # Expose Postgres for debugging/admin tools
+      - "5432:5432"
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-intrvl} -d ${DB_NAME:-intrvl_dev}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    container_name: intrvl-app-dev
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # Use production mode to avoid browser-sync in Docker
+      # (browser-sync doesn't work well in containers)
+      NODE_ENV: production
+      PORT: 3333
+      # Database configuration
+      DB_NAME: ${DB_NAME:-intrvl_dev}
+      DB_USER: ${DB_USER:-intrvl}
+      DB_PASSWORD: ${DB_PASSWORD:-devpassword}
+      DB_HOST: postgres
+      DB_PORT: 5432
+      # No BASE_PATH needed for local dev
+      BASE_PATH: ""
+      # Optional Google Cloud TTS (comment out if not using)
+      # GOOGLE_APPLICATION_CREDENTIALS: /app/cloud-service-account-file.json
+    ports:
+      # Expose app on localhost:3333
+      - "3333:3333"
+    # volumes:
+      # Optional: Uncomment to mount Google Cloud credentials for TTS testing
+      # - ./cloud-service-account-file.json:/app/cloud-service-account-file.json:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
+
+volumes:
+  postgres-dev-data:
+
+networks:
+  internal:
+    driver: bridge

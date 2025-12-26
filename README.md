@@ -85,21 +85,110 @@ Timers consist of named sections, and users can skip to the next / previous sect
 
 ### Installation Instructions
 
-- To run this app, clone it (or fork and clone) and follow these steps:
-  - Install dependencies using npm
-  - Create a `.env` file and add an encryption key
-  - Create the database
-  - Start the app in development mode, by running `npm run start:dev`
+#### Quick Start (Docker - Recommended for Testing)
+
+The easiest way to run the app locally without setting up PostgreSQL. Best for testing the full application or verifying fixes:
 
 ```bash
+# 1. Clone the repository
+git clone <repository-url>
+cd intrvl
+
+# 2. Set up environment variables
+cp .env.dev .env
+
+# 3. Start the application with Docker
+docker-compose -f docker-compose.dev.yml up -d
+
+# 4. View logs (optional)
+docker-compose -f docker-compose.dev.yml logs -f app
+
+# 5. Access the app at http://localhost:3333
+```
+
+**Note:** Migrations run automatically on startup. The first time you start the container, you'll see migration output in the logs.
+
+**Viewing logs:**
+```bash
+# Follow logs in real-time
+docker-compose -f docker-compose.dev.yml logs -f app
+
+# View last 50 lines
+docker-compose -f docker-compose.dev.yml logs --tail=50 app
+
+# Check error logs inside container
+docker exec intrvl-app-dev cat logs/error.log
+```
+
+**Important:** After making code changes, you need to rebuild:
+```bash
+docker-compose -f docker-compose.dev.yml up -d --build
+```
+
+**To stop the development environment:**
+```bash
+docker-compose -f docker-compose.dev.yml down
+```
+
+#### Local Development (Recommended for Active Development)
+
+For active development with hot-reloading and browser-sync (requires local PostgreSQL installation):
+
+```bash
+# 1. Install dependencies
 npm i
 
-echo "ENC_KEY=[Random Key]" >> .env
+# 2. Create a .env file with encryption key
+echo "ENC_KEY=$(openssl rand -base64 48)" >> .env
 
+# 3. Create the database
 sequelize db:create
 
+# 4. Run migrations
+sequelize db:migrate
+
+# 5. Start the app in development mode (with nodemon and browser-sync)
 npm run start:dev
 ```
+
+The app will be available at:
+- **App:** http://localhost:3333
+- **Browser-sync:** http://localhost:3334 (with live reload)
+
+Code changes are automatically detected and the browser reloads. This is the fastest workflow for frontend development.
+
+#### Running Tests
+
+```bash
+# Run all tests (automatically resets test database)
+npm test
+
+# Watch mode (re-runs tests on file changes)
+npm run test:watch
+```
+
+Tests use Mocha and Chai and are located in the `test/` directory. The `pretest` script automatically resets the test database before each run.
+
+#### Production Deployment
+
+For production deployment with Traefik reverse proxy:
+
+```bash
+# 1. Set up .env with production values
+cp .env.example .env
+# Edit .env with secure passwords and keys
+
+# 2. Ensure traefik-public network exists
+docker network create traefik-public
+
+# 3. Start the production stack
+docker-compose up -d
+
+# 4. View logs
+docker-compose logs -f app
+```
+
+See `docker-compose.yml` for Traefik configuration details and subdirectory deployment setup.
 
 ### Entity Relationship Diagram (ERD)
 

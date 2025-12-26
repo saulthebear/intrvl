@@ -5,8 +5,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Base path for deployment under /intrvl subdirectory -->
-  <base href="/intrvl/">
+  <!-- Base path for deployment under subdirectory (dynamic based on BASE_PATH env var) -->
+  <!-- Always include base tag - defaults to / for local dev, /intrvl/ for production -->
+  <base href="<%= basePath || '/' %>">
 
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">

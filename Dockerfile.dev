@@ -1,0 +1,25 @@
+# Development Dockerfile - includes all dependencies, simpler build
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install ALL dependencies (including devDependencies)
+RUN npm ci
+
+# Copy application code
+COPY . .
+
+# Build Tailwind CSS
+RUN npx tailwindcss -i ./public/src/input.css -o ./public/dist/output.css
+
+# Create logs directory
+RUN mkdir -p logs
+
+# Expose the application port
+EXPOSE 3333
+
+# Start script that runs migrations then starts the app
+CMD ["sh", "-c", "npx sequelize db:migrate && node server.js"]
