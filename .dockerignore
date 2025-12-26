@@ -1,0 +1,47 @@
+# Version control
+.git
+.gitignore
+
+# Dependencies (will be installed fresh in container)
+node_modules
+
+# Environment files (secrets - created on VPS)
+.env
+.env.local
+.env*.local
+
+# Google Cloud credentials (sensitive)
+cloud-service-account-file.json
+*.json.bak
+
+# Development files
+.DS_Store
+scratch-pad.*
+test-models.js
+output.mp3
+
+# Logs (container creates its own)
+logs
+
+# Test files (not needed in production)
+test
+
+# Documentation
+README.md
+*.md
+
+# IDE
+.vscode
+.idea
+
+# Docker files (don't need to copy themselves)
+Dockerfile
+docker-compose.yml
+docker-compose*.yml
+
+# Build artifacts
+dist
+build
+
+# Tailwind source (only need the built output)
+# Note: We keep public/src for the build stage, then copy only what's needed

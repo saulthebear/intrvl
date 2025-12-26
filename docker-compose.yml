@@ -1,0 +1,68 @@
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: intrvl-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DB_NAME:-intrvl}
+      POSTGRES_USER: ${DB_USER:-intrvl}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Database password required}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - internal
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-intrvl} -d ${DB_NAME:-intrvl}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: intrvl-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: production
+      PORT: 3333
+      DATABASE_URL: postgres://${DB_USER:-intrvl}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-intrvl}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - internal
+      - traefik-public
+    labels:
+      # Enable Traefik
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+
+      # HTTP Router (redirects to HTTPS via Traefik global config)
+      - "traefik.http.routers.intrvl.rule=Host(`projects.stefanvosloo.com`) && PathPrefix(`/intrvl`)"
+      - "traefik.http.routers.intrvl.entrypoints=web"
+
+      # HTTPS Router
+      - "traefik.http.routers.intrvl-secure.rule=Host(`projects.stefanvosloo.com`) && PathPrefix(`/intrvl`)"
+      - "traefik.http.routers.intrvl-secure.entrypoints=websecure"
+      - "traefik.http.routers.intrvl-secure.tls=true"
+      - "traefik.http.routers.intrvl-secure.tls.certresolver=letsencrypt"
+
+      # Strip path prefix middleware
+      - "traefik.http.middlewares.intrvl-strip.stripprefix.prefixes=/intrvl"
+      - "traefik.http.routers.intrvl-secure.middlewares=intrvl-strip"
+      - "traefik.http.routers.intrvl.middlewares=intrvl-strip"
+
+      # Service definition
+      - "traefik.http.services.intrvl.loadbalancer.server.port=3333"
+
+volumes:
+  postgres-data:
+
+networks:
+  traefik-public:
+    external: true
+  internal:
+    driver: bridge

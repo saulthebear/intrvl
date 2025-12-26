@@ -1,9 +1,29 @@
+# Dependencies
 node_modules
+
+# Environment files (contain secrets)
 .env
-.DS_Store
+.env.local
+.env*.local
+
+# Google Cloud credentials
 cloud-service-account-file.json
+*.json.credentials
+
+# macOS
+.DS_Store
+
+# Logs
+logs/**/*
+
+# Development scratch files
 scratch-pad.*
 test-models.js
 output.mp3
 
-logs/**/*
+# IDE
+.vscode
+.idea
+
+# Database backups (keep out of repo)
+*.sql
