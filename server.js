@@ -11,6 +11,7 @@ const flash = require("connect-flash")
 const morgan = require("morgan")
 const setMessages = require("./helpers/messagesMiddleware")
 const setViewHelpers = require("./helpers/viewHelpers")
+const basePathMiddleware = require("./helpers/basePathMiddleware")
 
 // ANCHOR: App Config
 // dotEnv.config()
@@ -43,6 +44,7 @@ app.use(morgan("dev")) // Route logging middleware
 app.use(express.static("public"))
 
 // Custom middleware
+app.use(basePathMiddleware) // Base path middleware for subdirectory deployment
 app.use(setMessages) // Flash messages middleware
 app.use(setUser) // auth middleware
 app.use(setViewHelpers)

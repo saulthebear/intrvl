@@ -4,7 +4,7 @@ const router = express.Router()
 
 // ANCHOR: NEW -- GET /users/login -- login form
 router.get("/login", async (req, res) => {
-  const action = "/login"
+  const action = "login"
   res.render("auth/login", { action })
 })
 

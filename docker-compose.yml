@@ -34,6 +34,8 @@ services:
       DB_PASSWORD: ${DB_PASSWORD:?Database password required}
       DB_HOST: postgres
       DB_PORT: 5432
+      # Base path for subdirectory deployment (e.g., /intrvl)
+      BASE_PATH: ${BASE_PATH:-}
       # Override to use container path (file mounted below)
       GOOGLE_APPLICATION_CREDENTIALS: /app/cloud-service-account-file.json
     volumes:
