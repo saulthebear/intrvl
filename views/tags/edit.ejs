@@ -2,5 +2,5 @@
   <%- include('../partials/messages') %>
   <h1 class="text-2xl font-bold mb-5">Edit tag</h1>
 
-  <%- include('_form', {action: `/tags/${tag.id}/?_method=PUT` , submit: 'Update Tag' , messages, tag }) %>
+  <%- include('_form', {action: `tags/${tag.id}/?_method=PUT` , submit: 'Update Tag' , messages, tag }) %>
 </div>
