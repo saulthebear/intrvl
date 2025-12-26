@@ -4,7 +4,7 @@ Intrvl is a web app that allows users to create custom interval timers.
 
 Timers consist of named sections, and users can skip to the next / previous sections. Text-to-Speech is also used to give the user the option of having an announcement spoken when the timer starts and ends, as well as announcing the name of each section as it starts. Users can also choose to make a timer public, so that it can be used by others, and users can make lists of their favorite timers (their own or other users' public timers) so they can get to them quickly.
 
-[⏱ Try it out!](https://intrvl.herokuapp.com/)
+[⏱ Try it out!](https://projects.stefanvosloo.com/intrvl)
 
 ## Table of contents
 
@@ -63,7 +63,7 @@ Timers consist of named sections, and users can skip to the next / previous sect
 
 ### Links
 
-- Live Site: [Intrvl.](https://intrvl.herokuapp.com/)
+- Live Site: [Intrvl.](https://projects.stefanvosloo.com/intrvl)
 - Original Project Pitch and Wireframes: [Github README](./projectPitch/README.md)
 
 ## Details
