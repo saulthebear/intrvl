@@ -29,6 +29,11 @@ services:
       NODE_ENV: production
       PORT: 3333
       DATABASE_URL: postgres://${DB_USER:-intrvl}:${DB_PASSWORD}@postgres:5432/${DB_NAME:-intrvl}
+      # Override to use container path (file mounted below)
+      GOOGLE_APPLICATION_CREDENTIALS: /app/cloud-service-account-file.json
+    volumes:
+      # Mount Google Cloud credentials for TTS (optional - remove if not using TTS)
+      - ./cloud-service-account-file.json:/app/cloud-service-account-file.json:ro
     depends_on:
       postgres:
         condition: service_healthy
