@@ -35,7 +35,8 @@ module.exports = (req, res, next) => {
   };
 
   // Make basePath available to templates
-  res.locals.basePath = basePath;
+  // Add trailing slash for <base> tag if basePath is set
+  res.locals.basePath = basePath ? basePath + '/' : basePath;
 
   next();
 };
