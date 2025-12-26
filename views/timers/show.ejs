@@ -19,11 +19,11 @@
           <% const isFavorite = timer.Favorites.filter((fav)=> fav.UserId === user.id).length > 0 %>
           <%- include("_favorite", {isFavorite}) %>
         </div>
-        <a href="/timers/<%= timer.id %>/edit"
-          class="text-lg bg-green-dark hover:bg-green-mid 
+        <a href="timers/<%= timer.id %>/edit"
+          class="text-lg bg-green-dark hover:bg-green-mid
             hover:text-black px-4 py-1 rounded-xl border-2 border-black
             text-white shadow-solid-half hover:shadow-none mr-5 mb-2">Edit</a>
-          <form action="/timers/<%= timer.id %>?_method=DELETE" method="POST">
+          <form action="timers/<%= timer.id %>?_method=DELETE" method="POST">
             <button type="submit" class="text-lg bg-red-dark
             hover:bg-red-mid px-4 py-1 rounded-xl border-2 border-black
             text-white shadow-solid-half hover:shadow-none mb-2">Delete</button>
@@ -35,5 +35,5 @@
   </div>
 </div>
 
-<script type="module" src="/src/js/timer.js"></script>
+<script type="module" src="src/js/timer.js"></script>
 

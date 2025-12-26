@@ -8,7 +8,7 @@
         <%- include('../tags/_privacy_tags', {timer}) %>
         <% timer.Tags.forEach(tag => { %>
           <div class="<%= colors[tag.color] %> px-4 mb-3 md:mr-3 md:mb-0 border-black border-2 rounded-full text-sm">
-              <a href="/tags/<%= tag.id %>">
+              <a href="tags/<%= tag.id %>">
                 <%= tag.name %>
               </a>
             </div>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="flex items-center justify-center">
-    <a href="/timers/<%= timer.id %> " class="border-2 border-black rounded-lg px-3 py-2 shadow-solid-half hover:shadow-none text-white hover:text-black bg-green-dark hover:bg-green-mid mr-3">Start</a>
+    <a href="timers/<%= timer.id %> " class="border-2 border-black rounded-lg px-3 py-2 shadow-solid-half hover:shadow-none text-white hover:text-black bg-green-dark hover:bg-green-mid mr-3">Start</a>
 
     <% if (timer.Favorites) { %>
       <% const isFavorite = timer.Favorites.filter((fav)=> fav.UserId === user.id).length > 0 %>

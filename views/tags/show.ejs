@@ -9,10 +9,10 @@
         <%= tag.name %>
       </h1>
       <div class="flex">
-        <a href="/tags/<%= tag.id %>/edit" class="text-lg bg-green-dark hover:bg-green-mid 
+        <a href="tags/<%= tag.id %>/edit" class="text-lg bg-green-dark hover:bg-green-mid
           hover:text-black px-4 py-1 rounded-xl border-2 border-black
           text-white shadow-solid-half hover:shadow-none mr-5">Edit</a>
-        <form action="/tags/<%= tag.id %>?_method=DELETE" method="POST">
+        <form action="tags/<%= tag.id %>?_method=DELETE" method="POST">
           <button type="submit" class="text-lg bg-red-dark
           hover:bg-red-mid px-4 py-1 rounded-xl border-2 border-black
           text-white shadow-solid-half hover:shadow-none">Delete</button>

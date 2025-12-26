@@ -4,7 +4,7 @@
     <%- include('_privacy_tags', {timer}) %>
     <% timer.Tags.forEach(tag=> { %>
       <div class="<%= colors[tag.color] %> px-4 md:mr-3 mb-1 md:mb-0 border-black border-2 rounded-full text-sm">
-        <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
+        <form action="timers/<%= timer.id %>/tag/<%= tag.id %>?_method=DELETE" method="post">
           <button type="submit" class="flex items-center justify-between w-full">
             <span class="mr-1">
               <%= tag.name %>
@@ -19,7 +19,7 @@
   <div class="flex flex-col md:flex-row flex-wrap mt-2 md:mt-0 md:ml-5">
     <% unusedTags.forEach(tag=> { %>
       <div class="px-4 md:mr-3 mb-1 border-black border border-dashed rounded-full text-sm">
-        <form action="/timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
+        <form action="timers/<%= timer.id %>/tag/<%= tag.id %>" method="post">
           <button type="submit" class="flex items-center justify-between w-full" data-tooltip-target="tooltip-add-tag">
             <span class="mr-1">
               <%= tag.name %>
@@ -31,7 +31,7 @@
       <% }) %>
   </div>
   <!-- Add new tag -->
-  <a href="/tags/new"
+  <a href="tags/new"
     class="bg-white dark:bg-slate-700 dark:text-white rounded-full w-5 h-5 flex justify-center
             items-center border-2 border-black dark:border-slate-400 text-xl self-center
             mb-4 mt-2 md:my-0"

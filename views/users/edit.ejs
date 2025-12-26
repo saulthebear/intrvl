@@ -28,7 +28,7 @@
       </button>
     </form>
 
-    <form action="/users/<%= user.id %>?_method=DELETE" method="POST">
+    <form action="users/<%= user.id %>?_method=DELETE" method="POST">
       <input type="hidden" id="copy-current-password" name="currentPassword">
       <button type="submit"
         class="mt-4 w-full font-bold text-lg text-center bg-red-dark hover:bg-red-mid px-5 py-2 rounded-xl border-2 border-black text-white shadow-solid hover:shadow-solid-half">Delete
@@ -37,4 +37,4 @@
   </div>
 </div>
 
-<script src="/src/js/editUser.js"></script>
+<script src="src/js/editUser.js"></script>
